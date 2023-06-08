@@ -7,7 +7,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -37,7 +36,7 @@ export default {
       columns: [
         { text: '提成方案名称', name: 'fcommissionplanname' },
         { text: '日期', name: 'fdate' },
-        { text: '计算金额字段', name: 'fcalculateamount' },
+        { text: '适用计算表', name: 'fcalculateamount' },
         { text: '提成方式', name: 'fcommissionmethod' },
         { text: '固定提成方式', name: 'fregularcommissionmethod' },
         { text: '固定提成值', name: 'fregularcommissionvalue' },
@@ -108,11 +107,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
+      this.loading = true
       getTcommissionList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

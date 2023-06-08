@@ -55,7 +55,7 @@ export default {
     return {
       btnList: [],
       headers: {
-        'authorization': getToken('waprx')
+        'authorization': getToken('ssrx')
       },
       fileUrl: '',
       search: {
@@ -77,6 +77,9 @@ export default {
     })*/
   },
   methods: {
+    query() {
+      this.$emit('queryBtn', this.qFilter())
+    },
     // 导出
     exportData() {
       this.$emit('exportData')
@@ -85,6 +88,7 @@ export default {
     qFilter() {
       let obj = {}
       this.search.cinemaName != null && this.search.cinemaName != '' ? obj.cinemaName = this.search.cinemaName : null
+      obj.ftype = 0
       return obj
     },
     onFun(method, event) {
@@ -97,17 +101,13 @@ export default {
       this.$emit('uploadList')
     },
     del() {
-      if (this.selections.length > 0) {
+      if (this.clickData.fid) {
         this.$confirm('是否删除，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          var idArray = []
-          this.selections.forEach((item) => {
-            idArray.push({fid: item.fid})
-          })
-          this.$emit('del', idArray)
+          this.$emit('del', {fid: this.clickData.fid})
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -131,6 +131,7 @@ export default {
         })
       }
     },handlerInventory() {
+      /*this.$emit('showInventory')*/
       if (this.clickData.fid) {
         this.$emit('showInventory', this.clickData)
       } else {

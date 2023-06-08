@@ -21,7 +21,7 @@
       List
     },
     computed: {
-      ...mapGetters(["node"])
+      ...mapGetters(['node'])
     },
     data() {
       return {

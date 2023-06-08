@@ -30,9 +30,9 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: '子团队名称', name: 'fdeptname' },
-        { text: '团队名称', name: 'fpname' },
-        { text: '团队负责人', name: 'fheader' },
+        { text: '上级部门', name: 'fdeptname' },
+        { text: '部门名称', name: 'fpname' },
+        { text: '部门负责人', name: 'fheader' },
       ]
     }
   },
@@ -72,11 +72,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
+      this.loading = true
       getOrganizationsList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

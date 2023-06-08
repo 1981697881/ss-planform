@@ -7,7 +7,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -17,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSystemProfileList, deleteSizeColor } from '@/api/basic/index'
+import { getTprojectOutsourcingBonusList, deleteTprojectOutsourcingBonus } from '@/api/information/index'
 import List from '@/components/List'
 
 export default {
@@ -34,12 +33,28 @@ export default {
       list: {},
       fid: null,
       type: null,
-
       columns: [
-        { text: '参数编码', name: 'fkey' },
-        { text: '参数名称', name: 'fname' },
-        { text: '参数值', name: 'fvalue' },
-        { text: '描述', name: 'fdesc' },
+        { text: '结清标记', name: 'fcompletesign' },
+        { text: '本年项目GP', name: 'ftyearprojectgp',width: '130' },
+        { text: '上年年项目GP上年年目标', name: 'flyearprojectgp',width: '160' },
+        { text: '年度目标', name: 'fyeargoal' },
+        { text: '风险金7%', name: 'friskfund' },
+        { text: '项目管理奖金3%', name: 'fprojectmanagementbonus',width: '150' },
+        { text: '增量项目管理奖金5%', name: 'fincrementalprojectmanagementbonus',width: '150' },
+        { text: '达标奖金', name: 'fcompliancebonus' },
+        { text: '卓越奖金', name: 'fexcellencebonus' },
+        { text: '已发放费用', name: 'fpaidexpenses',width: '130' },
+        { text: '本月应发费用', name: 'fmonthcost',width: '130' },
+        { text: '累计未发外包项目费用', name: 'faccumulatenocost',width: '150' },
+        { text: '外包招聘费用', name: 'foutsourcedrecruitmentcosts',width: '130' },
+        { text: '管理津贴', name: 'fmanagementallowance' },
+        { text: '已发放费用', name: 'fpaidexpenses',width: '130' },
+        { text: '本月应发费用', name: 'fmonthcost',width: '130' },
+        { text: '累计未发外包招聘佣金', name: 'foutsourcecommission',width: '150' },
+        { text: '汇总合计', name: 'ftotalsummary' },
+        { text: '汇总应发', name: 'fpayablesummary' },
+        { text: '汇总已发', name: 'fsentsummary' },
+        { text: '汇总未发', name: 'fnotsentsummary' },
       ]
     }
   },
@@ -79,7 +94,7 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      deleteTprojectOutsourcingBonus(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -103,11 +118,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSystemProfileList(data, val).then(res => {
+      this.loading = true
+      getTprojectOutsourcingBonusList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

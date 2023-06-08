@@ -27,7 +27,7 @@
 </template>
 
 <script>
-  import {addDictType} from "@/api/basic/index";
+  import {addDictType} from '@/api/basic/index'
   export default {
     props: {
       gpInfo: {

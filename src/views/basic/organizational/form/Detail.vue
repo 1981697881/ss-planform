@@ -3,20 +3,20 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="150px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'子团队名称'" prop="fdeptname">
+          <el-form-item :label="'部门名称'" prop="fdeptname">
             <el-input v-model="form.fdeptname"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'团队名称'" prop="ffullname">
+          <el-form-item :label="'部门全称'" prop="ffullname">
             <el-input v-model="form.ffullname"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'上级团队'">
-            <el-select v-model="form.fparentname" placeholder="请选择">
+          <el-form-item :label="'上级部门ID'">
+            <el-select @change="changeDept" v-model="form.fparentname" placeholder="请选择">
               <el-option
                 v-for="(item,index) in options"
                 :key="index"
@@ -27,13 +27,20 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'团队负责人'" prop="fheader">
+          <el-form-item :label="'上级部门名称'">
+            <el-input v-model="form.fpname"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="'部门负责人'" prop="fheader">
             <el-select v-model="form.fheader" placeholder="请选择">
               <el-option
                 v-for="(item,index) in usersList"
                 :key="index"
-                :label="item.username"
-                :value="item.uid">
+                :label="item.fname"
+                :value="item.fname">
               </el-option>
             </el-select>
           </el-form-item>
@@ -46,7 +53,7 @@
   </div>
 </template>
 
-<script>import {addOrganizations,getOrganizationsList,getUsersList} from '@/api/basic/index'
+<script>import {addOrganizations,getOrganizationsList,getTuserList} from '@/api/basic/index'
 
 export default {
   props: {
@@ -86,6 +93,14 @@ export default {
     }
   },
   methods: {
+    changeDept(val){
+      this.options.forEach((item)=>{
+        if(item.fid == val){
+          console.log(item)
+          this.form.fpname = item.fdeptname
+        }
+      })
+    },
     fetchData(val={}, data = {
       pageNum: 1,
       pageSize:  500
@@ -98,7 +113,7 @@ export default {
       pageNum: 1,
       pageSize:  500
     }) {
-      getUsersList(data, val).then(res => {
+      getTuserList(data, val).then(res => {
         this.usersList = res.data.records
       });
     },

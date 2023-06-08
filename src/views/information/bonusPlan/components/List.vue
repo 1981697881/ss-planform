@@ -7,7 +7,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -17,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSystemProfileList, deleteSizeColor } from '@/api/basic/index'
+import { getTbonusList, deleteTbonus } from '@/api/information/index'
 import List from '@/components/List'
 
 export default {
@@ -34,21 +33,20 @@ export default {
       list: {},
       fid: null,
       type: null,
-
       columns: [
-        { text: '年度', name: 'fkey' },
-        { text: '项目负责人', name: 'fname' },
-        { text: '本年度项目GP', name: 'fvalue' },
-        { text: '上年度项目GP', name: 'fdesc' },
-        { text: '年度目标GP', name: 'fdesc' },
-        { text: '存量GP管理奖金3%', name: 'fdesc' },
-        { text: '新增GP管理奖金5%', name: 'fdesc' },
-        { text: '达标奖金1%', name: 'fdesc' },
-        { text: '卓越奖金1%', name: 'fdesc' },
-        { text: '年度应发奖金', name: 'fdesc' },
-        { text: '累计已发放奖金', name: 'fdesc' },
-        { text: '年度实发奖金', name: 'fdesc' },
-        { text: '备注', name: 'fdesc' },
+        { text: '年度', name: 'fannual' },
+        { text: '项目负责人', name: 'fprojectleader', width: '130'  },
+        { text: '本年度项目GP', name: 'fthisyeargp', width: '130' },
+        { text: '上年度项目GP', name: 'flastyeargp', width: '130' },
+        { text: '年度目标GP', name: 'fthisyeargp', width: '130'  },
+        { text: '存量GP管理奖金3%', name: 'fstockbonus', width: '130'  },
+        { text: '新增GP管理奖金5%', name: 'faddbonus', width: '130'  },
+        { text: '达标奖金1%', name: 'fcompliancebonus', width: '130'  },
+        { text: '卓越奖金1%', name: 'foutstandingbonus', width: '130'  },
+        { text: '年度应发奖金', name: 'fannualbonus', width: '130'  },
+        { text: '累计已发放奖金', name: 'faccumulatebonus', width: '130'  },
+        { text: '年度实发奖金', name: 'fannualpaidbonus', width: '130'  },
+        { text: '备注', name: 'remark' },
       ]
     }
   },
@@ -88,7 +86,7 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      deleteTbonus(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -112,11 +110,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSystemProfileList(data, val).then(res => {
+      this.loading = true
+      getTbonusList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

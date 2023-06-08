@@ -27,8 +27,11 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'团队禁用状态'">
-            <el-input v-model="form.fteamstatus"></el-input>
+          <el-form-item :label="'团队状态'">
+            <el-radio-group style="width: 100%" v-model="form.fteamstatus">
+              <el-radio :label="'启用'">启用</el-radio>
+              <el-radio :label="'禁用'">禁用</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -45,14 +48,27 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'人员'">
-            <el-select style="width: 100%" multiple v-model="form.fteamname" placeholder="请选择">
+            <el-select style="width: 100%" multiple v-model="form.fteammembers" placeholder="请选择">
               <el-option
                 v-for="(item,index) in usersArray"
                 :key="index"
                 :label="item.fname"
-                :value="item.fid">
+                :value="item.fname">
               </el-option>
             </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="'所属年度'">
+            <el-date-picker
+              v-model="form.fbelongannual"
+              type="year"
+              value-format="yyyy"
+              style="width: 100%"
+              placeholder="年度">
+            </el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -128,11 +144,12 @@ export default {
   data() {
     return {
       form: {
+        fbelongannual: null,
         fteamname: null,
         fteamdescribe: null,
         fteamkpi: 0,
         fbonusweight: null,
-        fteamstatus: null,
+        fteamstatus: '启用',
         fteamcompliance: null,
         fteambonuscoefficient: null,
         fteammembers: [],
@@ -159,6 +176,7 @@ export default {
     this.getUsersList();
     if (this.listInfo) {
       this.form = this.listInfo
+      this.form.fteammembers = this.form.fteammembers.split(',');
     }
   },
   methods: {
@@ -182,11 +200,11 @@ export default {
     delRow() {
       if(this.multipleSelection.length>0){
         this.multipleSelection.forEach((item)=>{
-          this.form.product_plan_array[0].plan_time_array.splice(item)
+          this.form.fteammembers.splice(item)
         })
       }else{
         this.$message({
-          message: "请选择删除项",
+          message: '请选择删除项',
           type: 'error'
         });
       }
@@ -195,12 +213,12 @@ export default {
       this.$refs[form].validate((valid) => {
         if (valid) {
           const postForm = {...this.postform}
-          if(this.form.product_plan_array[0].plan_time_array.findIndex(item =>item.name == postForm.name) == -1){
-            this.form.product_plan_array[0].plan_time_array.push(postForm)
+          if(this.form.fteammembers.findIndex(item =>item.name == postForm.name) == -1){
+            this.form.fteammembers.push(postForm)
             this.visible = false
           }else{
             this.$message({
-              message: "已存在相同项",
+              message: '已存在相同项',
               type: 'error'
             });
           }
@@ -211,7 +229,9 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          addTTeam(this.form).then(res => {
+          let params = {...this.form}
+          params.fteammembers = params.fteammembers.join(',')
+          addTTeam(params).then(res => {
             this.$emit('hideDialog', false)
             this.$emit('uploadList')
           })

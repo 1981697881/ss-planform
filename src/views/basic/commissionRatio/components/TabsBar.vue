@@ -19,6 +19,7 @@
 
 <script>import { mapGetters } from 'vuex'
 import { getByUserAndPrId } from '@/api/system/index'
+import { addTcommission } from '@/api/basic/index'
 import { getToken } from '@/utils/auth'
 
 export default {
@@ -28,7 +29,7 @@ export default {
     return {
       btnList: [],
       headers: {
-        'authorization': getToken('waprx')
+        'authorization': getToken('ssrx')
       },
       fileUrl: '',
       search: {
@@ -70,17 +71,13 @@ export default {
       this.$emit('uploadList')
     },
     del() {
-      if (this.selections.length > 0) {
+      if (this.clickData.fid) {
         this.$confirm('是否删除，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          var idArray = []
-          this.selections.forEach((item) => {
-            idArray.push({fid: item.fid})
-          })
-          this.$emit('del', idArray)
+          this.$emit('del', {fid: this.clickData.fid})
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -105,9 +102,9 @@ export default {
       }
     },
     disable() {
-      if (this.clickData.eid) {
+      if (this.clickData.fid) {
         this.clickData.disable = true
-        alterClerk(this.clickData).then(res => {
+        addTcommission({fid: this.clickData.fid, fstatus: '禁用'}).then(res => {
           if(res.flag) {
             this.$emit('uploadList')
           }
@@ -120,9 +117,9 @@ export default {
       }
     },
     enable() {
-      if (this.clickData.eid) {
+      if (this.clickData.fid) {
         this.clickData.disable = false
-        alterClerk(this.clickData).then(res => {
+        addTcommission({fid: this.clickData.fid, fstatus: '启用'}).then(res => {
           if(res.flag){
             this.$emit('uploadList')
           }

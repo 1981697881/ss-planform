@@ -7,7 +7,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -17,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSystemProfileList, deleteSizeColor } from '@/api/basic/index'
+import { getTteamList, deleteTteam } from '@/api/information/index'
 import List from '@/components/List'
 
 export default {
@@ -34,12 +33,14 @@ export default {
       list: {},
       fid: null,
       type: null,
-
       columns: [
-        { text: '参数编码', name: 'fkey' },
-        { text: '参数名称', name: 'fname' },
-        { text: '参数值', name: 'fvalue' },
-        { text: '描述', name: 'fdesc' },
+        { text: '团队名称', name: 'fteamname' },
+        { text: '所属年度', name: 'fbelongannual' },
+        { text: '团队描述', name: 'fteamdescribe' },
+        { text: '团队业绩目标', name: 'fteamkpi' },
+        { text: '奖金权重占比', name: 'fbonusweight' },
+        { text: '团队奖金系数', name: 'fteambonuscoefficient' },
+        { text: '团队状态', name: 'fteamstatus' }
       ]
     }
   },
@@ -79,7 +80,7 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      deleteTteam(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -104,7 +105,7 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true
-      getSystemProfileList(data, val).then(res => {
+      getTteamList(data, val).then(res => {
         this.loading = false
         this.list = res.data
       })

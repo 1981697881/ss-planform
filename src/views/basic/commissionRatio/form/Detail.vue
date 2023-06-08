@@ -12,6 +12,7 @@
             <el-date-picker
               v-model="form.fdate"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
@@ -21,12 +22,12 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'适用计算表'">
-            <el-select style="width: 100%" v-model="form.fparentname" placeholder="请选择">
+            <el-select style="width: 100%" v-model="form.fcalculateamount" placeholder="请选择">
               <el-option
                 v-for="(item,index) in levelFormat"
                 :key="index"
-                :label="item.fdutyname"
-                :value="item.fid">
+                :label="item.name"
+                :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
@@ -66,24 +67,32 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'适用部门'">
-            <el-select style="width: 100%" multiple v-model="form.fapplicabledepartment" placeholder="请选择">
+            <el-select filterable
+                       remote
+                       :remote-method="remoteMethod3"
+                       :loading="loading" style="width: 100%" multiple v-model="form.fapplicabledepartment"
+                       placeholder="请选择">
               <el-option
-                v-for="(item,index) in deptArray"
+                v-for="(item,index) in organizationsList"
                 :key="index"
                 :label="item.fdeptname"
-                :value="item.fid">
+                :value="item.fdeptname">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'适用岗位'">
-            <el-select style="width: 100%" multiple v-model="form.fapplicablepositions" placeholder="请选择">
+            <el-select filterable
+                       remote
+                       :remote-method="remoteMethod2"
+                       :loading="loading" style="width: 100%" multiple v-model="form.fapplicablepositions"
+                       placeholder="请选择">
               <el-option
-                v-for="(item,index) in dutiesArray"
+                v-for="(item,index) in dutyList"
                 :key="index"
                 :label="item.fdutyname"
-                :value="item.fid">
+                :value="item.fdutyname">
               </el-option>
             </el-select>
           </el-form-item>
@@ -92,12 +101,16 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'适用人员'" prop="fvalue">
-            <el-select style="width: 100%" multiple v-model="form.fapplicablepersonnel" placeholder="请选择">
+            <el-select filterable
+                       remote
+                       :remote-method="remoteMethod"
+                       :loading="loading" style="width: 100%" multiple v-model="form.fapplicablepersonnel"
+                       placeholder="请选择">
               <el-option
-                v-for="(item,index) in usersArray"
+                v-for="(item,index) in userList"
                 :key="index"
                 :label="item.fname"
-                :value="item.fid">
+                :value="item.fname">
               </el-option>
             </el-select>
           </el-form-item>
@@ -109,6 +122,7 @@
             <el-date-picker
               v-model="form.feffectivedate"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
@@ -119,6 +133,7 @@
             <el-date-picker
               v-model="form.fexpiringdate"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
@@ -134,22 +149,24 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-table
-          :data="list"
-          border
-          height="250px"
-          stripe
-          size="mini"
-          :highlight-current-row="true">
+        <el-table class="tableBox" ref="multipleTable" @selection-change="handleSelectionChange" border height="250px"
+                  stripe size="mini" :highlight-current-row="true" :data="form.tProgrammeProportionList" align="center"
+                  :cell-style="myclass" highlight-current-row>
           <el-table-column align="center" type="selection"></el-table-column>
+          <el-table-column prop="date" label="序号" type="index" align="center" sortable></el-table-column>
           <el-table-column
             v-for="(t,i) in columns"
             :key="i"
             align="center"
             :prop="t.name"
             :label="t.text"
-            v-if="t.default!=undefined?t.default:true"
-          ></el-table-column>
+          >
+            <template slot-scope="scope">
+              <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+              <el-input v-if="!t.sfkgg" v-model="scope.row[t.name]" clearable/>
+              <span>{{scope.row[t.name]}}</span>
+            </template>
+          </el-table-column>
         </el-table>
       </el-row>
     </el-form>
@@ -211,6 +228,7 @@ export default {
       form: {
         fcommissionplanname: null,
         fdate: null,
+        fcalculateamount: 0,
         fcommissionmethod: null,
         fregularcommissionmethod: null,
         fregularcommissionvalue: null,
@@ -219,17 +237,26 @@ export default {
         fapplicablepersonnel: null,
         feffectivedate: null,
         fexpiringdate: null,
+        tProgrammeProportionList: []
       },
       columns: [
-        {text: '提成类型', name: 'gpName1'},
-        {text: '开始金额', name: 'gpName2'},
-        {text: '结束金额', name: 'gpName3'},
-        {text: '提成比例%', name: 'gpName4'}
+        {text: '提成类型', name: 'ftype'},
+        {text: '开始金额', name: 'fsamount'},
+        {text: '结束金额', name: 'feamount'},
+        {text: '提成比例%', name: 'fproportion'}
       ],
       list: [],
-      deptArray: [],
-      dutiesArray: [],
-      usersArray: [],
+      levelFormat: [
+        {name: '招聘', value: 0},
+        {name: 'BD', value: 1},
+        {name: '团队', value: 2},
+        {name: '外包', value: 3},
+      ],
+      loading: false,
+      userList: [],
+      dutyList: [],
+      organizationsList: [],
+      multipleSelection: [],
       levelFormat1: [
         {name: '固定', value: '固定'},
         {name: '阶梯式', value: '阶梯式'}
@@ -257,54 +284,76 @@ export default {
     }
   },
   mounted() {
-    this.getDutiesList();
-    this.getDeptList();
-    this.getUsersList();
+    this.getUsersArray()
+    this.getDutyArray()
+    this.getOrganizationsArray()
     if (this.listInfo) {
       this.form = this.listInfo
+     /* this.form.tProgrammeProportionList = JSON.parse(this.form.tProgrammeProportionList)*/
+      this.form.fapplicabledepartment = this.form.fapplicabledepartment.split(',')
+      this.form.fapplicablepositions = this.form.fapplicablepositions.split(',')
+      this.form.fapplicablepersonnel = this.form.fapplicablepersonnel.split(',')
     }
   },
   methods: {
-    getUsersList() {
-      const data = {
-        pageNum: 1,
-        pageSize: 1000
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getUsersArray({fname: query});
+      } else {
+        this.userList = [];
       }
-      getTuserList(data, {}).then(res => {
-        this.usersArray = res.data.records
-      })
     },
-    getDutiesList() {
-      const data = {
-        pageNum: 1,
-        pageSize: 1000
+    remoteMethod2(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getDutyArray({fdutyname: query});
+      } else {
+        this.dutyList = [];
       }
-      getDutyList(data, {}).then(res => {
-        this.dutiesArray = res.data.records
-      })
     },
-    getDeptList() {
-      const data = {
-        pageNum: 1,
-        pageSize: 1000
+    remoteMethod3(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getOrganizationsArray({fdeptname: query});
+      } else {
+        this.organizationsList = [];
       }
-      getOrganizationsList(data, {}).then(res => {
-        this.deptArray = res.data.records
-      })
     },
-    setRow() {
-      this.postform = {
-        gpName1: null,
-        gpName2: null,
-        gpName3: null,
-        gpName4: null,
+    myclass({row, columnIndex}) {
+      if (row[columnIndex] && !row[columnIndex].sfcb && row[columnIndex].sfcb != null) {
+        return "color: red";
       }
-      this.visible = true
+    },
+    setRow() {/*
+      var obj = {}
+      for (var i = 1; i < 5; i++) {
+        obj['gpName' + i] = "";
+      }
+      var itemObj = Object.assign({
+        sfkgg: true,
+        sfcb: null,
+      }, obj)*/
+      var itemObj = {
+        ftype: "",
+        fsamount: "",
+        feamount: "",
+        fproportion: "",
+        sfkgg: true,
+        sfcb: null,
+      }
+      if(this.form.tProgrammeProportionList == null){
+        this.form.tProgrammeProportionList = []
+      }
+      this.form.tProgrammeProportionList.push(itemObj)
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
     },
     delRow() {
       if (this.multipleSelection.length > 0) {
         this.multipleSelection.forEach((item) => {
-          this.form.list.splice(item)
+          this.form.tProgrammeProportionList.splice(item)
         })
       } else {
         this.$message({
@@ -312,6 +361,39 @@ export default {
           type: 'error'
         });
       }
+    },
+    getUsersArray(val = {}, data = {
+      pageNum: 1,
+      pageSize: 10
+    }) {
+      getTuserList(data, val).then(res => {
+        if (res.flag) {
+          this.loading = false;
+          this.userList = res.data.records
+        }
+      });
+    },
+    getDutyArray(val = {}, data = {
+      pageNum: 1,
+      pageSize: 10
+    }) {
+      getDutyList(data, val).then(res => {
+        if (res.flag) {
+          this.loading = false;
+          this.dutyList = res.data.records
+        }
+      });
+    },
+    getOrganizationsArray(val = {}, data = {
+      pageNum: 1,
+      pageSize: 10
+    }) {
+      getOrganizationsList(data, val).then(res => {
+        if (res.flag) {
+          this.loading = false;
+          this.organizationsList = res.data.records
+        }
+      });
     },
     confirmData(form) {
       this.$refs[form].validate((valid) => {
@@ -333,7 +415,15 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          addTcommission(this.form).then(res => {
+          let params = {...this.form}
+          /*params.tProgrammeProportionList = JSON.stringify(params.tProgrammeProportionList)*/
+          params.fapplicabledepartment = params.fapplicablepersonnel.join(',')
+          params.fapplicablepositions = params.fapplicablepersonnel.join(',')
+          params.fapplicablepersonnel = params.fapplicablepersonnel.join(',')
+          params.tProgrammeProportionList.forEach((item) => {
+            delete item.fid
+          })
+          addTcommission(params).then(res => {
             this.$emit('hideDialog', false)
             this.$emit('uploadList')
           })
@@ -345,3 +435,21 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .tableBox {
+    margin-bottom: 20px;
+  }
+
+  /* 通过显隐控制input框的状态 */
+  .tableBox .el-input {
+    display: none;
+  }
+
+  .tableBox .current-row .el-input {
+    display: block;
+  }
+
+  .tableBox .current-row .el-input + span {
+    display: none;
+  }
+</style>

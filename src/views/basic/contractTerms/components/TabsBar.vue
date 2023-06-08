@@ -11,6 +11,7 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable">禁用</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable">启用</el-button>
+        <el-button :size="'mini'" type="primary">审核</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -20,6 +21,7 @@
 <script>import { mapGetters } from 'vuex'
 import { getByUserAndPrId } from '@/api/system/index'
 import { getToken } from '@/utils/auth'
+import { addTcontract } from '@/api/basic/index'
 
 export default {
   components: {
@@ -28,7 +30,7 @@ export default {
     return {
       btnList: [],
       headers: {
-        'authorization': getToken('waprx')
+        'authorization': getToken('ssrx')
       },
       fileUrl: '',
       search: {
@@ -70,17 +72,13 @@ export default {
       this.$emit('uploadList')
     },
     del() {
-      if (this.selections.length > 0) {
+      if (this.clickData.fid) {
         this.$confirm('是否删除，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          var idArray = []
-          this.selections.forEach((item) => {
-            idArray.push({fid: item.fid})
-          })
-          this.$emit('del', idArray)
+          this.$emit('del', {fid: this.clickData.fid})
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -104,9 +102,8 @@ export default {
         })
       }
     },disable() {
-      if (this.clickData.eid) {
-        this.clickData.disable = true
-        alterClerk(this.clickData).then(res => {
+      if (this.clickData.fid) {
+        addTcontract({fid: this.clickData.fid, fstatus: '禁用'}).then(res => {
           if(res.flag) {
             this.$emit('uploadList')
           }
@@ -119,9 +116,8 @@ export default {
       }
     },
     enable() {
-      if (this.clickData.eid) {
-        this.clickData.disable = false
-        alterClerk(this.clickData).then(res => {
+      if (this.clickData.fid) {
+        addTcontract({fid: this.clickData.fid, fstatus: '启用'}).then(res => {
           if(res.flag){
             this.$emit('uploadList')
           }

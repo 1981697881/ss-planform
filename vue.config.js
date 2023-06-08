@@ -37,21 +37,12 @@ module.exports = {
       errors: true
     },
     proxy: {
-      [process.env.VUE_APP_BASE_API+'/web']: {
-        target: `http://nw.gzfzdev.com:50022`,
-        changeOrigin: true, // 必须加上跨域
-        ws: false,
-        secure: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      },
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
         //target: `http://gzfzdev.com/`, // 修改后台接口地址
-        target: `http://test.gzfzdev.com:10010/`,
-        //target: `http://bli.gzfzdev.com:50060/baoli`,
+        target: `http://test.gzfzdev.com:10020/`,
+        //target: `http://sr.gzfzdev.com:50080/web`,
         changeOrigin: true, // 必须加上跨域
         ws: false,
         secure: false,

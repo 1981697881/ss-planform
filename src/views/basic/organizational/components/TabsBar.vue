@@ -60,9 +60,9 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', [{
+          this.$emit('delList', {
             fid: this.clickData.fid
-          }])
+          })
         }).catch(() => {
           this.$message({
             type: 'info',

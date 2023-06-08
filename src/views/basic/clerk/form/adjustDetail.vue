@@ -74,6 +74,7 @@
             <el-date-picker
               v-model="form.eur"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
@@ -86,6 +87,7 @@
             <el-date-picker
               v-model="form.eur"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
@@ -96,6 +98,7 @@
             <el-date-picker
               v-model="form.eur"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>

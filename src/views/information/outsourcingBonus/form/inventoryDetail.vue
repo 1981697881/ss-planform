@@ -162,7 +162,7 @@ export default {
     this.getUsersArray()
     if (this.listInfo) {
       this.form = this.listInfo
-      this.fetchData({ fannual: this.form.fannual, fpayer: this.form.fpayer, fmonth: this.form.fmonth, fbonustype: 1 })
+      this.fetchData({ fannual: this.form.fannual, fpayer: this.form.fpayer, fmonth: this.form.fmonth, fbonustype: 3 })
     }
   },
   methods: {
@@ -199,7 +199,7 @@ export default {
         fpaymentamount: "",
         fannual: "",
         fpayer: "",
-        fbonustype: 1,
+        fbonustype: 3,
       }
       console.log(itemObj)
       if(this.list == null){
@@ -242,7 +242,7 @@ export default {
       this.list.current = val
       this.fetchData()
     },
-    fetchData(val={fbonustype: 1}, data = {
+    fetchData(val={fbonustype: 3}, data = {
       pageNum: 1,
       pageSize: 1000
     }) {

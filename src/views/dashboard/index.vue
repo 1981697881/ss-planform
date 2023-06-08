@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 import PanelGroup from "./components/PanelGroup"
 import ZyLineChart from './components/ZyLineChart'
 import ZyList from './components/ZyList'

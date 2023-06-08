@@ -8,7 +8,7 @@ export function getUsersList(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -20,7 +20,7 @@ export function addUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -33,7 +33,7 @@ export function alterUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -46,7 +46,7 @@ export function delUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -58,7 +58,7 @@ export function getClerkList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -71,7 +71,7 @@ export function addClerk(params) {
   return request({
     url: '/employee/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -84,7 +84,7 @@ export function alterClerk(params) {
   return request({
     url: '/employee/update',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'PUT',
@@ -97,7 +97,7 @@ export function clerkInfo(params) {
   return request({
     url: '/table/list' + params,
     headers: {
-      'authorization': getToken('waprx')
+      'authorization': getToken('ssrx')
     },
     method: 'get'
   })
@@ -108,7 +108,7 @@ export function clerkDepartment(params) {
   return request({
     url: '/table/list' + params,
     headers: {
-      'authorization': getToken('waprx')
+      'authorization': getToken('ssrx')
     },
     method: 'get',
     params
@@ -120,7 +120,7 @@ export function delClerk(params) {
   return request({
     url: '/employee/del/' + params,
     headers: {
-      'authorization': getToken('waprx')
+      'authorization': getToken('ssrx')
     },
     method: 'delete',
   })
@@ -131,7 +131,7 @@ export function getTuserList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -144,7 +144,7 @@ export function addTuser(params) {
   return request({
     url: '/tuser/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -156,7 +156,7 @@ export function deleteTuser(params) {
   return request({
     url: '/tuser/delete',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -168,7 +168,7 @@ export function getDictTypeList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -181,7 +181,7 @@ export function addDictType(params) {
   return request({
     url: '/dictType/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -193,7 +193,7 @@ export function deleteDictType(params) {
   return request({
     url: '/dictType/delete',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -205,7 +205,7 @@ export function getDictList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -218,7 +218,7 @@ export function addDict(params) {
   return request({
     url: '/dict/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -230,7 +230,7 @@ export function deleteDict(params) {
   return request({
     url: '/dict/delete',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -242,7 +242,7 @@ export function getDutyList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -255,7 +255,7 @@ export function addDuty(params) {
   return request({
     url: '/duty/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -267,7 +267,7 @@ export function deleteDuty(params) {
   return request({
     url: '/duty/delete',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -279,7 +279,7 @@ export function getOrganizationsList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -292,7 +292,7 @@ export function addOrganizations(params) {
   return request({
     url: '/organizations/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -304,7 +304,7 @@ export function deleteOrganizations(params) {
   return request({
     url: '/organizations/delete',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -316,7 +316,7 @@ export function deleteImg(params) {
   return request({
     url: '/file/deleteImg',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -329,7 +329,7 @@ export function getSystemProfileList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -342,7 +342,7 @@ export function updateProduction(params) {
   return request({
     url: '/systemProfile/update',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -355,7 +355,7 @@ export function getTTeamList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -368,7 +368,7 @@ export function addTTeam(params) {
   return request({
     url: '/tteam/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -380,7 +380,7 @@ export function deleteTTeam(params) {
   return request({
     url: '/tteam/delete',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -393,7 +393,7 @@ export function getTcontractList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -406,7 +406,7 @@ export function addTcontract(params) {
   return request({
     url: '/tcontract/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -418,7 +418,7 @@ export function deleteTcontract(params) {
   return request({
     url: '/tcontract/delete',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -431,7 +431,7 @@ export function getTcommissionList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -444,7 +444,7 @@ export function addTcommission(params) {
   return request({
     url: '/tcommission/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -456,7 +456,7 @@ export function deleteTcommission(params) {
   return request({
     url: '/tcommission/delete',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -468,7 +468,7 @@ export function getTbonusManagementList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -481,7 +481,7 @@ export function addTbonusManagement(params) {
   return request({
     url: '/tbonusManagement/add',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -493,7 +493,7 @@ export function deleteTbonusManagement(params) {
   return request({
     url: '/tbonusManagement/delete',
     headers: {
-      'authorization': getToken('waprx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',

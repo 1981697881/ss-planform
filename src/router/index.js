@@ -88,14 +88,14 @@ export const StaticRouterMap = [{
     meta: {
       title: '职员管理'
     }
-  }, {
+  }, /*{
     path: 'team',
     component: () => import('@/views/basic/team/index'),
     name: 'Team',
     meta: {
       title: '团队管理'
     }
-  }, {
+  },*/ {
     path: 'essential',
     component: () => import('@/views/basic/essential/index'),
     name: 'Essential',
@@ -154,14 +154,14 @@ export const StaticRouterMap = [{
     meta: {
       title: '外包项目管理'
     }
-  }, {
+  }, /*{
     path: 'opening',
     component: () => import('@/views/information/opening/index'),
     name: 'Opening',
     meta: {
       title: '期初数据导入'
     }
-  }, {
+  },*/ {
     path: 'bonusPlan',
     component: () => import('@/views/information/bonusPlan/index'),
     name: 'BonusPlan',

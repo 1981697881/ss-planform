@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -16,7 +15,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSystemProfileList, deleteSizeColor } from '@/api/basic/index'
+import { getTprojectList, deleteTproject } from '@/api/information/index'
 import List from '@/components/List'
 
 export default {
@@ -34,20 +33,19 @@ export default {
       fid: null,
       type: null,
       columns: [
-        { text: '项目编码', name: 'fkey' },
-        { text: '公司名称', name: 'fname' },
-        { text: '部门编码', name: 'fvalue' },
-        { text: '部门名称', name: 'fdesc' },
-        { text: '人员编码', name: 'fdesc' },
-        { text: '人员名称', name: 'fdesc' },
-        { text: '英文名', name: 'fdesc' },
-        { text: '项目编码', name: 'fdesc' },
-        { text: '项目名称', name: 'fdesc' },
-        { text: '客户编码', name: 'fdesc' },
-        { text: '客户简称', name: 'fdesc' },
-        { text: '客户全称', name: 'fdesc' },
-        { text: '佣金类别编码', name: 'fdesc' },
-        { text: '佣金类别', name: 'fdesc' },
+        { text: '项目编码', name: 'fprojectnumber' },
+        { text: '项目名称', name: 'fprojectname' },
+        { text: '公司名称', name: 'fcompanyname' },
+        { text: '部门编码', name: 'fdeptcode' },
+        { text: '部门名称', name: 'fdeptname' },
+        { text: '人员编码', name: 'fnumber' },
+        { text: '人员名称', name: 'fname' },
+        { text: '英文名', name: 'fenglishname' },
+        { text: '客户编码', name: 'fcustomnumber' },
+        { text: '客户简称', name: 'fcustomabbreviation' },
+        { text: '客户全称', name: 'fcustomfullname' },
+        { text: '佣金类别编码', name: 'fcommissioncategorynumber', width: '150' },
+        { text: '佣金类别', name: 'fcommissioncategory' },
       ]
     }
   },
@@ -87,7 +85,7 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      deleteTproject(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -111,11 +109,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSystemProfileList(data, val).then(res => {
+      this.loading = true
+      getTprojectList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

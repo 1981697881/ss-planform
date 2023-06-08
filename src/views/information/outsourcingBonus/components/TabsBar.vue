@@ -1,14 +1,42 @@
 <template>
   <div class="list-header">
     <el-form v-model="search" :size="'mini'">
+      <el-col :span="2">
+        <el-form-item :label="''">
+          <el-date-picker
+            v-model="search.name"
+            type="year"
+            placeholder="年度">
+          </el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="2">
+        <el-form-item :label="''">
+          <el-date-picker
+            v-model="search.name"
+            type="month"
+            placeholder="月份">
+          </el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="4">
+        <el-form-item :label="''">
+          <el-input v-model="search.name" placeholder="职员"/>
+        </el-form-item>
+      </el-col>
+      <el-col :span="2">
+        <el-button :size="'mini'" type="primary" icon="el-icon-search" @click="query">查询</el-button>
+      </el-col>
       <el-button-group style="float:right">
-       <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary"
-                   :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}
-        </el-button>-->
+        <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary"
+                    :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}
+         </el-button>-->
         <!--@click="printer"-->
-       <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>-->
+        <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
-        <!--<el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>-->
+        <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerInventory">支付清单</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-edit" >费用支付导入</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -26,7 +54,7 @@ export default {
     return {
       btnList: [],
       headers: {
-        'authorization': getToken('waprx')
+        'authorization': getToken('ssrx')
       },
       fileUrl: '',
       search: {
@@ -48,6 +76,9 @@ export default {
     })*/
   },
   methods: {
+    query() {
+      this.$emit('queryBtn', this.qFilter())
+    },
     // 导出
     exportData() {
       this.$emit('exportData')
@@ -68,17 +99,13 @@ export default {
       this.$emit('uploadList')
     },
     del() {
-      if (this.selections.length > 0) {
+      if (this.clickData.fid) {
         this.$confirm('是否删除，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          var idArray = []
-          this.selections.forEach((item) => {
-            idArray.push({fid: item.fid})
-          })
-          this.$emit('del', idArray)
+          this.$emit('del', {fid: this.clickData.fid})
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -95,6 +122,16 @@ export default {
     handlerAlter() {
       if (this.clickData.fid) {
         this.$emit('showDialog', this.clickData)
+      } else {
+        this.$message({
+          message: '无选中行',
+          type: 'warning'
+        })
+      }
+    },
+    handlerInventory() {
+      if (this.clickData.fid) {
+        this.$emit('showInventory', this.clickData)
       } else {
         this.$message({
           message: '无选中行',

@@ -80,6 +80,9 @@ export default {
 
   },
   mounted() {
+    if(this.listInfo){
+      this.form = this.listInfo
+    }
     this.fetchData();
   },
   methods: {

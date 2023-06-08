@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
+    <el-form :model="form" :rules="rules" ref="form" label-width="80px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'uid'" style="display: none">
@@ -11,24 +11,24 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'用户编码'" prop="jobNum">
-            <el-input v-model="form.jobNum" readOnly></el-input>
+            <el-input v-model="form.jobNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'登录账号'" prop="username">
-            <el-input v-model="form.username" :readOnly="visible"></el-input>
+            <el-input v-model="form.username"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'对应职员'" prop="eid">
-            <el-select v-model="form.eid" filterable class="width-full" placeholder="请选择职员" @change="changeCheck">
-              <el-option :label="t.name" :value="t.eid" v-for="(t,i) in levelFormat" :key="i"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
+           <el-form-item :label="'对应职员'" prop="eid">
+             <el-select v-model="form.eid" filterable class="width-full" placeholder="请选择职员" @change="changeCheck">
+               <el-option :label="t.name" :value="t.eid" v-for="(t,i) in levelFormat" :key="i"></el-option>
+             </el-select>
+           </el-form-item>
+         </el-col>-->
+        <el-col :span="24">
           <el-form-item :label="'说明'">
             <el-input v-model="form.description"></el-input>
           </el-form-item>
@@ -62,21 +62,21 @@
             </el-table>
           </el-row>
         </el-tab-pane>
-         <el-tab-pane label="用户权限" name="second">
-           <el-row  style="height: 250px;overflow: auto;border: 1px solid #EBEEF5;">
-             <el-tree
-               ref="tree1"
-               :props="defaultProps"
-               :default-expand-all="false"
-               :data="data"
-               show-checkbox
-               :default-checked-keys="Checkeds"
-               node-key="menuId"
-               highlight-current
-               :expand-on-click-node="false"
-             />
-           </el-row>
-         </el-tab-pane>
+        <el-tab-pane label="用户权限" name="second">
+          <el-row  style="height: 250px;overflow: auto;border: 1px solid #EBEEF5;">
+            <el-tree
+              ref="tree1"
+              :props="defaultProps"
+              :default-expand-all="false"
+              :data="data"
+              show-checkbox
+              :default-checked-keys="Checkeds"
+              node-key="menuId"
+              highlight-current
+              :expand-on-click-node="false"
+            />
+          </el-row>
+        </el-tab-pane>
       </el-tabs>
     </el-form>
     <div slot="footer" style="text-align:center;padding-top: 15px">
@@ -148,7 +148,7 @@ export default {
   },
   mounted() {
     this.factchGroup()
-    this.fetchFormat()
+    // this.fetchFormat()
     this.fetchMenu()
   },
   methods: {
@@ -218,6 +218,7 @@ export default {
           this.list = res.data
           if (this.listInfo) {
             this.visible = true
+            console.log(this.listInfo)
             this.fetchData(this.listInfo.uid)
           }
         }

@@ -45,7 +45,7 @@
                 v-for="(item,index) in dutiesArray"
                 :key="index"
                 :label="item.fdutyname"
-                :value="item.fid">
+                :value="item.fdutyname">
               </el-option>
             </el-select>
           </el-form-item>
@@ -59,7 +59,7 @@
                 v-for="(item,index) in deptArray"
                 :key="index"
                 :label="item.fdeptname"
-                :value="item.fid">
+                :value="item.fdeptname">
               </el-option>
             </el-select>
           </el-form-item>
@@ -69,6 +69,7 @@
             <el-date-picker
               v-model="form.fcutoffdate"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
@@ -81,6 +82,7 @@
             <el-date-picker
               v-model="form.fregulardate"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
@@ -91,6 +93,7 @@
             <el-date-picker
               v-model="form.fdeparturedate"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>

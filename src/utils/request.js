@@ -11,7 +11,7 @@ import {
 import querystring from 'querystring'
 // create an axios instance
 const service = axios.create({
-  baseURL: (process.env.NODE_ENV === 'production'?'http://bli.gzfzdev.com:50060':'') + process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: (process.env.NODE_ENV === 'production'?'http://sr.gzfzdev.com:50080':'') + process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 900000 // request timeout
 })
@@ -29,9 +29,6 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
 
       // config.headers['X-Token'] = getToken()
-    }
-    if(process.env.NODE_ENV === 'production' && config.domainName == 'auth'){
-        config.baseURL = 'http://nw.gzfzdev.com:50022'
     }
     if (config.headers['Content-Type'] != "application/json") {
       config.data = querystring.stringify(config.data)

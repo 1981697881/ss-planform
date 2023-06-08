@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -31,17 +30,18 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: '职员工号', name: 'fnumber' },
-        { text: '用户名称', name: 'fname' },
+        { text: '工号', name: 'fnumber' },
+        { text: '姓名', name: 'fname' },
+        { text: '性别', name: 'fgender' },
         { text: '联系电话', name: 'fphone' },
         { text: '邮箱', name: '' },
-        { text: '岗位', name: 'fduty' },
-        { text: '职位（角色）', name: 'ftype' },
+        { text: '职位', name: 'fduty' },
+        { text: '角色', name: 'ftype', width: '130' },
         { text: '部门', name: 'fdept' },
-        { text: '最近调职日期', name: '' },
-        { text: '入职日期', name: 'fjoindate' },
-        { text: '过渡截止日期', name: 'fcutoffdate' },
-        { text: '离职日期', name: 'fdeparturedate' },
+        { text: '最近调职日期', name: '', width: '130' },
+        { text: '入职日期', name: 'fjoindate', width: '130' },
+        { text: '过渡截止日期', name: 'fcutoffdate', width: '130' },
+        { text: '离职日期', name: 'fdeparturedate', width: '130' },
       ]
     }
   },

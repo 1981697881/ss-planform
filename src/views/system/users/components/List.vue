@@ -15,16 +15,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 import { getUsersList, delUsers} from "@/api/system/index";
-import List from "@/components/List";
+import List from '@/components/List'
 
 export default {
   components: {
     List
   },
   computed: {
-    ...mapGetters(["node"])
+    ...mapGetters(['node'])
   },
   data() {
     return {

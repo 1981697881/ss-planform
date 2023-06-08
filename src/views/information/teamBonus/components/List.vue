@@ -7,7 +7,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -17,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSystemProfileList, deleteSizeColor } from '@/api/basic/index'
+import { getRecruitmentBonusList, deleteRecruitmentBonus } from '@/api/information/index'
 import List from '@/components/List'
 
 export default {
@@ -34,29 +33,28 @@ export default {
       list: {},
       fid: null,
       type: null,
-
       columns: [
-        { text: '年度', name: 'fkey' },
-        { text: '职位', name: 'fname' },
-        { text: '结清标记', name: 'fvalue' },
-        { text: '基本工资', name: 'fdesc' },
-        { text: '基本工资成本', name: 'fdesc' },
-        { text: '累计Invoiced Amount', name: 'fdesc' },
-        { text: '累计Invoiced GP', name: 'fdesc' },
-        { text: '累计回款GP', name: 'fdesc' },
-        { text: '累计Base Line', name: 'fdesc' },
-        { text: '助理成本折算GP', name: 'fdesc' },
-        { text: '累计计提GP', name: 'fdesc' },
-        { text: '累计计提比例', name: 'fdesc' },
-        { text: '累计可提费用', name: 'fdesc' },
-        { text: '担保期内费用', name: 'fdesc' },
-        { text: '累计可提费用', name: 'fdesc' },
-        { text: '担保期内费用', name: 'fdesc' },
-        { text: '担保冻结费用', name: 'fdesc' },
-        { text: '过担保期可计提部分', name: 'fdesc' },
-        { text: '已支付费用', name: 'fdesc' },
-        { text: '本月应计发费用', name: 'fdesc' },
-        { text: '累计未计发费用', name: 'fdesc' },
+        { text: '年度', name: 'fannual' },
+        { text: '职位', name: 'fposition' },
+        { text: '结清标记', name: 'fcompletesign'},
+        { text: '基本工资', name: 'fbasicsalary'},
+        { text: '基本工资成本', name: 'fbasicsalarycost',width: '130'},
+        { text: '累计Invoiced Amount', name: 'faccumulateia',width: '150'},
+        { text: '累计Invoiced GP', name: 'finvoicedgp',width: '130'},
+        { text: '累计回款GP', name: 'fcollectiongp',width: '130'},
+        { text: '累计Base Line', name: 'faccumulatebl',width: '130' },
+        { text: '助理成本折算GP', name: 'fassistantcostsgp',width: '130' },
+        { text: '累计计提GP', name: 'faccumulategp',width: '130' },
+        { text: '累计计提比例', name: 'faccumulatedprovisionratio',width: '130' },
+        { text: '累计可提费用', name: 'faccumulatedaccruedexpenses',width: '130' },
+        { text: '担保期内费用', name: 'fwarrantycost',width: '130' },
+        { text: '累计可提费用', name: 'faccumulatedaccruedexpenses',width: '130' },
+        { text: '担保期内费用', name: 'fwarrantycost',width: '130' },
+        { text: '担保冻结费用', name: 'fwarrantyfreezecost',width: '130' },
+        { text: '过担保期可计提部分', name: 'fwarrantypart',width: '150' },
+        { text: '已支付费用', name: 'fpaidfees',width: '130' },
+        { text: '本月应计发费用', name: 'fmonthcost',width: '130' },
+        { text: '累计未计发费用', name: 'faccumulatenocost',width: '130' },
       ]
     }
   },
@@ -96,7 +94,7 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      deleteRecruitmentBonus(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -120,11 +118,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSystemProfileList(data, val).then(res => {
+      this.loading = true
+      getRecruitmentBonusList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

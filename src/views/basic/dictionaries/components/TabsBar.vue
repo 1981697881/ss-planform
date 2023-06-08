@@ -89,7 +89,7 @@ export default {
     },
     handlerAlter(command) {
       if (command == '1') {
-        if (this.clickData.gpId) {
+        if (this.clickData.fid && !this.clickData.ftypeid) {
           this.$emit('showGroupDialog', this.clickData)
         } else {
           this.$message({
@@ -99,8 +99,8 @@ export default {
         }
       } else if (command == '2') {
         console.log(this.clickData)
-        if (this.clickData.uid) {
-          this.$emit('showDialog', { uid: this.clickData.uid })
+        if (this.clickData.ftypeid) {
+          this.$emit('showDialog', this.clickData)
         } else {
           this.$message({
             message: '无选中行',
@@ -148,15 +148,14 @@ export default {
       this.$emit('showDialog')
     },
     Delivery() {
-      if (this.clickData.id) {
+      if (this.clickData.fid) {
         this.$confirm('是否删除（' + this.clickData.name + '），删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', [{
-          id: this.clickData.id
-        }])
+          this.$emit('delList', {fid: this.clickData.fid
+        })
       }).catch(() => {
           this.$message({
           type: 'info',
@@ -170,7 +169,7 @@ export default {
         })
       }
     },
-    handlerAlter() {
+   /* handlerAlter() {
       if (this.clickData.id) {
         this.$emit('showDialog', this.clickData)
       } else {
@@ -179,16 +178,16 @@ export default {
           type: 'warning'
         })
       }
-    },
+    },*/
     handlerDel(command) {
       if (command == '1') {
-        if (this.clickData.gpId) {
-          this.$confirm('是否删除（' + this.clickData.gpName + '），删除后将无法恢复?', '提示', {
+        if (this.clickData.fid && !this.clickData.ftypeid) {
+          this.$confirm('是否删除（' + this.clickData.fname + '），删除后将无法恢复?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.$emit('delGroup', this.clickData.gpId)
+            this.$emit('delGroup', {fid: this.clickData.fid})
           }).catch(() => {
             this.$message({
               type: 'info',
@@ -202,13 +201,13 @@ export default {
           })
         }
       } else if (command == '2') {
-        if (this.clickData.uid) {
-          this.$confirm('是否删除（' + this.clickData.empName + '），删除后将无法恢复?', '提示', {
+        if (this.clickData.ftypeid) {
+          this.$confirm('是否删除（' + this.clickData.fname + '），删除后将无法恢复?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.$emit('delList', this.clickData.uid)
+            this.$emit('delList', {fid: this.clickData.fid})
           }).catch(() => {
             this.$message({
               type: 'info',

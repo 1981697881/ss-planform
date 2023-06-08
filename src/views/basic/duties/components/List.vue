@@ -31,7 +31,7 @@ export default {
       list: {},
       columns: [
         { text: '职务名称', name: 'fdutyname' },
-        { text: '汇报对象', name: 'fparentname' },
+        { text: '上级职务', name: 'fpname' },
       ]
     }
   },
@@ -71,11 +71,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true
+      this.loading = true
       getDutyList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

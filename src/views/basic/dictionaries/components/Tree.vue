@@ -25,15 +25,15 @@
 </template>
 
 <script>
-  import {mapGetters} from "vuex";
-  import {getDictTypeList, deleteDictType} from "@/api/basic/index";
-  import List from "@/components/List";
+  import {mapGetters} from 'vuex'
+  import {getDictTypeList, deleteDictType} from '@/api/basic/index'
+  import List from '@/components/List'
   export default {
     components: {
       List
     },
     computed: {
-      ...mapGetters(["node"])
+      ...mapGetters(['node'])
     },
     props: {
       //是否自适应宽度，不自适应宽度默认为120px

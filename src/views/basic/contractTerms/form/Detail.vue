@@ -55,6 +55,7 @@
             <el-date-picker
               v-model="form.feffectivedate"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
@@ -63,8 +64,9 @@
         <el-col :span="12">
           <el-form-item :label="'失效日期'">
             <el-date-picker
-              v-model="form.eur"
+              v-model="form.fexpiringdate"
               type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
