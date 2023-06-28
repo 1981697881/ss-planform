@@ -39,7 +39,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="'Consultant Name'">
-                <el-input v-model="form.fkey"></el-input>
+                <el-input v-model="form.fenglishname"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -47,7 +47,7 @@
             <el-col :span="12">
               <el-form-item :label="'入职日期'">
                 <el-date-picker
-                  v-model="form.eur"
+                  v-model="form.fjoindate"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 100%"
@@ -58,7 +58,7 @@
             <el-col :span="12">
               <el-form-item :label="'蜜月过渡期截止日期'">
                 <el-date-picker
-                  v-model="form.eur"
+                  v-model="form.fcutoffdate"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 100%"
@@ -70,12 +70,15 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item :label="'结清标记'">
-                <el-input v-model="form.fkey"></el-input>
+                <el-radio-group style="width: 100%" v-model="form.fkey">
+                  <el-radio :label="1">是</el-radio>
+                  <el-radio :label="0">否</el-radio>
+                </el-radio-group>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="'是否助理'">
-                <el-radio-group style="width: 100%" v-model="form.fispv">
+                <el-radio-group style="width: 100%" v-model="form.fisassistant">
                   <el-radio :label="1">是</el-radio>
                   <el-radio :label="0">否</el-radio>
                 </el-radio-group>
@@ -143,7 +146,7 @@
               :cell-style="myclass"
               @selection-change="handleSelectionChange"
               :highlight-current-row="true">
-              <el-table-column align="center" type="selection"></el-table-column>
+              <el-table-column width="50" align="center" type="selection"></el-table-column>
               <template
                 v-for="(t,i) in columns2"
               >
@@ -152,7 +155,7 @@
                   align="center"
                   :prop="t.name"
                   :width="t.width?t.width:'120px'"
-                  v-if="t.name == 'finvoicingdate' || t.name == 'fpaymentreceiveddate'|| t.name == 'fentrydate'"
+                  v-if="t.name == 'finvoicingdate' || t.name == 'fpaymentreceiveddate'|| t.name == 'fentrydate'|| t.name == 'fsecuritydate'"
                   :label="t.text"
                 >
                   <template slot-scope="scope">
@@ -329,6 +332,7 @@ export default {
         'authorization': getToken('ssrx'),
       },
       fullscreenLoading: false,
+      loading: false,
       isUpload: null,
       fileList: [],
       multipleSelection: [],
@@ -338,9 +342,10 @@ export default {
         femp: null,
         fannual: null,
         ftype: 1,
-        fkey: null,
-        fname: null,
-        fvalue: null,
+        fcutoffdate: null,
+        fisassistant: null,
+        fjoindate: null,
+        fenglishname: null,
         fdesc: null,
       },
       form2: {},
@@ -474,7 +479,7 @@ export default {
         {text: 'GP', name: 'fgp'},
         {text: '到款时间', name: 'fpaymentreceiveddate', width: '150'},
         {text: '入职日期', name: 'fentrydate', width: '150'},
-        {text: '担保期', name: 'fsecuritydate'},
+        {text: '担保期', name: 'fsecuritydate', width: '150'},
         {text: '成单顾问', name: 'fsingleconsultant'},
         {text: '合同编号', name: 'fcontractnumber'},
         {text: '支付规则', name: 'fpaymentrules'},
@@ -565,6 +570,15 @@ export default {
       /*}*/
     },
     changeUser(val) {
+      this.userList.forEach((item)=>{
+        if(item.fname == val){
+          console.log(item)
+          this.form.fcutoffdate = item.fcutoffdate
+          this.form.fisassistant = item.fisassistant
+          this.form.fjoindate = item.fjoindate
+          this.form.fenglishname = item.fenglishname
+        }
+      })
       /*if (this.listInfo) {*/
       this.fetchData2({ftype: 1,fposition: this.form.femp, fannual: this.form.fannual})
       this.fetchData({ftype: 1,femp: this.form.femp, fannual: this.form.fannual})

@@ -35,7 +35,13 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'部门负责人'" prop="fheader">
-            <el-select v-model="form.fheader" placeholder="请选择">
+            <el-select
+              size="mini"
+            filterable
+            remote
+            :remote-method="remoteMethod"
+            :loading="loading"
+            style="width: 100%" v-model="form.fheader" placeholder="请选择">
               <el-option
                 v-for="(item,index) in usersList"
                 :key="index"
@@ -93,6 +99,14 @@ export default {
     }
   },
   methods: {
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.fetchUserData({fname: query});
+      } else {
+        this.usersList = [];
+      }
+    },
     changeDept(val){
       this.options.forEach((item)=>{
         if(item.fid == val){
@@ -111,9 +125,10 @@ export default {
     },
     fetchUserData(val={}, data = {
       pageNum: 1,
-      pageSize:  500
+      pageSize:  10
     }) {
       getTuserList(data, val).then(res => {
+        this.loading = false
         this.usersList = res.data.records
       });
     },

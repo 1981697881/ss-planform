@@ -15,7 +15,7 @@
 </template>
 
 <script>import { mapGetters } from 'vuex'
-import { getCompanyList, deleteCompany } from '@/api/basic/index'
+import { tprojectOutsourcingBonus, deleteCompany } from '@/api/reportForm/index'
 import List from '@/components/List'
 
 export default {
@@ -30,12 +30,17 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: '公司名称', name: 'companyName' },
-        { text: '联系电话', name: 'telephone' },
-        { text: '官网', name: 'officialWebsite' },
-        { text: '公司地址', name: 'companyAddress' },
-        { text: '备注', name: 'remark' },
-        { text: '状态', name: 'status' }
+        { text: '所属团队', name: 'fposition' },
+        { text: '顾问', name: 'telephone' },
+        { text: '岗位', name: '' },
+        { text: '所属年度', name: 'fannual' },
+        { text: '应发外包项目佣金', name: 'recruit.foutmonthcost', width: '150' },
+        { text: '应发客服佣金', name: 'recruit.fmonthcost', width: '150' },
+        { text: '应发外包招聘佣金', name: 'recruit.fpayablesummary', width: '150' },
+        { text: '累计已发放外包项目佣金', name: 'recruit.faccumulatenocost', width: '160' },
+        { text: '累计已发放外包招聘佣金', name: 'recruit.foutsourcecommission', width: '160' },
+        { text: '累计未发外包佣金', name: 'recruit.fnotsentsummary', width: '150' },
+        { text: '备注', name: 'status' },
       ]
     }
   },
@@ -76,10 +81,10 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true
-      /*getCompanyList(data, val).then(res => {
+      tprojectOutsourcingBonus(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

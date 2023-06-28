@@ -39,7 +39,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="'Consultant Name'">
-                <el-input v-model="form.fkey"></el-input>
+                <el-input v-model="form.fenglishname"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -47,7 +47,7 @@
             <el-col :span="8">
               <el-form-item :label="'入职日期'">
                 <el-date-picker
-                  v-model="form.eur"
+                  v-model="form.fjoindate"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 100%"
@@ -58,7 +58,7 @@
             <el-col :span="8">
               <el-form-item :label="'蜜月过渡期截止日期'">
                 <el-date-picker
-                  v-model="form.eur"
+                  v-model="form.fcutoffdate"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 100%"
@@ -68,7 +68,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="'是否客服'">
-                <el-radio-group style="width: 100%" v-model="form.fispv">
+                <el-radio-group style="width: 100%" v-model="form.fiscustomer">
                   <el-radio :label="1">是</el-radio>
                   <el-radio :label="0">否</el-radio>
                 </el-radio-group>
@@ -138,7 +138,7 @@
               :cell-style="myclass"
               :summary-method="getSummaries"
               show-summary>
-              <el-table-column align="center" type="selection"></el-table-column>
+              <el-table-column align="center" type="selection" width="50"></el-table-column>
               <template
                 v-for="(t,i) in columns2"
               >
@@ -278,7 +278,7 @@
               :cell-style="myclass"
               :summary-method="getSummaries"
               show-summary>
-              <el-table-column align="center" type="selection"></el-table-column>
+              <el-table-column align="center" type="selection" width="50"></el-table-column>
               <template
                 v-for="(t,i) in columns3"
               >
@@ -419,7 +419,7 @@
               :summary-method="getSummaries"
               show-summary
             >
-              <el-table-column align="center" type="selection"></el-table-column>
+              <el-table-column align="center" type="selection" width="50"></el-table-column>
               <template
                 v-for="(t,i) in columns4"
               >
@@ -428,7 +428,7 @@
                   align="center"
                   :prop="t.name"
                   :width="t.width?t.width:'120px'"
-                  v-if="t.name == 'fcountdate' || t.name == 'fentrydate'"
+                  v-if="t.name == 'fcountdate' || t.name == 'fentrydate' || t.name == 'fguaranteedate'"
                   :label="t.text"
                 >
                   <template slot-scope="scope">
@@ -466,7 +466,7 @@
                     <span>{{scope.row[t.name]}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column
+                <!--<el-table-column
                   :key="i"
                   align="center"
                   :prop="t.name"
@@ -475,7 +475,7 @@
                   :label="t.text"
                 >
                   <template slot-scope="scope">
-                    <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+                    &lt;!&ndash;// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //&ndash;&gt;
                     <el-select size="mini" filterable
                                remote
                                :remote-method="remoteMethod"
@@ -490,7 +490,7 @@
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
                   </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                   :key="i"
                   align="center"
@@ -630,8 +630,11 @@ export default {
         fkey: null,
         femp: null,
         fannual: null,
-        fname: null,
-        fvalue: null,
+        fcutoffdate: null,
+        fisassistant: null,
+        fjoindate: null,
+        fenglishname: null,
+        fiscustomer: null,
         fdesc: null,
       },
       form2: {},
@@ -736,7 +739,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '客服管理人数',calculation: '',
+        title: '季度奖金1%',calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -744,7 +747,15 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '客服管理单价',calculation: '',
+        title: '年度奖金1%',calculation: '',
+        qOne: '',
+        qTwo: '',
+        qThree: '',
+        qFour: '',
+        total: '',
+        remark: ''
+      }, {
+        title: '团队盈利达标1%',calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -848,8 +859,9 @@ export default {
         {text: '计算月份', name: 'fmonth'},
         {text: '客服人员', name: 'fcustomerservice'},
         {text: '项目', name: 'fproject'},
-        {text: '客服人数', name: 'fcustomerservicecount'},
-        {text: '客服单价', name: 'fcustomerserviceunivalence'},
+        {text: '本年GP', name: 'fannualgp'},
+       /* {text: '客服人数', name: 'fcustomerservicecount'},
+        {text: '客服单价', name: 'fcustomerserviceunivalence'},*/
         {text: '备注', name: 'remark'}
       ],
       list4: [],
@@ -931,18 +943,19 @@ export default {
               this.list[8]['total'] = res.data.fpaidexpenses
               this.list[9]['total'] = res.data.fmonthcost
               this.list[10]['total'] = res.data.faccumulatenocost
-              this.list[11]['total'] = ''
-              this.list[12]['total'] = ''
-              this.list[13]['total'] = ''
-              this.list[14]['total'] = res.data.foutsourcedrecruitmentcosts
-              this.list[15]['total'] = res.data.fmanagementallowance
-              this.list[16]['total'] = res.data.foutpaidexpenses
-              this.list[17]['total'] = res.data.foutmonthcost
-              this.list[18]['total'] = res.data.foutsourcecommission
-              this.list[19]['total'] = res.data.ftotalsummary
-              this.list[20]['total'] = res.data.fpayablesummary
-              this.list[21]['total'] = res.data.fsentsummary
-              this.list[22]['total'] = res.data.fnotsentsummary
+              this.list[11]['total'] = res.data.fquarterlybonus
+              this.list[12]['total'] = res.data.fannualbonus
+              this.list[13]['total'] = res.data.fteambonus
+              this.list[14]['total'] = ''
+              this.list[15]['total'] = res.data.foutsourcedrecruitmentcosts
+              this.list[16]['total'] = res.data.fmanagementallowance
+              this.list[17]['total'] = res.data.foutpaidexpenses
+              this.list[18]['total'] = res.data.foutmonthcost
+              this.list[19]['total'] = res.data.foutsourcecommission
+              this.list[20]['total'] = res.data.ftotalsummary
+              this.list[21]['total'] = res.data.fpayablesummary
+              this.list[22]['total'] = res.data.fsentsummary
+              this.list[23]['total'] = res.data.fnotsentsummary
             }
           })
         }
@@ -993,6 +1006,15 @@ export default {
     },
     changeUser(val) {
       /*if (this.listInfo) {*/
+      this.userList.forEach((item)=>{
+        if(item.fname == val){
+          console.log(item)
+          this.form.fcutoffdate = item.fcutoffdate
+          this.form.fiscustomer = item.fiscustomer
+          this.form.fjoindate = item.fjoindate
+          this.form.fenglishname = item.fenglishname
+        }
+      })
       this.fetchData4({ftype: 3,fposition: this.form.femp, fannual: this.form.fannual})
       this.fetchData({ftype: 3,femp: this.form.femp, fannual: this.form.fannual})
       this.fetchData({ftype: 3,femp: this.form.femp, fannual: this.form.fannual})

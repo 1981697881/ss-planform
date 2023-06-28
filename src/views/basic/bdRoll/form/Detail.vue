@@ -40,12 +40,38 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'BD职员'">
-            <el-input v-model="form.fbdclerk"></el-input>
+            <el-select
+              size="mini"
+              filterable
+              remote
+              :remote-method="remoteMethod"
+              :loading="loading"
+              style="width: 100%" v-model="form.fbdclerk" placeholder="请选择">
+              <el-option
+                v-for="(item,index) in usersList"
+                :key="index"
+                :label="item.fname"
+                :value="item.fname">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'合同对接人'">
-            <el-input v-model="form.fcontactperson"></el-input>
+            <el-select
+              size="mini"
+              filterable
+              remote
+              :remote-method="remoteMethod"
+              :loading="loading"
+              style="width: 100%" v-model="form.fcontactperson" placeholder="请选择">
+              <el-option
+                v-for="(item,index) in usersList"
+                :key="index"
+                :label="item.fname"
+                :value="item.fname">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -62,12 +88,12 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="12">
+       <!-- <el-col :span="12">
           <el-form-item :label="'提成比例'">
             <el-input v-model="form.fcommissionratio"></el-input>
           </el-form-item>
-        </el-col>
-        <el-col :span="12">
+        </el-col>-->
+        <el-col :span="24">
           <el-form-item :label="'备注'">
             <el-input v-model="form.remark"></el-input>
           </el-form-item>
@@ -80,7 +106,7 @@
   </div>
 </template>
 
-<script>import {addTbonusManagement} from '@/api/basic/index'
+<script>import {addTbonusManagement,getTuserList} from '@/api/basic/index'
 
 export default {
   props: {
@@ -96,14 +122,15 @@ export default {
         fcompanyname: null,
         feffectivedate: null,
         fexpiringdate: null,
-        fexpiringdate: null,
         fbdclerk: null,
         fcontactperson: null,
         fcontractingentity: null,
         fcontractnature: null,
         fcommissionratio: null,
-        remark: null,
+        remark: null
       },
+      loading: false,
+      usersList: [],
       rules: {
         fcontractnumber: [
           {required: true, message: '请输入', trigger: 'blur'}
@@ -116,11 +143,29 @@ export default {
     }
   },
   mounted() {
+    this.fetchUserData()
     if (this.listInfo) {
       this.form = this.listInfo
     }
   },
   methods: {
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.fetchUserData({fname: query});
+      } else {
+        this.usersList = [];
+      }
+    },
+    fetchUserData(val={}, data = {
+      pageNum: 1,
+      pageSize:  10
+    }) {
+      getTuserList(data, val).then(res => {
+        this.loading = false
+        this.usersList = res.data.records
+      });
+    },
     saveData(form) {
       this.$refs[form].validate((valid) => {
         // 判断必填项

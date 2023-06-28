@@ -39,7 +39,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="'Consultant Name'">
-                <el-input v-model="form.fkey"></el-input>
+                <el-input v-model="form.fenglishname"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -47,7 +47,7 @@
             <el-col :span="8">
               <el-form-item :label="'入职日期'">
                 <el-date-picker
-                  v-model="form.eur"
+                  v-model="form.fjoindate"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 100%"
@@ -58,7 +58,7 @@
             <el-col :span="8">
               <el-form-item :label="'蜜月过渡期截止日期'">
                 <el-date-picker
-                  v-model="form.eur"
+                  v-model="form.fcutoffdate"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 100%"
@@ -68,7 +68,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="'是否助理'">
-                <el-radio-group style="width: 100%" v-model="form.fispv">
+                <el-radio-group style="width: 100%" v-model="form.fisassistant">
                   <el-radio :label="1">是</el-radio>
                   <el-radio :label="0">否</el-radio>
                 </el-radio-group>
@@ -77,8 +77,11 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-form-item :label="'结清证明'">
-                <el-input v-model="form.fkey"></el-input>
+              <el-form-item :label="'结清标记'">
+                <el-radio-group style="width: 100%" v-model="form.fkey">
+                  <el-radio :label="1">是</el-radio>
+                  <el-radio :label="0">否</el-radio>
+                </el-radio-group>
               </el-form-item>
             </el-col>
           </el-row>
@@ -157,7 +160,7 @@
                   align="center"
                   :prop="t.name"
                   :width="t.width?t.width:'120px'"
-                  v-if="t.name == 'finvoicingdate' || t.name == 'fpaymentreceiveddate'|| t.name == 'fentrydate'"
+                  v-if="t.name == 'finvoicingdate' || t.name == 'fpaymentreceiveddate'|| t.name == 'fentrydate'|| t.name == 'fsecuritydate'"
                   :label="t.text"
                 >
                   <template slot-scope="scope">
@@ -195,7 +198,7 @@
                     <span>{{scope.row[t.name]}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column
+                <!--<el-table-column
                   :key="i"
                   align="center"
                   :prop="t.name"
@@ -204,7 +207,7 @@
                   :label="t.text"
                 >
                   <template slot-scope="scope">
-                    <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+                    &lt;!&ndash;// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //&ndash;&gt;
                     <el-select size="mini" filterable
                                remote
                                :remote-method="remoteMethod"
@@ -219,7 +222,7 @@
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
                   </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                   :key="i"
                   align="center"
@@ -375,8 +378,10 @@ export default {
         ftype: 0,
         fannual: null,
         femp: null,
-        fname: null,
-        fvalue: null,
+        fcutoffdate: null,
+        fisassistant: null,
+        fjoindate: null,
+        fenglishname: null,
         fdesc: null,
       },
       form2: {},
@@ -542,8 +547,8 @@ export default {
         {text: '支付规则', name: 'fpaymentrules'},
         {text: '付款期限', name: 'fpaymentterm'},
         {text: '退款条例', name: 'frefundregulations'},
-        {text: '奖金系数', name: 'fbonuscoefficient'},
-        {text: '奖金金额', name: 'fbonusamount'},
+      /*  {text: '奖金系数', name: 'fbonuscoefficient'},
+        {text: '奖金金额', name: 'fbonusamount'},*/
         {text: '担保期内GP', name: 'fguaranteeperiodgp', width: '150'},
         {text: '担保期内佣金', name: 'fguaranteeperiodfees', width: '150'},
         {text: '备注', name: 'remark'}
@@ -623,6 +628,15 @@ export default {
     },
     changeUser(val) {
       /*if (this.listInfo) {*/
+      this.userList.forEach((item)=>{
+        if(item.fname == val){
+          console.log(item)
+          this.form.fcutoffdate = item.fcutoffdate
+          this.form.fisassistant = item.fisassistant
+          this.form.fjoindate = item.fjoindate
+          this.form.fenglishname = item.fenglishname
+        }
+      })
       this.fetchData2({ftype: 0,fposition: this.form.femp, fannual: this.form.fannual})
       this.fetchData({ftype: 0,femp: this.form.femp, fannual: this.form.fannual})
       /*}*/

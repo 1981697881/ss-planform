@@ -70,19 +70,48 @@
       <el-table class="tableBox" ref="multipleTable"  @selection-change="handleSelectionChange" border height="250px" stripe size="mini" :highlight-current-row="true" :data="form.fresponsibleproject" align="center" :cell-style="myclass" highlight-current-row>
         <el-table-column align="center" type="selection"></el-table-column>
         <el-table-column prop="date" label="序号" type="index" align="center" sortable></el-table-column>
-        <el-table-column
+        <template
           v-for="(t,i) in columns"
-          :key="i"
-          align="center"
-          :prop="t.name"
-          :label="t.text"
         >
-          <template slot-scope="scope">
-            <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
-            <el-input v-if="!t.sfkgg" v-model="scope.row[t.name]" clearable />
-            <span>{{scope.row[t.name]}}</span>
-          </template>
-        </el-table-column>
+          <el-table-column
+            :key="i"
+            align="center"
+            :prop="t.name"
+            v-if="t.name == 'gpName2'"
+            :label="t.text"
+          >
+            <template slot-scope="scope">
+              <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+              <el-select size="mini" filterable
+                         remote
+                         @change="checkProject($event,scope.row)"
+                         :remote-method="remoteMethod4"
+                         :loading="loading" style="width: 100%" v-if="!t.sfkgg" v-model="scope.row[t.name]"
+                         placeholder="请选择">
+                <el-option
+                  v-for="item in projectList"
+                  :key="item.fid"
+                  :label="item.fprojectname"
+                  :value="item.fprojectname">
+                </el-option>
+              </el-select>
+              <span>{{scope.row[t.name]}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            :key="i"
+            align="center"
+            :prop="t.name"
+            v-else
+            :label="t.text"
+          >
+            <template slot-scope="scope">
+              <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 frecamt fpayamt//-->
+             <!-- <el-input size="mini" v-if="!t.sfkgg" v-model="scope.row[t.name]" clearable/>-->
+              <span>{{scope.row[t.name]}}</span>
+            </template>
+          </el-table-column>
+        </template>
       </el-table>
     </el-row>
     </el-form>
@@ -131,7 +160,7 @@
 </template>
 
 <script>import {getTuserList, getDutyList, getOrganizationsList} from '@/api/basic/index'
-import {addTbonus} from '@/api/information/index'
+import {addTbonus, getTprojectList} from '@/api/information/index'
 
 export default {
   props: {
@@ -162,6 +191,7 @@ export default {
       dutyList: [],
       organizationsList: [],
       multipleSelection: [],
+      projectList: [],
       levelFormat1: [
         {name: '固定', value: '固定'},
         {name: '阶梯式', value: '阶梯式'}
@@ -190,12 +220,20 @@ export default {
     this.getUsersArray()
     this.getDutyArray()
     this.getOrganizationsArray()
+    this.getProjectArray()
     if (this.listInfo) {
       this.form = this.listInfo
       this.form.fresponsibleproject = JSON.parse(this.form.fresponsibleproject)
     }
   },
   methods: {
+    checkProject(val, row) {
+      this.projectList.forEach((item) => {
+        if (item.fprojectname == val) {
+          row.gpName1 = item.fprojectnumber
+        }
+      })
+    },
     remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
@@ -219,6 +257,24 @@ export default {
       } else {
         this.organizationsList = [];
       }
+    }, remoteMethod4(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getProjectArray({fprojectname: query});
+      } else {
+        this.projectList = [];
+      }
+    },
+    getProjectArray(val = {}, data = {
+      pageNum: 1,
+      pageSize: 10
+    }) {
+      getTprojectList(data, val).then(res => {
+        if (res.flag) {
+          this.loading = false;
+          this.projectList = res.data.records
+        }
+      });
     },
     myclass({ row, columnIndex }) {
       if (row[columnIndex] && !row[columnIndex].sfcb && row[columnIndex].sfcb != null ) {
@@ -326,14 +382,30 @@ export default {
   .tableBox {
     margin-bottom: 20px;
   }
+
   /* 通过显隐控制input框的状态 */
   .tableBox .el-input {
     display: none;
   }
+
   .tableBox .current-row .el-input {
     display: block;
   }
+
   .tableBox .current-row .el-input + span {
+    display: none;
+  }
+
+  /* 通过显隐控制input框的状态 */
+  .tableBox .el-select {
+    display: none;
+  }
+
+  .tableBox .current-row .el-select {
+    display: block;
+  }
+
+  .tableBox .current-row .el-select + span {
     display: none;
   }
 </style>

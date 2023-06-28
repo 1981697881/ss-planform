@@ -52,6 +52,25 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item :label="'团队负责人'">
+            <el-select
+              filterable
+              remote
+              :remote-method="remoteMethod"
+              :loading="loading"
+              style="width: 100%"
+              v-model="form.fteamleader"
+              placeholder="请选择">
+              <el-option
+                v-for="item in userList"
+                :key="item.fid"
+                :label="item.fname"
+                :value="item.fname">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
@@ -120,6 +139,7 @@ export default {
         fteambonuscoefficient: null,
         fteamstatus: '启用',
         fbelongannual: null,
+        fteamleader: null,
         fteammembers: [],
       },
       loading: false,
@@ -129,8 +149,8 @@ export default {
       userList: [],
       multipleSelection: [],
       rules: {
-        fvalue: [
-          {required: true, message: '请输入', trigger: 'blur'}
+        fteamleader: [
+          {required: true, message: '请选择', trigger: 'change'}
         ], fkey: [
           {required: true, message: '请输入', trigger: 'blur'}
         ], fname: [

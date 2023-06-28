@@ -40,7 +40,13 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'职位'">
-            <el-select style="width: 100%" v-model="form.fduty" placeholder="请选择">
+            <el-select size="mini"
+                      filterable
+                      remote
+                      :remote-method="remoteMethod"
+                      :loading="loading"
+                      style="width: 100%"
+                      v-model="form.fduty" placeholder="请选择">
               <el-option
                 v-for="(item,index) in dutiesArray"
                 :key="index"
@@ -54,7 +60,12 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'部门'">
-            <el-select style="width: 100%" v-model="form.fdept" placeholder="请选择">
+            <el-select size="mini"
+                       filterable
+                       remote
+                       :remote-method="remoteMethod2"
+                       :loading="loading"
+                       style="width: 100%" v-model="form.fdept" placeholder="请选择">
               <el-option
                 v-for="(item,index) in deptArray"
                 :key="index"
@@ -78,6 +89,17 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
+          <el-form-item :label="'入职日期'">
+            <el-date-picker
+              v-model="form.fjoindate"
+              type="date"
+              value-format="yyyy-MM-dd"
+              style="width: 100%"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="'转正日期'">
             <el-date-picker
               v-model="form.fregulardate"
@@ -88,6 +110,8 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'离职日期'">
             <el-date-picker
@@ -99,32 +123,20 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'基本工资'">
             <el-input-number style="width: 100%" v-model="form.fbasicsalary"></el-input-number>
           </el-form-item>
         </el-col>
+
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'Base Line倍数'">
             <el-input v-model="form.fmultiple"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'是否助理'">
-            <el-switch
-              style="width: 100%"
-              v-model="form.fisassistant"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              active-value="1"
-              inactive-value="0">
-            </el-switch>
-          </el-form-item>
-        </el-col>
+
         <el-col :span="12">
           <el-form-item :label="'所属顾问'">
             <el-input v-model="form.fbelongconsultant"></el-input>
@@ -137,7 +149,19 @@
             <el-input v-model="form.fenglishname"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="6">
+          <el-form-item :label="'是否助理'">
+            <el-switch
+              style="width: 100%"
+              v-model="form.fisassistant"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-value="1"
+              inactive-value="0">
+            </el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
           <el-form-item :label="'是否客服'">
             <el-switch
               style="width: 100%"
@@ -174,12 +198,13 @@ export default {
         fgender: null,
         fphone: null,
         fduty: null,
-        fdept: true,
+        fdept: null,
         fcutoffdate: null,
         fregulardate: null,
         fdeparturedate: null,
         fbasicsalary: null,
         fmultiple: null,
+        fjoindate: null,
         fisassistant: null,
         fiscustomer: null,
         fbelongconsultant: null,
@@ -198,6 +223,7 @@ export default {
         {text: '描述', name: 'describes'}
       ],
       disPl: true,
+      loading: false,
       visible: null,
       username: '',
       deptArray: [],
@@ -227,21 +253,39 @@ export default {
     }
   },
   methods: {
-    getDutiesList() {
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getDutiesList({fdutyname: query});
+      } else {
+        this.dutiesArray = [];
+      }
+    },
+    remoteMethod2(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getDeptList({fdeptname: query});
+      } else {
+        this.deptArray = [];
+      }
+    },
+    getDutiesList(val={}) {
       const data = {
         pageNum: 1,
-        pageSize: 1000
+        pageSize: 10
       }
-      getDutyList(data, {}).then(res => {
+      getDutyList(data, val).then(res => {
+        this.loading = false
         this.dutiesArray = res.data.records
       })
     },
-    getDeptList() {
+    getDeptList(val={}) {
       const data = {
         pageNum: 1,
-        pageSize: 1000
+        pageSize: 10
       }
-      getOrganizationsList(data, {}).then(res => {
+      getOrganizationsList(data, val).then(res => {
+        this.loading = false
         this.deptArray = res.data.records
       })
     },

@@ -39,7 +39,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="'Consultant Name'">
-                <el-input v-model="form.fkey"></el-input>
+                <el-input v-model="form.fenglishname"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -47,7 +47,7 @@
             <el-col :span="8">
               <el-form-item :label="'入职日期'">
                 <el-date-picker
-                  v-model="form.eur"
+                  v-model="form.fjoindate"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 100%"
@@ -58,7 +58,7 @@
             <el-col :span="8">
               <el-form-item :label="'蜜月过渡期截止日期'">
                 <el-date-picker
-                  v-model="form.eur"
+                  v-model="form.fcutoffdate"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="width: 100%"
@@ -68,7 +68,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="'是否助理'">
-                <el-radio-group style="width: 100%" v-model="form.fispv">
+                <el-radio-group style="width: 100%" v-model="form.fisassistant">
                   <el-radio :label="1">是</el-radio>
                   <el-radio :label="0">否</el-radio>
                 </el-radio-group>
@@ -119,9 +119,9 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item :label="''">
-                <el-button @click="importData">导入</el-button>
+               <!-- <el-button @click="importData">导入</el-button>
                 <el-button @click="setRow">增加</el-button>
-                <el-button @click="delRow">删除</el-button>
+                <el-button @click="delRow">删除</el-button>-->
               </el-form-item>
             </el-col>
           </el-row>
@@ -139,7 +139,7 @@
               class="tableBox"
               :cell-style="myclass"
               :highlight-current-row="true">
-              <el-table-column align="center" type="selection"></el-table-column>
+              <el-table-column align="center" type="selection" width="50"></el-table-column>
               <template
                 v-for="(t,i) in columns2"
               >
@@ -148,7 +148,7 @@
                   align="center"
                   :prop="t.name"
                   :width="t.width?t.width:'120px'"
-                  v-if="t.name == 'finvoicingdate' || t.name == 'fpaymentreceiveddate'|| t.name == 'fentrydate'"
+                  v-if="t.name == 'finvoicingdate' || t.name == 'fpaymentreceiveddate'|| t.name == 'fentrydate'|| t.name == 'fsecuritydate'"
                   :label="t.text"
                 >
                   <template slot-scope="scope">
@@ -216,7 +216,7 @@
                   align="center"
                   :prop="t.name"
                   :width="t.width?t.width:'120px'"
-                  v-else-if="t.name == 'fcandidate' || t.name=='fperformanceadvisor'"
+                  v-else-if="t.name=='fperformanceadvisor'"
                   :label="t.text"
                 >
                   <template slot-scope="scope">
@@ -308,6 +308,7 @@
 <script>import {
   getSelectList,
   addExpenseDetails,
+  getTteamList,
   deleteExpenseDetails,
   addRecruitmentBonus,
   countRecruitmentBonus,
@@ -341,12 +342,14 @@ export default {
         femp: null,
         fannual: null,
         ftype: 2,
-        fkey: null,
-        fname: null,
-        fvalue: null,
+        fcutoffdate: null,
+        fisassistant: null,
+        fjoindate: null,
+        fenglishname: null,
         fdesc: null,
       },
       userList: [],
+      teamList: [],
       multipleSelection: [],
       form2: {},
       columns: [
@@ -515,6 +518,16 @@ export default {
           this.userList = res.data.records
         }
       });
+    },getTeamArray(val = {}, data = {
+      pageNum: 1,
+      pageSize: 10
+    }) {
+      getTteamList(data, val).then(res => {
+        if (res.flag) {
+          this.loading = false;
+          this.teamList = res.data.records
+        }
+      });
     },
     getSummaries(param) {
       const {columns, data} = param;
@@ -548,6 +561,15 @@ export default {
       /*}*/
     },
     changeUser(val) {
+      this.userList.forEach((item)=>{
+        if(item.fname == val){
+          console.log(item)
+          this.form.fcutoffdate = item.fcutoffdate
+          this.form.fisassistant = item.fisassistant
+          this.form.fjoindate = item.fjoindate
+          this.form.fenglishname = item.fenglishname
+        }
+      })
       /*if (this.listInfo) {*/
       this.fetchData2({ftype: 2,fposition: this.form.femp, fannual: this.form.fannual})
       this.fetchData({ftype: 2, femp: this.form.femp, fannual: this.form.fannual})

@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <list
       class="list-main box-shadow"
       :columns="columns"
@@ -35,6 +34,7 @@ export default {
       type: null,
       columns: [
         { text: '团队名称', name: 'fteamname' },
+        { text: '团队负责人', name: 'fteamleader' },
         { text: '所属年度', name: 'fbelongannual' },
         { text: '团队描述', name: 'fteamdescribe' },
         { text: '团队业绩目标', name: 'fteamkpi' },

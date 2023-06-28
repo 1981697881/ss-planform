@@ -4,7 +4,35 @@
       <el-row :gutter="10">
         <el-col :span="4">
           <el-form-item :label="''">
-            <el-input v-model="search.name" placeholder="名称"/>
+            <el-date-picker
+              size="mini"
+              style="width: 100%"
+              type="month"
+              value-format="yyyy-MM"
+              v-model="search.fannual"
+              placeholder="年月">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item :label="''">
+            <el-select
+              size="mini"
+              filterable
+              remote
+              :remote-method="remoteMethod"
+              :loading="loading"
+              v-model="search.fteamname"
+              style="width: 100%"
+              search.name
+              placeholder="团队">
+              <el-option
+                v-for="item in teamList"
+                :key="item.fid"
+                :label="item.fteamname"
+                :value="item.fteamname">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="2">
@@ -27,6 +55,7 @@
 import { mapGetters } from 'vuex'
 import { alterClerk } from '@/api/basic/index'
 import { getByUserAndPrId } from '@/api/system/index'
+import { getTteamList} from '@/api/information/index'
 export default {
   components: {},
   computed: {
@@ -35,12 +64,16 @@ export default {
   data() {
     return {
       btnList: [],
+      loading: false,
+      teamList: [],
       search: {
-        name: null
+        fannual: null,
+        fteamname: null,
       }
     };
   },
   mounted() {
+    this.getTeamArray();
     /*let path = this.$route.meta.id
     getByUserAndPrId(path).then(res => {
       this.btnList = res.data
@@ -48,6 +81,25 @@ export default {
     });*/
   },
   methods: {
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getTeamArray({fteamname: query});
+      } else {
+        this.teamList = [];
+      }
+    },
+    getTeamArray(val = {}, data = {
+      pageNum: 1,
+      pageSize: 10
+    }) {
+      getTteamList(data, val).then(res => {
+        if (res.flag) {
+          this.loading = false;
+          this.teamList = res.data.records
+        }
+      });
+    },
     onFun(method) {
       console.log(method)
       this[method]()

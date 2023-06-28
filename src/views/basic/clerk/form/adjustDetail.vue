@@ -2,38 +2,7 @@
   <div>
     <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
       <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'工号'" prop="jobNum">
-            <el-input v-model="form.jobNum"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'姓名'" prop="name">
-            <el-input v-model="form.name"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'性别'">
-            <el-select style="width: 100%" v-model="form.fparentname" placeholder="请选择">
-              <el-option
-                v-for="(item,index) in levelFormat"
-                :key="index"
-                :label="item.fdutyname"
-                :value="item.fid">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'联系电话'">
-            <el-input v-model="form.tel"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item :label="'调整时间'">
             <el-date-picker
               v-model="form.eur"
@@ -43,113 +12,86 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item :label="'职位'">
-            <el-select style="width: 100%" v-model="form.fparentname" placeholder="请选择">
+            <el-select size="mini"
+                       filterable
+                       remote
+                       :remote-method="remoteMethod"
+                       :loading="loading"
+                       style="width: 100%"
+                      v-model="form.fduty" placeholder="请选择">
               <el-option
-                v-for="(item,index) in levelFormat"
+                v-for="(item,index) in dutiesArray"
                 :key="index"
                 :label="item.fdutyname"
-                :value="item.fid">
+                :value="item.fdutyname">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item :label="'部门'">
-            <el-select style="width: 100%" v-model="form.fparentname" placeholder="请选择">
+            <el-select size="mini"
+                       filterable
+                       remote
+                       :remote-method="remoteMethod2"
+                       :loading="loading"
+                       style="width: 100%"
+                       v-model="form.fdept" placeholder="请选择">
               <el-option
-                v-for="(item,index) in levelFormat"
+                v-for="(item,index) in deptArray"
                 :key="index"
-                :label="item.fdutyname"
-                :value="item.fid">
+                :label="item.fdeptname"
+                :value="item.fdeptname">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'过渡截至日期'">
-            <el-date-picker
-              v-model="form.eur"
-              type="date"
-              value-format="yyyy-MM-dd"
-              style="width: 100%"
-              placeholder="选择日期">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'转正日期'">
-            <el-date-picker
-              v-model="form.eur"
-              type="date"
-              value-format="yyyy-MM-dd"
-              style="width: 100%"
-              placeholder="选择日期">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'离职日期'">
-            <el-date-picker
-              v-model="form.eur"
-              type="date"
-              value-format="yyyy-MM-dd"
-              style="width: 100%"
-              placeholder="选择日期">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item :label="'基本工资'">
-            <el-input-number style="width: 100%" v-model="form.address"></el-input-number>
+            <el-input-number style="width: 100%" :min="0" v-model="form.fbasicsalary"></el-input-number>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item :label="'Base Line倍数'">
-            <el-input v-model="form.tel"></el-input>
+            <el-input v-model="form.fmultiple"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item :label="'是否助理'">
             <el-switch
               style="width: 100%"
-              v-model="form.eur"
+              v-model="form.fisassistant"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              active-value="100"
+              active-value="1"
               inactive-value="0">
             </el-switch>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'所属顾问'">
-            <el-input v-model="form.tel"></el-input>
-          </el-form-item>
-        </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'英文名'">
-            <el-input v-model="form.tel"></el-input>
+        <el-col :span="8">
+          <el-form-item :label="'所属顾问'">
+            <el-input v-model="form.fbelongconsultant"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
+          <el-form-item :label="'英文名'">
+            <el-input v-model="form.fenglishname"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item :label="'是否客服'">
             <el-switch
               style="width: 100%"
-              v-model="form.eur"
+              v-model="form.fiscustomer"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              active-value="100"
+              active-value="1"
               inactive-value="0">
             </el-switch>
           </el-form-item>
@@ -162,7 +104,7 @@
   </div>
 </template>
 
-<script>import {addClerk, alterClerk, clerkInfo} from '@/api/basic/index'
+<script>import {addTuser,getDutyList,getOrganizationsList} from '@/api/basic/index'
 
 export default {
   props: {
@@ -174,17 +116,17 @@ export default {
   data() {
     return {
       form: {
-        eid: null,
-        jobNum: null,
-        address: null,
-        tel: null,
-        uid: null,
-        disable: true,
-        username: null,
-        remark: null,
-        name: null// 名称
+        fduty: null,
+        fdept: null,
+        fbasicsalary: null,
+        fmultiple: null,
+        fisassistant: null,
+        fbelongconsultant: true,
+        fenglishname: null,
+        fiscustomer: null,
       },
       list: [],
+      loading: false,
       columns: [
         {text: '会员名称', name: 'username'},
         {text: '微信号', name: 'wechatId'},
@@ -200,6 +142,8 @@ export default {
       visible: null,
       username: '',
       pidS: [],
+      deptArray: [],
+      dutiesArray: [],
       levelFormat: [{name: '管理员', value: '0'}, {name: '生产企业', value: '1'}, {name: '打码平台', value: '2'}, {
         name: '销售员',
         value: '3'
@@ -218,11 +162,50 @@ export default {
     }
   },
   mounted() {
+    console.log(this.listInfo)
+    this.getDutiesList();
+    this.getDeptList();
     if (this.listInfo) {
       this.form = this.listInfo
     }
   },
   methods: {
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getDutiesList({fdutyname: query});
+      } else {
+        this.dutiesArray = [];
+      }
+    },
+    remoteMethod2(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getDeptList({fdeptname: query});
+      } else {
+        this.deptArray = [];
+      }
+    },
+    getDutiesList() {
+      const data = {
+        pageNum: 1,
+        pageSize: 10
+      }
+      getDutyList(data, {}).then(res => {
+        this.loading = false
+        this.dutiesArray = res.data.records
+      })
+    },
+    getDeptList() {
+      const data = {
+        pageNum: 1,
+        pageSize: 10
+      }
+      getOrganizationsList(data, {}).then(res => {
+        this.loading = false
+        this.deptArray = res.data.records
+      })
+    },
     query() {
       this.visible = true
     },

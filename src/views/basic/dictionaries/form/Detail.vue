@@ -16,18 +16,19 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'编码'" prop="fnumber">
-            <el-input v-model="form.fnumber" ></el-input>
+            <el-input v-model="form.fnumber"></el-input>
           </el-form-item>
         </el-col>
-      </el-row><el-row :gutter="20">
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'名称'" prop="fname">
-            <el-input v-model="form.fname" ></el-input>
+            <el-input v-model="form.fname"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'描述'" prop="fdesc">
-            <el-input v-model="form.fdesc" ></el-input>
+            <el-input v-model="form.fdesc"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -37,8 +38,7 @@
     </div>
   </div>
 </template>
-<script>
-import { getDictTypeList ,addDict} from '@/api/basic/index'
+<script>import {getDictTypeList, addDict} from '@/api/basic/index'
 
 export default {
   props: {
@@ -64,13 +64,13 @@ export default {
       tyepArray: [],
       rules: {
         fname: [
-          { required: true, message: '请输入名稱', trigger: 'blur' }
+          {required: true, message: '请输入名稱', trigger: 'blur'}
         ],
         fnumber: [
-          { required: true, message: '请输入编码', trigger: 'blur' }
+          {required: true, message: '请输入编码', trigger: 'blur'}
         ],
         ftypeid: [
-          { required: true, message: '请选择', trigger: 'change' }
+          {required: true, message: '请选择', trigger: 'change'}
         ]
 
       },
@@ -80,15 +80,15 @@ export default {
 
   },
   mounted() {
-    if(this.listInfo){
+    if (this.listInfo) {
       this.form = this.listInfo
     }
     this.fetchData();
   },
   methods: {
-    fetchData(val={}, data = {
+    fetchData(val = {}, data = {
       pageNum: 1,
-      pageSize:  50
+      pageSize: 50
     }) {
       getDictTypeList(data, val).then(res => {
         this.tyepArray = res.data.records
@@ -96,13 +96,13 @@ export default {
     },
     saveData(form) {
       this.$refs[form].validate((valid) => {
-        //判断必填项
+        // 判断必填项
         if (valid) {
           let obj = this.form
-            addDict(obj).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            })
+          addDict(obj).then(res => {
+            this.$emit('hideDialog', false)
+            this.$emit('uploadList')
+          })
         } else {
           return false
         }
