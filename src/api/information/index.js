@@ -504,4 +504,15 @@ export function deleteExpenseDetails(params) {
     method: 'POST',
     data: params
   })
+}// 招聘奖金-更新
+export function updateRecruitmentBonus(params) {
+  return request({
+    url: '/recruitmentBonus/update',
+    headers: {
+      'authorization': getToken('ssrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
 }

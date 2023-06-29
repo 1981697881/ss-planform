@@ -128,7 +128,6 @@
             <el-input-number style="width: 100%" v-model="form.fbasicsalary"></el-input-number>
           </el-form-item>
         </el-col>
-
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
@@ -136,7 +135,6 @@
             <el-input v-model="form.fmultiple"></el-input>
           </el-form-item>
         </el-col>
-
         <el-col :span="12">
           <el-form-item :label="'所属顾问'">
             <el-input v-model="form.fbelongconsultant"></el-input>

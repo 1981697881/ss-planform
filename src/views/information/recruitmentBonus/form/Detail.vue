@@ -97,12 +97,10 @@
           <el-row :gutter="20">
             <el-table
               :data="list"
-              class="tableBox"
               border
               height="550px"
               stripe
               size="mini"
-              :cell-style="myclass"
               :highlight-current-row="true">
               <el-table-column
                 v-for="(t,i) in columns"
@@ -112,17 +110,16 @@
                 :label="t.text"
               >
                 <template slot-scope="scope">
-                  <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
-                  <el-input size="mini" v-if="!t.sfkgg" v-model="scope.row[t.name]" clearable/>
-                  <span>{{scope.row[t.name]}}</span>
+                  <el-input size="mini" v-if="scope.$index == 4 && i>0 && i!=7" v-model="scope.row[t.name]" clearable/>
+                  <span v-else>{{scope.row[t.name]}}</span>
                 </template>
               </el-table-column>
             </el-table>
           </el-row>
         </el-form>
-        <!--<div style="text-align:center;">
+        <div style="text-align:center;">
           <el-button type="primary" @click="saveData('form')">保存</el-button>
-        </div>-->
+        </div>
       </el-tab-pane>
       <el-tab-pane label="费用明细" name="second">
         <el-form :model="form2" :rules="rules" ref="form2" :size="'mini'">
@@ -346,7 +343,8 @@
   deleteExpenseDetails,
   getRecruitmentBonusList,
   addRecruitmentBonus,
-  countRecruitmentBonus
+  countRecruitmentBonus,
+  updateRecruitmentBonus
 } from '@/api/information/index'
 import {getTuserList, getTTeamList} from '@/api/basic/index'
 import {
@@ -554,6 +552,7 @@ export default {
         {text: '备注', name: 'remark'}
       ],
       list2: [],
+      countData: [],
       multipleSelection: [],
       postform: {
         name: null,
@@ -761,6 +760,7 @@ export default {
           params.foutmonthcost = 0
           countRecruitmentBonus(params).then(res => {
             if (res.flag) {
+              this.countData = res.data.records
               let resData = res.data.tQuarterList
               for (var item in resData) {
                 if (resData[item].fitem == '0') {
@@ -787,6 +787,11 @@ export default {
                   this.list[3].qThree = resData[item]['q3']
                   this.list[3].qFour = resData[item]['q4']
                   this.list[3]['total'] = res.data.fcollectiongp
+                } else if (resData[item].fitem == '6') {
+                  this.list[4].qOne = resData[item]['q1']
+                  this.list[4].qTwo = resData[item]['q2']
+                  this.list[4].qThree = resData[item]['q3']
+                  this.list[4].qFour = resData[item]['q4']
                 }
               }
               this.list[4]['total'] = res.data.faccumulatebl
@@ -823,6 +828,7 @@ export default {
       getRecruitmentBonusList(data, val).then(res => {
         this.loading = false
         if(res.flag){
+          this.countData = res.data.records[0]
           let resData = res.data.records[0].tQuarterList
           for (var item in resData) {
             if (resData[item].fitem == '0') {
@@ -849,6 +855,11 @@ export default {
               this.list[3].qThree = resData[item]['q3']
               this.list[3].qFour = resData[item]['q4']
               this.list[3]['total'] = res.data.records[0].fcollectiongp
+            } else if (resData[item].fitem == '6') {
+              this.list[4].qOne = resData[item]['q1']
+              this.list[4].qTwo = resData[item]['q2']
+              this.list[4].qThree = resData[item]['q3']
+              this.list[4].qFour = resData[item]['q4']
             }
           }
           this.list[4]['total'] = res.data.records[0].faccumulatebl
@@ -882,7 +893,16 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          addRecruitmentBonus(this.form).then(res => {
+          let params = {}
+          params.fid = this.countData.fid
+          params.faccumulatebl = this.list[4].total
+          let paramsObj = {...this.countData.tQuarterList[4]}
+          paramsObj.q1 = this.list[4].qOne
+          paramsObj.q2 = this.list[4].qTwo
+          paramsObj.q3 = this.list[4].qThree
+          paramsObj.q4 = this.list[4].qFour
+          params.tQuarterList = [paramsObj]
+          updateRecruitmentBonus(params).then(res => {
             this.$emit('hideDialog', false)
             this.$emit('uploadList')
           })
