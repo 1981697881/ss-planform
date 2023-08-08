@@ -427,7 +427,6 @@
                   :key="i"
                   align="center"
                   :prop="t.name"
-                  :width="t.width?t.width:'120px'"
                   v-if="t.name == 'fcountdate' || t.name == 'fentrydate' || t.name == 'fguaranteedate'"
                   :label="t.text"
                 >
@@ -448,7 +447,6 @@
                   :key="i"
                   align="center"
                   :prop="t.name"
-                  :width="t.width?t.width:'120px'"
                   v-else-if="t.name == 'fannual'"
                   :label="t.text"
                 >
@@ -466,7 +464,7 @@
                     <span>{{scope.row[t.name]}}</span>
                   </template>
                 </el-table-column>
-                <!--<el-table-column
+                <el-table-column
                   :key="i"
                   align="center"
                   :prop="t.name"
@@ -475,12 +473,17 @@
                   :label="t.text"
                 >
                   <template slot-scope="scope">
-                    &lt;!&ndash;// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //&ndash;&gt;
-                    <el-select size="mini" filterable
-                               remote
-                               :remote-method="remoteMethod"
-                               :loading="loading" style="width: 100%" v-if="!t.sfkgg" v-model="scope.row[t.name]"
-                               placeholder="请选择">
+                    <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+                    <el-select
+                      size="mini"
+                      filterable
+                      remote
+                      :remote-method="remoteMethod"
+                      :loading="loading"
+                      style="width: 100%"
+                      v-if="!t.sfkgg"
+                      v-model="scope.row[t.name]"
+                      placeholder="请选择">
                       <el-option
                         v-for="item in userList"
                         :key="item.fid"
@@ -490,12 +493,11 @@
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
                   </template>
-                </el-table-column>-->
+                </el-table-column>
                 <el-table-column
                   :key="i"
                   align="center"
                   :prop="t.name"
-                  :width="t.width?t.width:'120px'"
                   v-else-if="t.name == 'fbelongproject'"
                   :label="t.text"
                 >
@@ -521,7 +523,6 @@
                   align="center"
                   :prop="t.name"
                   v-else
-                  :width="t.width?t.width:'120px'"
                   :label="t.text"
                 >
                   <template slot-scope="scope">
@@ -547,7 +548,7 @@
       <el-form ref="postform" :model="postform" :size="'mini'" :rules="rules">
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item :label="'上传文件'" >
+            <el-form-item :label="'上传文件'">
               <div style="min-height: 28px">
                 <el-upload
                   class="upload-demo"
@@ -600,10 +601,11 @@
   getTprojectOutsourcingBonusList,
   getTprojectList
 } from '@/api/information/index'
-import { getTuserList, getTTeamList } from '@/api/basic/index'
+import {getTuserList, getTTeamList} from '@/api/basic/index'
 import {
   getToken
 } from '@/utils/auth'
+
 export default {
   props: {
     listInfo: {
@@ -651,7 +653,7 @@ export default {
         {text: '填写说明', name: 'remark', sfkgg: true},
       ],
       list: [{
-        title: '本年项目GP',calculation: '',
+        title: '本年项目GP', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -659,7 +661,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '上年年项目GP',calculation: '',
+        title: '上年年项目GP', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -667,7 +669,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '本年度目标',calculation: '',
+        title: '本年度目标', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -675,7 +677,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '风险金7%',calculation: '',
+        title: '风险金7%', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -683,7 +685,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '项目管理奖金3%',calculation: '',
+        title: '项目管理奖金3%', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -691,7 +693,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '增量项目管理奖金5%',calculation: '',
+        title: '增量项目管理奖金5%', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -699,7 +701,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '达标奖金',calculation: '',
+        title: '达标奖金', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -707,7 +709,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '卓越奖金',calculation: '',
+        title: '卓越奖金', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -715,7 +717,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '已发放费用',calculation: '',
+        title: '已发放费用', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -723,7 +725,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '本月应发费用',calculation: '',
+        title: '本月应发费用', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -731,7 +733,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '累计未发外包项目费用',calculation: '',
+        title: '累计未发外包项目费用', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -739,7 +741,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '季度奖金1%',calculation: '',
+        title: '季度奖金1%', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -747,7 +749,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '年度奖金1%',calculation: '',
+        title: '年度奖金1%', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -755,7 +757,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '团队盈利达标1%',calculation: '',
+        title: '团队盈利达标1%', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -763,7 +765,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '本月应发客服费用',calculation: '',
+        title: '本月应发客服费用', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -771,7 +773,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '外包招聘费用',calculation: '',
+        title: '外包招聘费用', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -779,7 +781,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '管理津贴',calculation: '',
+        title: '管理津贴', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -787,7 +789,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '已发放费用',calculation: '',
+        title: '已发放费用', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -795,7 +797,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '本月应发费用',calculation: '',
+        title: '本月应发费用', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -803,7 +805,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '累计未发外包招聘佣金',calculation: '',
+        title: '累计未发外包招聘佣金', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -811,7 +813,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '汇总合计',calculation: '',
+        title: '汇总合计', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -819,7 +821,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '汇总应发',calculation: '',
+        title: '汇总应发', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -827,7 +829,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '汇总已发',calculation: '',
+        title: '汇总已发', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -835,7 +837,7 @@ export default {
         total: '',
         remark: ''
       }, {
-        title: '汇总未发',calculation: '',
+        title: '汇总未发', calculation: '',
         qOne: '',
         qTwo: '',
         qThree: '',
@@ -860,8 +862,8 @@ export default {
         {text: '客服人员', name: 'fcustomerservice'},
         {text: '项目', name: 'fproject'},
         {text: '本年GP', name: 'fannualgp'},
-       /* {text: '客服人数', name: 'fcustomerservicecount'},
-        {text: '客服单价', name: 'fcustomerserviceunivalence'},*/
+        /* {text: '客服人数', name: 'fcustomerservicecount'},
+         {text: '客服单价', name: 'fcustomerserviceunivalence'},*/
         {text: '备注', name: 'remark'}
       ],
       list4: [],
@@ -901,9 +903,9 @@ export default {
     this.getProjectArray()
     if (this.listInfo) {
       this.form = this.listInfo
-     /* this.fetchData()
-      this.fetchData2()
-      this.fetchData3()*/
+      /* this.fetchData()
+       this.fetchData2()
+       this.fetchData3()*/
     }
   },
   methods: {
@@ -968,7 +970,7 @@ export default {
       } else {
         this.userList = [];
       }
-    },remoteMethod2(query) {
+    }, remoteMethod2(query) {
       if (query !== '') {
         this.loading = true;
         this.getProjectArray({fprojectname: query});
@@ -986,7 +988,7 @@ export default {
           this.userList = res.data.records
         }
       });
-    },getProjectArray(val = {}, data = {
+    }, getProjectArray(val = {}, data = {
       pageNum: 1,
       pageSize: 10
     }) {
@@ -997,7 +999,7 @@ export default {
         }
       });
     },
-    changeFannual(val){
+    changeFannual(val) {
       /*if (this.listInfo) {*/
       this.fetchData({fannual: val})
       this.fetchData2({fannual: val})
@@ -1006,8 +1008,8 @@ export default {
     },
     changeUser(val) {
       /*if (this.listInfo) {*/
-      this.userList.forEach((item)=>{
-        if(item.fname == val){
+      this.userList.forEach((item) => {
+        if (item.fname == val) {
           console.log(item)
           this.form.fcutoffdate = item.fcutoffdate
           this.form.fiscustomer = item.fiscustomer
@@ -1015,23 +1017,22 @@ export default {
           this.form.fenglishname = item.fenglishname
         }
       })
-      this.fetchData4({ftype: 3,fposition: this.form.femp, fannual: this.form.fannual})
-      this.fetchData({ftype: 3,femp: this.form.femp, fannual: this.form.fannual})
-      this.fetchData({ftype: 3,femp: this.form.femp, fannual: this.form.fannual})
-      this.fetchData2({ftype: 3,femp: this.form.femp, fannual: this.form.fannual})
-      this.fetchData3({ftype: 3,femp: this.form.femp, fannual: this.form.fannual})
+      this.fetchData4({ftype: 3, fposition: this.form.femp, fannual: this.form.fannual})
+      this.fetchData({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+      this.fetchData2({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+      this.fetchData3({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
       /*}*/
     },
     importData1() {
-      this.uploadType='0'
+      this.uploadType = '0'
       this.visible = true
     },
     importData2() {
-      this.uploadType='1'
+      this.uploadType = '1'
       this.visible = true
     },
     importData3() {
-      this.uploadType='2'
+      this.uploadType = '2'
       this.visible = true
     },
     getSummaries(param) {
@@ -1065,7 +1066,7 @@ export default {
       pageSize: 1000
     }) {
       this.loading = true
-      getToutsourcingCustomerServiceList(data, val).then(res => {
+      getToutsourceProjectList(data, val).then(res => {
         this.loading = false
         this.list2 = res.data.records
       })
@@ -1074,7 +1075,7 @@ export default {
       pageSize: 1000
     }) {
       this.loading = true
-      getToutsourceProjectList(data, val).then(res => {
+      getToutsourcingCustomerServiceList(data, val).then(res => {
         this.loading = false
         this.list3 = res.data.records
       })
@@ -1095,7 +1096,7 @@ export default {
       this.loading = true
       getTprojectOutsourcingBonusList(data, val).then(res => {
         this.loading = false
-        if(res.flag){
+        if (res.flag) {
           let resData = res.data.records[0].tQuarterList
           for (var item in resData) {
             if (resData[item].fitem == '4') {
@@ -1153,7 +1154,7 @@ export default {
         sfkgg: true,
         sfcb: null,
       }
-      if(this.list2 == null){
+      if (this.list2 == null) {
         this.list2 = []
       }
       this.list2.push(itemObj)
@@ -1170,7 +1171,7 @@ export default {
         sfkgg: true,
         sfcb: null,
       }
-      if(this.list3 == null){
+      if (this.list3 == null) {
         this.list3 = []
       }
       this.list3.push(itemObj)
@@ -1191,7 +1192,7 @@ export default {
         sfkgg: true,
         sfcb: null,
       }
-      if(this.list4 == null){
+      if (this.list4 == null) {
         this.list4 = []
       }
       this.list4.push(itemObj)
@@ -1215,11 +1216,14 @@ export default {
             this.list2.splice(this.list2.indexOf(item), 1)
           }
         })
-        deleteToutsourcingCustomerService(array).then(res => {
-          if (res.flag) {
-            this.fetchData()
-          }
-        })
+        if (array.length > 0) {
+          deleteToutsourceProject(array).then(res => {
+            if (res.flag) {
+              this.fetchData({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+              this.fetchData4({ftype: 3, fposition: this.form.femp, fannual: this.form.fannual})
+            }
+          })
+        }
       } else {
         this.$message({
           message: "请选择删除项",
@@ -1236,11 +1240,14 @@ export default {
             this.list3.splice(this.list3.indexOf(item), 1)
           }
         })
-        deleteToutsourceProject(array).then(res => {
-          if (res.flag) {
-            this.fetchData()
-          }
-        })
+        if (array.length > 0) {
+          deleteToutsourcingCustomerService(array).then(res => {
+            if (res.flag) {
+              this.fetchData2({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+              this.fetchData4({ftype: 3, fposition: this.form.femp, fannual: this.form.fannual})
+            }
+          })
+        }
       } else {
         this.$message({
           message: "请选择删除项",
@@ -1257,11 +1264,14 @@ export default {
             this.list4.splice(this.list4.indexOf(item), 1)
           }
         })
-        deleteToutsourcingRecruitmentFee(array).then(res => {
-          if (res.flag) {
-            this.fetchData()
-          }
-        })
+        if (array.length > 0) {
+          deleteToutsourcingRecruitmentFee(array).then(res => {
+            if (res.flag) {
+              this.fetchData3({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+              this.fetchData4({ftype: 3, fposition: this.form.femp, fannual: this.form.fannual})
+            }
+          })
+        }
       } else {
         this.$message({
           message: "请选择删除项",
@@ -1269,14 +1279,13 @@ export default {
         });
       }
     },
-
-
     saveRow1() {
       if (this.list2.length > 0) {
         addToutsourceProject(this.list2).then(res => {
           if (res.flag) {
             this.$emit('uploadList')
-            this.$confirm('是否关闭窗口', '提示', {
+            this.fetchData({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+            this.$confirm('保存成功，是否关闭窗口', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
@@ -1302,7 +1311,9 @@ export default {
         addToutsourcingCustomerService(this.list3).then(res => {
           if (res.flag) {
             this.$emit('uploadList')
-            this.$confirm('是否关闭窗口', '提示', {
+            this.fetchData2({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+
+            this.$confirm('保存成功，是否关闭窗口', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
@@ -1328,7 +1339,8 @@ export default {
         addToutsourcingRecruitmentFee(this.list4).then(res => {
           if (res.flag) {
             this.$emit('uploadList')
-            this.$confirm('是否关闭窗口', '提示', {
+            this.fetchData3({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+            this.$confirm('保存成功，是否关闭窗口', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
@@ -1356,7 +1368,7 @@ export default {
           addTprojectOutsourcingBonus(this.form).then(res => {
             if (res.flag) {
               this.$emit('uploadList')
-              this.$confirm('是否关闭窗口', '提示', {
+              this.$confirm('保存成功，是否关闭窗口', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
@@ -1374,13 +1386,14 @@ export default {
           return false
         }
       })
-    },handleUpload(file, fileList) {
-      if (file.status=='ready') {
+    },
+    handleUpload(file, fileList) {
+      if (file.status == 'ready') {
         this.isUpload = true
       }
     },
     submitUpload(form) {
-      if(this.isUpload){
+      if (this.isUpload) {
         this.fullscreenLoading = true
         this.$refs.upload.submit()
       } else {
@@ -1398,19 +1411,19 @@ export default {
       this.fullscreenLoading = false
     },
     handleAvatarSuccess(res, file) {
-      if(res.flag) {
+      if (res.flag) {
         this.$message({
           message: '上传成功',
           type: 'success'
         });
-        if(this.uploadType=='0'){
+        if (this.uploadType == '0') {
           this.fetchData()
-        }else if(this.uploadType=='1'){
+        } else if (this.uploadType == '1') {
           this.fetchData2()
-        }else{
+        } else {
           this.fetchData3()
         }
-       /* this.list = res.data*/
+        /* this.list = res.data*/
         this.fullscreenLoading = false
         /* this.$emit('hideDialog', false)
          this.$emit('uploadList')*/
@@ -1431,7 +1444,7 @@ export default {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
     },
     beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${ file.name }？`);
+      return this.$confirm(`确定移除 ${file.name}？`);
     }
   }
 }

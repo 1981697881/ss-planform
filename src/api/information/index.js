@@ -346,7 +346,7 @@ export function addToutsourcingCustomerService(params) {
 // 项目外包奖金（外包客服明细模块）-删除
 export function deleteToutsourcingCustomerService(params) {
   return request({
-    url: '/toutsourcingCustomerService/delete',
+    url: '/toutsourcingCustomerService/deleteMany',
     headers: {
       'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
@@ -383,7 +383,7 @@ export function addToutsourcingRecruitmentFee(params) {
 // 项目外包奖金（外包招聘费用明细模块）-删除
 export function deleteToutsourcingRecruitmentFee(params) {
   return request({
-    url: '/toutsourcingRecruitmentFee/delete',
+    url: '/toutsourcingRecruitmentFee/deleteMany',
     headers: {
       'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
@@ -408,7 +408,7 @@ export function getToutsourceProjectList(params, query) {
 // 项目外包奖金（外包项目费用明细模块）-新增
 export function addToutsourceProject(params) {
   return request({
-    url: '/toutsourceProject/add',
+    url: '/toutsourceProject/batchInsert',
     headers: {
       'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
@@ -420,7 +420,7 @@ export function addToutsourceProject(params) {
 // 项目外包奖金（外包项目费用明细模块）-删除
 export function deleteToutsourceProject(params) {
   return request({
-    url: '/toutsourceProject/delete',
+    url: '/toutsourceProject/deleteMany',
     headers: {
       'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'

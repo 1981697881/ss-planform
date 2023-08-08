@@ -894,9 +894,16 @@ export default {
         // 判断必填项
         if (valid) {
           let params = {}
+          console.log(this.list[4])
+          console.log(this.countData.tQuarterList)
           params.fid = this.countData.fid
           params.faccumulatebl = this.list[4].total
-          let paramsObj = {...this.countData.tQuarterList[4]}
+          let paramsObj;
+          this.countData.tQuarterList.forEach((item)=>{
+            if(item.fitem == '6'){
+              paramsObj = {...item}
+            }
+          })
           paramsObj.q1 = this.list[4].qOne
           paramsObj.q2 = this.list[4].qTwo
           paramsObj.q3 = this.list[4].qThree
