@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form  :size="'mini'">
+    <el-form :model="form" ref="form" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="''">
@@ -99,8 +99,8 @@
                   <el-option
                     v-for="(item, index) in userList"
                     :key="index"
-                    :label="item.fname"
-                    :value="item.fname">
+                    :label="item.fenglishname"
+                    :value="item.fenglishname">
                   </el-option>
                 </el-select>
                 <span>{{scope.row[t.name]}}</span>
@@ -146,6 +146,7 @@ export default {
   data() {
     return {
       list: [],
+      form: {},
       userList: [],
       multipleSelection: [],
       loading: false,
@@ -162,14 +163,14 @@ export default {
     this.getUsersArray()
     if (this.listInfo) {
       this.form = this.listInfo
-      this.fetchData({ fannual: this.form.fannual, fpayer: this.form.fpayer, fmonth: this.form.fmonth, fbonustype: 0 })
+      this.fetchData({ fannual: this.form.fannual, femp: this.form.fposition, fmonth: this.form.fmonth, fbonustype: 0 })
     }
   },
   methods: {
     remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
-        this.getUsersArray({fname: query});
+        this.getUsersArray({ fname: query })
       } else {
         this.userList = [];
       }
@@ -257,7 +258,7 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          addPaymentList(this.form).then(res => {
+          addPaymentList(this.list).then(res => {
             this.$emit('hideDialog', false)
             this.$emit('uploadList')
           })

@@ -15,8 +15,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'上级部门ID'">
-            <el-select @change="changeDept" v-model="form.fparentname" placeholder="请选择">
+          <el-form-item :label="'上级部门'">
+            <el-select style="width: 100%" @change="changeDept" v-model="form.fparentname" placeholder="请选择">
               <el-option
                 v-for="(item,index) in options"
                 :key="index"
@@ -26,22 +26,20 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <!--<el-col :span="12">
           <el-form-item :label="'上级部门名称'">
             <el-input v-model="form.fpname"></el-input>
           </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
+        </el-col>-->
         <el-col :span="12">
           <el-form-item :label="'部门负责人'" prop="fheader">
             <el-select
               size="mini"
-            filterable
-            remote
-            :remote-method="remoteMethod"
-            :loading="loading"
-            style="width: 100%" v-model="form.fheader" placeholder="请选择">
+              filterable
+              remote
+              :remote-method="remoteMethod"
+              :loading="loading"
+              style="width: 100%" v-model="form.fheader" placeholder="请选择">
               <el-option
                 v-for="(item,index) in usersList"
                 :key="index"
@@ -52,6 +50,9 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <!--<el-row :gutter="20">
+
+      </el-row>-->
     </el-form>
     <div slot="footer" style="text-align:center">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
@@ -102,7 +103,7 @@ export default {
     remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
-        this.fetchUserData({fname: query});
+        this.fetchUserData({fenglishname: query});
       } else {
         this.usersList = [];
       }

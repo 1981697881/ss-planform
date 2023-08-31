@@ -68,8 +68,8 @@ export default {
     ...mapGetters(['node', 'clickData', 'selections'])
   },
   mounted() {
-    /*this.fileUrl = `${window.location.origin}/baoli/inputData/inputProductMessage`*/
-    /*this.fileUrl = `${window.location.origin}/baoli/inputData/input`
+    /*this.fileUrl = `/baoli/inputData/inputProductMessage`*/
+    /*this.fileUrl = `/baoli/inputData/input`
     let path = this.$route.meta.id
     getByUserAndPrId(path).then(res => {
       this.btnList = res.data

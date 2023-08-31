@@ -22,8 +22,8 @@
               <el-option
                 v-for="(item,index) in userList"
                 :key="index"
-                :label="item.fname"
-                :value="item.fname">
+                :label="item.fenglishname"
+                :value="item.fenglishname">
               </el-option>
             </el-select>
           </el-form-item>

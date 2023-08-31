@@ -4,7 +4,21 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'合同编号'" prop="fcontractnumber">
-            <el-input v-model="form.fcontractnumber"></el-input>
+            <el-select
+              size="mini"
+              filterable
+              remote
+              :remote-method="remoteMethod"
+              :loading="loading"
+              @change="changeCons"
+              style="width: 100%" v-model="form.fcontractnumber" placeholder="请选择">
+              <el-option
+                v-for="(item,index) in contractList"
+                :key="index"
+                :label="item.fcontractnumber"
+                :value="item.fcontractnumber">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -46,6 +60,7 @@
               remote
               :remote-method="remoteMethod"
               :loading="loading"
+
               style="width: 100%" v-model="form.fbdclerk" placeholder="请选择">
               <el-option
                 v-for="(item,index) in usersList"
@@ -88,11 +103,11 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-       <!-- <el-col :span="12">
-          <el-form-item :label="'提成比例'">
-            <el-input v-model="form.fcommissionratio"></el-input>
-          </el-form-item>
-        </el-col>-->
+        <!-- <el-col :span="12">
+           <el-form-item :label="'提成比例'">
+             <el-input v-model="form.fcommissionratio"></el-input>
+           </el-form-item>
+         </el-col>-->
         <el-col :span="24">
           <el-form-item :label="'备注'">
             <el-input v-model="form.remark"></el-input>
@@ -106,7 +121,7 @@
   </div>
 </template>
 
-<script>import {addTbonusManagement,getTuserList} from '@/api/basic/index'
+<script>import {addTbonusManagement, getTuserList, getTcontractList} from '@/api/basic/index'
 
 export default {
   props: {
@@ -131,6 +146,7 @@ export default {
       },
       loading: false,
       usersList: [],
+      contractList: [],
       rules: {
         fcontractnumber: [
           {required: true, message: '请输入', trigger: 'blur'}
@@ -144,26 +160,49 @@ export default {
   },
   mounted() {
     this.fetchUserData()
+    this.fetchContractData()
     if (this.listInfo) {
       this.form = this.listInfo
     }
   },
   methods: {
+    changeCons(val){
+      this.contractList.forEach((item)=>{
+        if(item.fcontractnumber == val){
+          this.form.fcompanyname = item.fcompanyname
+        }
+      })
+    },
     remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
-        this.fetchUserData({fname: query});
+        this.fetchUserData({fenglishname: query});
       } else {
         this.usersList = [];
       }
+    }, remoteMethod2(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.fetchContractData({fcontractnumber: query});
+      } else {
+        this.contractList = [];
+      }
     },
-    fetchUserData(val={}, data = {
+    fetchUserData(val = {}, data = {
       pageNum: 1,
-      pageSize:  10
+      pageSize: 10
     }) {
       getTuserList(data, val).then(res => {
         this.loading = false
         this.usersList = res.data.records
+      });
+    }, fetchContractData(val = {}, data = {
+      pageNum: 1,
+      pageSize: 10
+    }) {
+      getTcontractList(data, val).then(res => {
+        this.loading = false
+        this.contractList = res.data.records
       });
     },
     saveData(form) {

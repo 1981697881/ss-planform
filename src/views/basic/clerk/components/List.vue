@@ -60,6 +60,7 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
+      console.log(val)
       deleteTuser(val).then(res => {
         if (res.flag) {
           this.$store.dispatch('list/setClickData', '')

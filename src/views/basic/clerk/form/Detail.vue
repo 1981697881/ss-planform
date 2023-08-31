@@ -35,7 +35,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'邮箱'">
-            <el-input v-model="form.address"></el-input>
+            <el-input v-model="form.femail"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -143,7 +143,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'英文名'">
+          <el-form-item :label="'英文名'" prop="fenglishname">
             <el-input v-model="form.fenglishname"></el-input>
           </el-form-item>
         </el-col>
@@ -195,6 +195,7 @@ export default {
         fname: null,
         fgender: null,
         fphone: null,
+        femail: null,
         fduty: null,
         fdept: null,
         fcutoffdate: null,
@@ -233,6 +234,8 @@ export default {
       rules: {
         fnumber: [
           {required: true, message: '请输入', trigger: 'blur'}
+        ],fenglishname: [
+          {required: true, message: '请输入', trigger: 'blur'}
         ],
         storeId: [
           {required: true, message: '请选择', trigger: 'change'}
@@ -253,18 +256,18 @@ export default {
   methods: {
     remoteMethod(query) {
       if (query !== '') {
-        this.loading = true;
-        this.getDutiesList({fdutyname: query});
+        this.loading = true
+        this.getDutiesList({fdutyname: query})
       } else {
         this.dutiesArray = [];
       }
     },
     remoteMethod2(query) {
       if (query !== '') {
-        this.loading = true;
-        this.getDeptList({fdeptname: query});
+        this.loading = true
+        this.getDeptList({fdeptname: query})
       } else {
-        this.deptArray = [];
+        this.deptArray = []
       }
     },
     getDutiesList(val={}) {
@@ -308,7 +311,7 @@ export default {
       this.visible = false
       this.form.wechatName = obj.username
       this.form.uid = obj.uid
-    },
+    }
   }
 }
 </script>

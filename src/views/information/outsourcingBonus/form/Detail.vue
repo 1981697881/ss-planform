@@ -116,7 +116,7 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item :label="''">
-                <el-button @click="importData1">导入</el-button>
+                <!--<el-button @click="importData1">导入</el-button>-->
                 <el-button @click="setRow1">增加</el-button>
                 <el-button @click="delRow1">删除</el-button>
                 <el-button @click="saveRow1">保存</el-button>
@@ -189,11 +189,23 @@
                   :key="i"
                   align="center"
                   :prop="t.name"
+                  :width="t.width?t.width:'120px'"
                   v-else-if="t.name == 'fheader'"
                   :label="t.text"
                 >
                   <template slot-scope="scope">
-                    <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+                    <span>{{scope.row[t.name]}}</span>
+                  </template>
+                </el-table-column>
+                <!--<el-table-column
+                  :key="i"
+                  align="center"
+                  :prop="t.name"
+                  v-else-if="t.name == 'fheader'"
+                  :label="t.text"
+                >
+                  <template slot-scope="scope">
+                    &lt;!&ndash;// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //&ndash;&gt;
                     <el-select size="mini" filterable
                                remote
                                :remote-method="remoteMethod"
@@ -208,7 +220,7 @@
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
                   </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                   :key="i"
                   align="center"
@@ -257,7 +269,7 @@
             <el-col :span="12">
               <el-form-item :label="''">
                 <el-button @click="setRow2">增加</el-button>
-                <el-button @click="importData2">导入</el-button>
+                <!--<el-button @click="importData2">导入</el-button>-->
                 <el-button @click="delRow2">删除</el-button>
                 <el-button @click="saveRow2">保存</el-button>
               </el-form-item>
@@ -329,11 +341,23 @@
                   :key="i"
                   align="center"
                   :prop="t.name"
+                  :width="t.width?t.width:'120px'"
                   v-else-if="t.name == 'fcustomerservice'"
                   :label="t.text"
                 >
                   <template slot-scope="scope">
-                    <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+                    <span>{{scope.row[t.name]}}</span>
+                  </template>
+                </el-table-column>
+                <!--<el-table-column
+                  :key="i"
+                  align="center"
+                  :prop="t.name"
+                  v-else-if="t.name == 'fcustomerservice'"
+                  :label="t.text"
+                >
+                  <template slot-scope="scope">
+                    &lt;!&ndash;// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //&ndash;&gt;
                     <el-select size="mini" filterable
                                remote
                                :remote-method="remoteMethod"
@@ -348,7 +372,7 @@
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
                   </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                   :key="i"
                   align="center"
@@ -397,7 +421,7 @@
             <el-col :span="12">
               <el-form-item :label="''">
                 <el-button @click="setRow3">增加</el-button>
-                <el-button @click="importData3">导入</el-button>
+                <!--<el-button @click="importData3">导入</el-button>-->
                 <el-button @click="delRow3">删除</el-button>
                 <el-button @click="saveRow3">保存</el-button>
               </el-form-item>
@@ -469,11 +493,23 @@
                   align="center"
                   :prop="t.name"
                   :width="t.width?t.width:'120px'"
+                  v-else-if="t.name == 'fclerk'"
+                  :label="t.text"
+                >
+                  <template slot-scope="scope">
+                    <span>{{scope.row[t.name]}}</span>
+                  </template>
+                </el-table-column>
+                <!--<el-table-column
+                  :key="i"
+                  align="center"
+                  :prop="t.name"
+                  :width="t.width?t.width:'120px'"
                   v-else-if="t.name == 'fcandidate'"
                   :label="t.text"
                 >
                   <template slot-scope="scope">
-                    <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+                    &lt;!&ndash;// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //&ndash;&gt;
                     <el-select
                       size="mini"
                       filterable
@@ -493,7 +529,7 @@
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
                   </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                   :key="i"
                   align="center"
@@ -624,9 +660,9 @@ export default {
       loading: false,
       isUpload: null,
       uploadType: '0',
-      fileUrl1: this.$store.state.user.url + '/web/toutsourceProject/input',
-      fileUrl2: this.$store.state.user.url + '/web/toutsourcingCustomerService/input',
-      fileUrl3: this.$store.state.user.url + '/web/toutsourcingRecruitmentFee/input',
+      fileUrl1: '/web/toutsourceProject/input',
+      fileUrl2: '/web/toutsourcingCustomerService/input',
+      fileUrl3: '/web/toutsourcingRecruitmentFee/input',
       activeName: 'first',
       form: {
         fkey: null,
@@ -872,6 +908,7 @@ export default {
         {text: '计算日期', name: 'fcountdate'},
         {text: '所属项目', name: 'fbelongproject'},
         {text: '候选人', name: 'fcandidate'},
+        {text: '员工', name: 'fclerk'},
         {text: '入职时间', name: 'fentrydate'},
         {text: '佣金类别', name: 'fcommissiontype'},
         {text: '成单人次', name: 'fsinglepersontime'},
@@ -1001,9 +1038,10 @@ export default {
     },
     changeFannual(val) {
       /*if (this.listInfo) {*/
-      this.fetchData({fannual: val})
-      this.fetchData2({fannual: val})
-      this.fetchData3({fannual: val})
+      this.fetchData4({ftype: 3, fposition: this.form.femp, fannual: this.form.fannual})
+      this.fetchData({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+      this.fetchData2({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+      this.fetchData3({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
       /*}*/
     },
     changeUser(val) {
@@ -1139,63 +1177,86 @@ export default {
     },
     myclass({row, columnIndex}) {
       if (row[columnIndex] && !row[columnIndex].sfcb && row[columnIndex].sfcb != null) {
-        return "color: red";
+        return 'color: red';
       }
     },
     setRow1() {
-      var itemObj = {
-        fmonth: "",
-        fannual: "",
-        fheader: "",
-        fproject: "",
-        ftyearprojectgp: "",
-        flyearprojectgp: "",
-        remark: "",
-        sfkgg: true,
-        sfcb: null,
+      if (this.form.femp != null) {
+        var itemObj = {
+          fmonth: '',
+          fannual: '',
+          fheader: this.form.femp,
+          fproject: '',
+          ftyearprojectgp: '',
+          flyearprojectgp: '',
+          remark: '',
+          sfkgg: true,
+          sfcb: null,
+        }
+        if (this.list2 == null) {
+          this.list2 = []
+        }
+        this.list2.push(itemObj)
+      } else {
+        this.$message({
+          message: '请先选择职员',
+          type: 'error'
+        });
       }
-      if (this.list2 == null) {
-        this.list2 = []
-      }
-      this.list2.push(itemObj)
     },
     setRow2() {
-      var itemObj = {
-        fmonth: "",
-        fannual: "",
-        fcustomerservice: "",
-        fproject: "",
-        fcustomerservicecount: "",
-        fcustomerserviceunivalence: "",
-        remark: "",
-        sfkgg: true,
-        sfcb: null,
+      if (this.form.femp != null) {
+        var itemObj = {
+          fmonth: '',
+          fannual: '',
+          fcustomerservice: this.form.femp,
+          fproject: '',
+          fcustomerservicecount: '',
+          fcustomerserviceunivalence: '',
+          remark: '',
+          sfkgg: true,
+          sfcb: null,
+        }
+        if (this.list3 == null) {
+          this.list3 = []
+        }
+        this.list3.push(itemObj)
+      } else {
+        this.$message({
+          message: '请先选择职员',
+          type: 'error'
+        });
       }
-      if (this.list3 == null) {
-        this.list3 = []
-      }
-      this.list3.push(itemObj)
     },
     setRow3() {
-      var itemObj = {
-        fcountdate: "",
-        fannual: "",
-        fbelongproject: "",
-        fcandidate: "",
-        fentrydate: "",
-        fcommissiontype: "",
-        fsinglepersontime: "",
-        ffeeamount: "",
-        fcandidatestatus: "",
-        fguaranteedate: "",
-        remark: "",
-        sfkgg: true,
-        sfcb: null,
+      if (this.form.femp != null) {
+        var itemObj = {
+          fcountdate: '',
+          fannual: '',
+          fbelongproject: '',
+          fcandidate: '',
+          fclerk: this.form.femp,
+          fentrydate: '',
+          fcommissiontype: '',
+          fsinglepersontime: '',
+          ffeeamount: '',
+          fcandidatestatus: '',
+          fguaranteedate: '',
+          remark: '',
+          sfkgg: true,
+          sfcb: null,
+        }
+        if (this.list4 == null) {
+          this.list4 = []
+        }
+        this.list4.push(itemObj)
+      } else {
+        this.$message({
+          message: '请先选择职员',
+          type: 'error'
+        });
       }
-      if (this.list4 == null) {
-        this.list4 = []
-      }
-      this.list4.push(itemObj)
+
     },
     handleSelectionChange1(val) {
       this.multipleSelection1 = val
@@ -1226,7 +1287,7 @@ export default {
         }
       } else {
         this.$message({
-          message: "请选择删除项",
+          message: '请选择删除项',
           type: 'error'
         });
       }
@@ -1250,7 +1311,7 @@ export default {
         }
       } else {
         this.$message({
-          message: "请选择删除项",
+          message: '请选择删除项',
           type: 'error'
         });
       }
@@ -1274,7 +1335,7 @@ export default {
         }
       } else {
         this.$message({
-          message: "请选择删除项",
+          message: '请选择删除项',
           type: 'error'
         });
       }
@@ -1284,24 +1345,24 @@ export default {
         addToutsourceProject(this.list2).then(res => {
           if (res.flag) {
             this.$emit('uploadList')
-            this.fetchData({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
-            this.$confirm('保存成功，是否关闭窗口', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              this.$emit('hideDialog', false)
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消'
-              });
-            });
+            /* this.fetchData({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+             this.$confirm('保存成功，是否关闭窗口', '提示', {
+               confirmButtonText: '确定',
+               cancelButtonText: '取消',
+               type: 'warning'
+             }).then(() => {
+               this.$emit('hideDialog', false)
+             }).catch(() => {
+               this.$message({
+                 type: 'info',
+                 message: '已取消'
+               });
+             });*/
           }
         })
       } else {
         this.$message({
-          message: "无数据",
+          message: '无数据',
           type: 'error'
         });
       }
@@ -1313,7 +1374,7 @@ export default {
             this.$emit('uploadList')
             this.fetchData2({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
 
-            this.$confirm('保存成功，是否关闭窗口', '提示', {
+            /*this.$confirm('保存成功，是否关闭窗口', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
@@ -1324,12 +1385,12 @@ export default {
                 type: 'info',
                 message: '已取消'
               });
-            });
+            });*/
           }
         })
       } else {
         this.$message({
-          message: "无数据",
+          message: '无数据',
           type: 'error'
         });
       }
@@ -1340,7 +1401,7 @@ export default {
           if (res.flag) {
             this.$emit('uploadList')
             this.fetchData3({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
-            this.$confirm('保存成功，是否关闭窗口', '提示', {
+            /*this.$confirm('保存成功，是否关闭窗口', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
@@ -1351,12 +1412,12 @@ export default {
                 type: 'info',
                 message: '已取消'
               });
-            });
+            });*/
           }
         })
       } else {
         this.$message({
-          message: "无数据",
+          message: '无数据',
           type: 'error'
         });
       }
@@ -1368,7 +1429,7 @@ export default {
           addTprojectOutsourcingBonus(this.form).then(res => {
             if (res.flag) {
               this.$emit('uploadList')
-              this.$confirm('保存成功，是否关闭窗口', '提示', {
+              /*this.$confirm('保存成功，是否关闭窗口', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
@@ -1379,7 +1440,7 @@ export default {
                   type: 'info',
                   message: '已取消'
                 });
-              });
+              });*/
             }
           })
         } else {

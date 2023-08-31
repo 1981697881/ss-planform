@@ -40,6 +40,9 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'担保期'">
+            <el-input v-model="form.fwarranty"></el-input>
+          </el-form-item>
+          <!--<el-form-item :label="'担保期'">
             <el-date-picker
               v-model="form.fwarranty"
               type="date"
@@ -47,7 +50,7 @@
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
-          </el-form-item>
+          </el-form-item>-->
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'退款条例'">

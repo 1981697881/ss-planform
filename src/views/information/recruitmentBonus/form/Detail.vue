@@ -31,8 +31,8 @@
                   <el-option
                     v-for="(item, index) in userList"
                     :key="index"
-                    :label="item.fname"
-                    :value="item.fname">
+                    :label="item.fenglishname"
+                    :value="item.fenglishname">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -127,7 +127,7 @@
             <el-col :span="12">
               <el-form-item :label="''">
                 <el-button @click="setRow">新增</el-button>
-                <el-button @click="importData">导入</el-button>
+                <!--<el-button @click="importData">导入</el-button>-->
                 <el-button @click="delRow">删除</el-button>
                 <el-button @click="saveRow">保存</el-button>
               </el-form-item>
@@ -220,7 +220,7 @@
                     <span>{{scope.row[t.name]}}</span>
                   </template>
                 </el-table-column>-->
-                <el-table-column
+                <!--<el-table-column
                   :key="i"
                   align="center"
                   :prop="t.name"
@@ -229,7 +229,7 @@
                   :label="t.text"
                 >
                   <template slot-scope="scope">
-                    <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+                    &lt;!&ndash;// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //&ndash;&gt;
                     <el-select size="mini" filterable
                                remote
                                :remote-method="remoteMethod"
@@ -244,7 +244,7 @@
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
                   </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                   :key="i"
                   align="center"
@@ -267,6 +267,18 @@
                         :value="item.fteamname">
                       </el-option>
                     </el-select>
+                    <span>{{scope.row[t.name]}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  :key="i"
+                  align="center"
+                  :prop="t.name"
+                  :width="t.width?t.width:'120px'"
+                  v-else-if="t.name == 'femp'"
+                  :label="t.text"
+                >
+                  <template slot-scope="scope">
                     <span>{{scope.row[t.name]}}</span>
                   </template>
                 </el-table-column>
@@ -586,7 +598,7 @@ export default {
     remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
-        this.getUsersArray({fname: query});
+        this.getUsersArray({fenglishname: query});
       } else {
         this.userList = [];
       }
@@ -696,7 +708,7 @@ export default {
         fguaranteeperiodgp: '',
         fguaranteeperiodfees: '',
         remark: '',
-        femp: '',
+        femp: this.form.femp,
         ftype: 0,
         sfkgg: true,
         sfcb: null,
@@ -722,7 +734,7 @@ export default {
         })
         deleteExpenseDetails(array).then(res => {
           if (res.flag) {
-            this.fetchData()
+            this.fetchData({ftype: 0,femp: this.form.femp, fannual: this.form.fannual})
           }
         })
       } else {
@@ -898,12 +910,13 @@ export default {
           console.log(this.countData.tQuarterList)
           params.fid = this.countData.fid
           params.faccumulatebl = this.list[4].total
-          let paramsObj;
+          let paramsObj={};
           this.countData.tQuarterList.forEach((item)=>{
             if(item.fitem == '6'){
               paramsObj = {...item}
             }
           })
+          console.log(paramsObj);
           paramsObj.q1 = this.list[4].qOne
           paramsObj.q2 = this.list[4].qTwo
           paramsObj.q3 = this.list[4].qThree

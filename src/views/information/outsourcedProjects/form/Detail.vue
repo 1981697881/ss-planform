@@ -50,8 +50,8 @@
               <el-option
                 v-for="(item,index) in userList"
                 :key="index"
-                :label="item.fname"
-                :value="item.fname">
+                :label="item.fenglishname"
+                :value="item.fenglishname">
               </el-option>
             </el-select>
           </el-form-item>
@@ -162,7 +162,7 @@ export default {
     remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
-        this.getUsersArray({fname: query});
+        this.getUsersArray({fenglishname: query});
       } else {
         this.userList = [];
       }

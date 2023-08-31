@@ -65,11 +65,36 @@ export function getClerkList(params, query) {
     data: query
   })
 }
+// 职员管理-获取调整列表
+export function getTuserAlterList(params, query) {
+  const url = '/tuser/tuserAlterList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('ssrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: query
+  })
+}
 
 // 职员管理-新增
 export function addClerk(params) {
   return request({
     url: '/employee/add',
+    headers: {
+      'authorization': getToken('ssrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
+}
+// 职员管理-调整
+export function addAlter(params) {
+  return request({
+    url: '/tuser/addAlter',
     headers: {
       'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'

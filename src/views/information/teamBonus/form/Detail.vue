@@ -31,8 +31,8 @@
                   <el-option
                     v-for="item in userList"
                     :key="item.fid"
-                    :label="item.fname"
-                    :value="item.fname">
+                    :label="item.fenglishname"
+                    :value="item.fenglishname">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -204,8 +204,8 @@
                       <el-option
                         v-for="item in userList"
                         :key="item.fid"
-                        :label="item.fname"
-                        :value="item.fname">
+                        :label="item.fenglishname"
+                        :value="item.fenglishname">
                       </el-option>
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
@@ -229,8 +229,8 @@
                       <el-option
                         v-for="item in userList"
                         :key="item.fid"
-                        :label="item.fname"
-                        :value="item.fname">
+                        :label="item.fenglishname"
+                        :value="item.fenglishname">
                       </el-option>
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
@@ -503,7 +503,7 @@ export default {
     remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
-        this.getUsersArray({fname: query});
+        this.getUsersArray({fenglishname: query});
       } else {
         this.userList = [];
       }

@@ -31,8 +31,8 @@
                   <el-option
                     v-for="item in userList"
                     :key="item.fid"
-                    :label="item.fname"
-                    :value="item.fname">
+                    :label="item.fenglishname"
+                    :value="item.fenglishname">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -126,7 +126,7 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item :label="''">
-                <el-button @click="importData">导入</el-button>
+                <!--<el-button @click="importData">导入</el-button>-->
                 <el-button @click="setRow">增加</el-button>
                 <el-button @click="delRow">删除</el-button>
               </el-form-item>
@@ -211,8 +211,8 @@
                       <el-option
                         v-for="item in userList"
                         :key="item.fid"
-                        :label="item.fname"
-                        :value="item.fname">
+                        :label="item.fenglishname"
+                        :value="item.fenglishname">
                       </el-option>
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
@@ -227,7 +227,19 @@
                   :label="t.text"
                 >
                   <template slot-scope="scope">
-                    <!--// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //-->
+                    <span>{{scope.row[t.name]}}</span>
+                  </template>
+                </el-table-column>
+                <!--<el-table-column
+                  :key="i"
+                  align="center"
+                  :prop="t.name"
+                  :width="t.width?t.width:'120px'"
+                  v-else-if="t.name == 'fcandidate'"
+                  :label="t.text"
+                >
+                  <template slot-scope="scope">
+                    &lt;!&ndash;// 通过 v-if="!item.sfkgg" 控制是否可编辑单元格 //&ndash;&gt;
                     <el-select size="mini" filterable
                                remote
                                :remote-method="remoteMethod"
@@ -242,7 +254,7 @@
                     </el-select>
                     <span>{{scope.row[t.name]}}</span>
                   </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                   :key="i"
                   align="center"
@@ -519,7 +531,7 @@ export default {
     remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
-        this.getUsersArray({fname: query});
+        this.getUsersArray({fenglishname: query});
       } else {
         this.userList = [];
       }
@@ -597,7 +609,7 @@ export default {
         finvoicingdate: '',
         finvoiceheader: '',
         fannual: '',
-        fcandidate: '',
+        fcandidate: this.form.femp,
         freceivedpayment: '',
         fgp: '',
         fpaymentreceiveddate: '',

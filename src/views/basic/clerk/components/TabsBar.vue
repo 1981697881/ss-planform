@@ -18,6 +18,25 @@
           <!--<el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >禁用</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >启用</el-button>-->
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAdjust">调整</el-button>
+          <el-upload
+            name="tUsers"
+            :on-success="uploadSuccess"
+            :on-error="uploadError"
+            accept="xlsx,xls"
+            ref="upload"
+            :headers="headers"
+            :show-file-list="false"
+            :action="fileUrl"
+            class="upload-demo"
+            multiple
+            :auto-upload="false"
+            :on-change="handleUpload"
+            :limit="1"
+          >
+            <el-button size="mini" type="primary" icon="el-icon-upload2">导入</el-button>
+            <el-button style="margin-left: 10px;display: none" size="mini" type="success" @click="submitUpload">上传到服务器
+            </el-button>
+          </el-upload>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -28,6 +47,7 @@
 import { mapGetters } from 'vuex'
 import { alterClerk } from '@/api/basic/index'
 import { getByUserAndPrId } from '@/api/system/index'
+import { getToken } from '@/utils/auth'
 export default {
   components: {},
   computed: {
@@ -36,12 +56,17 @@ export default {
   data() {
     return {
       btnList: [],
+      headers: {
+        'authorization': getToken('ssrx')
+      },
+      fileUrl: '',
       search: {
         name: null
       }
     };
   },
   mounted() {
+    this.fileUrl = `/web/tuser/input`
     /*let path = this.$route.meta.id
     getByUserAndPrId(path).then(res => {
       this.btnList = res.data
@@ -49,13 +74,43 @@ export default {
     });*/
   },
   methods: {
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+    uploadError(res) {
+      this.$message({
+        message: res.msg,
+        type: 'warning'
+      })
+      this.$emit('uploadList')
+    },
+    uploadSuccess(res) {
+      if (res.flag) {
+        this.$message({
+          message: res.msg,
+          type: 'success'
+        })
+        this.$emit('uploadList')
+        this.$refs.upload.clearFiles()
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'warning'
+        })
+      }
+    },
+    handleUpload(file, fileList) {
+      if (file.status == 'ready') {
+        this.submitUpload()
+      }
+    },
     onFun(method) {
       console.log(method)
       this[method]()
     },
     Delivery() {
       if (this.clickData.fid) {
-        this.$confirm('是否删除（' + this.clickData.name + '），删除后将无法恢复?', '提示', {
+        this.$confirm('是否删除（' + this.clickData.fname + '），删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

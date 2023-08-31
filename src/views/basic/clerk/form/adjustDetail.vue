@@ -3,10 +3,11 @@
     <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item :label="'调整时间'">
+          <el-form-item :label="'调整日期'">
             <el-date-picker
-              v-model="form.eur"
-              type="datetime"
+              v-model="form.falterdate"
+              type="date"
+              value-format="yyyy-MM-dd"
               style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
@@ -20,7 +21,7 @@
                        :remote-method="remoteMethod"
                        :loading="loading"
                        style="width: 100%"
-                      v-model="form.fduty" placeholder="请选择">
+                       v-model="form.fduty" placeholder="请选择">
               <el-option
                 v-for="(item,index) in dutiesArray"
                 :key="index"
@@ -61,15 +62,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="'是否助理'">
-            <el-switch
-              style="width: 100%"
-              v-model="form.fisassistant"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              active-value="1"
-              inactive-value="0">
-            </el-switch>
+          <el-form-item :label="'英文名'">
+            <el-input v-model="form.fenglishname"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -80,8 +74,15 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="'英文名'">
-            <el-input v-model="form.fenglishname"></el-input>
+          <el-form-item :label="'是否助理'">
+            <el-switch
+              style="width: 100%"
+              v-model="form.fisassistant"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-value="1"
+              inactive-value="0">
+            </el-switch>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -97,6 +98,33 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="'调整记录'">
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-table
+          border
+          height="250px"
+          stripe
+          size="mini"
+          :highlight-current-row="true"
+          :data="list"
+          align="center"
+        >
+          <el-table-column prop="date" label="序号" type="index" align="center" sortable></el-table-column>
+          <el-table-column
+            v-for="(t,i) in columns"
+            :key="i"
+            align="center"
+            :prop="t.name"
+            :label="t.text"
+          >
+          </el-table-column>
+        </el-table>
+      </el-row>
     </el-form>
     <div slot="footer" style="text-align:center">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
@@ -104,7 +132,7 @@
   </div>
 </template>
 
-<script>import {addTuser,getDutyList,getOrganizationsList} from '@/api/basic/index'
+<script>import {addTuser, getDutyList, getOrganizationsList, addAlter, getTuserAlterList} from '@/api/basic/index'
 
 export default {
   props: {
@@ -118,6 +146,7 @@ export default {
       form: {
         fduty: null,
         fdept: null,
+        falterdate: null,
         fbasicsalary: null,
         fmultiple: null,
         fisassistant: null,
@@ -128,15 +157,12 @@ export default {
       list: [],
       loading: false,
       columns: [
-        {text: '会员名称', name: 'username'},
-        {text: '微信号', name: 'wechatId'},
-        {text: '联系地址', name: 'adress'},
-        {text: '联系电话', name: 'phoneNumber'},
-        {text: '注册时间', name: 'createDatetime'},
-        {text: '最后登录时间', name: 'editDatetime'},
-        {text: '生日', name: 'birthday'},
-        {text: '性别', name: 'sex'},
-        {text: '描述', name: 'describes'}
+        {text: '职位', name: 'fduty'},
+        {text: '角色', name: 'ftype', width: '130'},
+        {text: '部门', name: 'fdept'},
+        {text: '基本工资', name: 'fbasicsalary'},
+        {text: '离职日期', name: 'fdeparturedate', width: '130'},
+        {text: '调整日期', name: 'falterdate', width: '130'},
       ],
       disPl: true,
       visible: null,
@@ -166,7 +192,10 @@ export default {
     this.getDutiesList();
     this.getDeptList();
     if (this.listInfo) {
-      this.form = this.listInfo
+      this.form = {...this.listInfo}
+      this.form.fempid = this.listInfo.fid
+      delete this.form.fid
+      this.getUserAlterList({fempid: this.form.fempid})
     }
   },
   methods: {
@@ -196,6 +225,16 @@ export default {
         this.dutiesArray = res.data.records
       })
     },
+    getUserAlterList(val) {
+      const data = {
+        pageNum: 1,
+        pageSize: 1000
+      }
+      getTuserAlterList(data, val).then(res => {
+        this.loading = false
+        this.list = res.data.records
+      })
+    },
     getDeptList() {
       const data = {
         pageNum: 1,
@@ -213,17 +252,10 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          if (typeof (this.form.eid) != undefined && this.form.eid != null) {
-            alterClerk(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            })
-          } else {
-            addClerk(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            })
-          }
+          addAlter(this.form).then(res => {
+            this.$emit('hideDialog', false)
+            this.$emit('uploadList')
+          })
         } else {
           return false
         }

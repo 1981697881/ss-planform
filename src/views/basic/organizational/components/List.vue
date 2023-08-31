@@ -30,8 +30,8 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: '上级部门', name: 'fdeptname' },
-        { text: '部门名称', name: 'fpname' },
+        { text: '上级部门', name: 'fpname' },
+        { text: '部门名称', name: 'fdeptname' },
         { text: '部门负责人', name: 'fheader' },
       ]
     }

@@ -1,6 +1,17 @@
 <template>
   <div>
-    <el-form  :size="'mini'">
+    <el-form  :model="form" ref="form" :size="'mini'">
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'类型'">
+            <el-radio-group style="width: 100%" v-model="type">
+              <el-radio :label="3">外包项目费用</el-radio>
+              <el-radio :label="5">外包客服</el-radio>
+              <el-radio :label="4">外包外聘费用</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="''">
@@ -99,8 +110,8 @@
                   <el-option
                     v-for="(item, index) in userList"
                     :key="index"
-                    :label="item.fname"
-                    :value="item.fname">
+                    :label="item.fenglishname"
+                    :value="item.fenglishname">
                   </el-option>
                 </el-select>
                 <span>{{scope.row[t.name]}}</span>
@@ -146,7 +157,9 @@ export default {
   data() {
     return {
       list: [],
+      form: {},
       userList: [],
+      type: 3,
       multipleSelection: [],
       loading: false,
       columns: [
@@ -162,7 +175,7 @@ export default {
     this.getUsersArray()
     if (this.listInfo) {
       this.form = this.listInfo
-      this.fetchData({ fannual: this.form.fannual, fpayer: this.form.fpayer, fmonth: this.form.fmonth, fbonustype: 3 })
+      this.fetchData({ fannual: this.form.fannual, femp: this.form.fposition, fmonth: this.form.fmonth, fbonustype: 3 })
     }
   },
   methods: {
@@ -256,7 +269,7 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          addPaymentList(this.form).then(res => {
+          addPaymentList(this.list).then(res => {
             this.$emit('hideDialog', false)
             this.$emit('uploadList')
           })
