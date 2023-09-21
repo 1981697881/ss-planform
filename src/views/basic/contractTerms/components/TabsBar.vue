@@ -12,6 +12,25 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable">禁用</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable">启用</el-button>
         <el-button :size="'mini'" type="primary">审核</el-button>
+        <el-upload
+          name="tContracts"
+          :on-success="uploadSuccess"
+          :on-error="uploadError"
+          accept="xlsx,xls"
+          ref="upload"
+          :headers="headers"
+          :show-file-list="false"
+          :action="fileUrl"
+          class="upload-demo"
+          multiple
+          :auto-upload="false"
+          :on-change="handleUpload"
+          :limit="1"
+        >
+          <el-button size="mini" type="primary" icon="el-icon-upload2">导入</el-button>
+          <el-button style="margin-left: 10px;display: none" size="mini" type="success" @click="submitUpload">上传到服务器
+          </el-button>
+        </el-upload>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -43,6 +62,7 @@ export default {
     ...mapGetters(['node', 'clickData', 'selections'])
   },
   mounted() {
+    this.fileUrl = `/web/tcontract/input`
     /*this.fileUrl = `/baoli/inputData/inputProductMessage`*/
     /*this.fileUrl = `/baoli/inputData/input`
     let path = this.$route.meta.id
@@ -52,6 +72,36 @@ export default {
     })*/
   },
   methods: {
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+    uploadError(res) {
+      this.$message({
+        message: res.msg,
+        type: 'warning'
+      })
+      this.$emit('uploadList')
+    },
+    uploadSuccess(res) {
+      if (res.flag) {
+        this.$message({
+          message: res.msg,
+          type: 'success'
+        })
+        this.$emit('uploadList')
+        this.$refs.upload.clearFiles()
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'warning'
+        })
+      }
+    },
+    handleUpload(file, fileList) {
+      if (file.status == 'ready') {
+        this.submitUpload()
+      }
+    },
     // 导出
     exportData() {
       this.$emit('exportData')
@@ -134,4 +184,7 @@ export default {
 </script>
 
 <style>
+  .upload-demo {
+    float: right;
+  }
 </style>

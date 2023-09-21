@@ -37,6 +37,25 @@
             <el-button style="margin-left: 10px;display: none" size="mini" type="success" @click="submitUpload">上传到服务器
             </el-button>
           </el-upload>
+          <el-upload
+            name="tUsers"
+            :on-success="uploadSuccess2"
+            :on-error="uploadError2"
+            accept="xlsx,xls"
+            ref="upload2"
+            :headers="headers"
+            :show-file-list="false"
+            :action="fileUrl2"
+            class="upload-demo"
+            multiple
+            :auto-upload="false"
+            :on-change="handleUpload2"
+            :limit="1"
+          >
+            <el-button size="mini" type="primary" icon="el-icon-upload2">调整记录导入</el-button>
+            <el-button style="margin-left: 10px;display: none" size="mini" type="success" @click="submitUpload2">上传到服务器
+            </el-button>
+          </el-upload>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -51,7 +70,7 @@ import { getToken } from '@/utils/auth'
 export default {
   components: {},
   computed: {
-    ...mapGetters(['node','clickData','selections'])
+    ...mapGetters(['node', 'clickData', 'selections'])
   },
   data() {
     return {
@@ -60,6 +79,7 @@ export default {
         'authorization': getToken('ssrx')
       },
       fileUrl: '',
+      fileUrl2: '',
       search: {
         name: null
       }
@@ -67,6 +87,7 @@ export default {
   },
   mounted() {
     this.fileUrl = `/web/tuser/input`
+    this.fileUrl2 = `/web/tuser/inputAddAlter`
     /*let path = this.$route.meta.id
     getByUserAndPrId(path).then(res => {
       this.btnList = res.data
@@ -74,7 +95,36 @@ export default {
     });*/
   },
   methods: {
-    submitUpload() {
+    submitUpload2() {
+      this.$refs.upload2.submit()
+    },
+    uploadError2(res) {
+      this.$message({
+        message: res.msg,
+        type: 'warning'
+      })
+      this.$emit('uploadList')
+    },
+    uploadSuccess2(res) {
+      if (res.flag) {
+        this.$message({
+          message: res.msg,
+          type: 'success'
+        })
+        this.$emit('uploadList')
+        this.$refs.upload2.clearFiles()
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'warning'
+        })
+      }
+    },
+    handleUpload2(file, fileList) {
+      if (file.status == 'ready') {
+        this.submitUpload2()
+      }
+    },submitUpload() {
       this.$refs.upload.submit()
     },
     uploadError(res) {
@@ -201,4 +251,7 @@ export default {
 </script>
 
 <style>
+  .upload-demo {
+    float: right;
+  }
 </style>

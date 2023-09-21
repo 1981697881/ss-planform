@@ -147,6 +147,13 @@
             <el-input v-model="form.fenglishname"></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item :label="'顾问英文名'">
+            <el-input v-model="form.fbelongconsultantenglish"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item :label="'是否助理'">
             <el-switch
@@ -207,6 +214,7 @@ export default {
         fisassistant: null,
         fiscustomer: null,
         fbelongconsultant: null,
+        fbelongconsultantenglish: null,
         fenglishname: null
       },
       list: [],

@@ -640,7 +640,7 @@ export default {
     changeUser(val) {
       /*if (this.listInfo) {*/
       this.userList.forEach((item)=>{
-        if(item.fname == val){
+        if(item.fenglishname == val){
           console.log(item)
           this.form.fcutoffdate = item.fcutoffdate
           this.form.fisassistant = item.fisassistant
@@ -732,11 +732,13 @@ export default {
             this.list2.splice(this.list2.indexOf(item), 1)
           }
         })
-        deleteExpenseDetails(array).then(res => {
-          if (res.flag) {
-            this.fetchData({ftype: 0,femp: this.form.femp, fannual: this.form.fannual})
-          }
-        })
+        if(array.length>0){
+          deleteExpenseDetails(array).then(res => {
+            if (res.flag) {
+              this.fetchData({ftype: 0,femp: this.form.femp, fannual: this.form.fannual})
+            }
+          })
+        }
       } else {
         this.$message({
           message: "请选择删除项",

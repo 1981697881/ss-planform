@@ -74,6 +74,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <el-form-item :label="'顾问英文名'">
+            <el-input v-model="form.fbelongconsultantenglish"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
           <el-form-item :label="'是否助理'">
             <el-switch
               style="width: 100%"
@@ -85,7 +90,7 @@
             </el-switch>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item :label="'是否客服'">
             <el-switch
               style="width: 100%"
