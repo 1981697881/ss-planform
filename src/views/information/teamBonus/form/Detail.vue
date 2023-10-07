@@ -8,9 +8,9 @@
               <el-form-item :label="'当前年度'" prop="fannual">
                 <el-date-picker
                   v-model="form.fannual"
-                  type="year"
+                  type="month"
                   @change="changeFannual"
-                  value-format="yyyy"
+                  value-format="yyyy-MM"
                   style="width: 100%"
                   placeholder="年度">
                 </el-date-picker>
@@ -39,7 +39,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="'Consultant Name'">
-                <el-input v-model="form.fenglishname"></el-input>
+                <el-input v-model="form.fbelongconsultant"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -345,7 +345,7 @@ export default {
         fcutoffdate: null,
         fisassistant: null,
         fjoindate: null,
-        fenglishname: null,
+        fbelongconsultant: null,
         fdesc: null,
       },
       userList: [],
@@ -567,7 +567,7 @@ export default {
           this.form.fcutoffdate = item.fcutoffdate
           this.form.fisassistant = item.fisassistant
           this.form.fjoindate = item.fjoindate
-          this.form.fenglishname = item.fenglishname
+          this.form.fbelongconsultant = item.fbelongconsultant
         }
       })
       /*if (this.listInfo) {*/

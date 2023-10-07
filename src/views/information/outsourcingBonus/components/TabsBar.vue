@@ -36,7 +36,25 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerInventory">支付清单</el-button>
-        <!--<el-button :size="'mini'" type="primary" icon="el-icon-edit">费用支付导入</el-button>-->
+        <el-upload
+          name="payment"
+          :on-success="uploadSuccess2"
+          :on-error="uploadError2"
+          accept="xlsx,xls"
+          ref="upload2"
+          :headers="headers"
+          :show-file-list="false"
+          :action="fileUrl2"
+          class="upload-demo"
+          multiple
+          :auto-upload="false"
+          :on-change="handleUpload2"
+          :limit="1"
+        >
+          <el-button size="mini" type="primary" icon="el-icon-upload2">费用支付导入</el-button>
+          <el-button style="margin-left: 10px;display: none" size="mini" type="success" @click="submitUpload">上传到服务器
+          </el-button>
+        </el-upload>
         <el-button :size="'mini'" type="primary" icon="el-icon-upload2" @click="detailsImport">明细导入</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
@@ -102,15 +120,16 @@ export default {
   components: {},
   data() {
     return {
-      fileUrl1: '/web/toutsourceProject/input',
+      /*fileUrl1: '/web/toutsourceProject/input',
       fileUrl2: '/web/toutsourcingCustomerService/input',
-      fileUrl3: '/web/toutsourcingRecruitmentFee/input',
+      fileUrl3: '/web/toutsourcingRecruitmentFee/input',*/
       btnList: [],
       headers: {
         'authorization': getToken('ssrx')
       },
       fileData: {},
       fileList: [],
+      fileUrl2: '',
       fileUrl: '',
       fullscreenLoading: false,
       visible: null,
@@ -125,6 +144,7 @@ export default {
     ...mapGetters(['node', 'clickData', 'selections'])
   },
   mounted() {
+    this.fileUrl2 = `/web/paymentList/input`
     /*this.fileUrl = `/baoli/inputData/inputProductMessage`*/
     /*this.fileUrl = `/baoli/inputData/input`
     let path = this.$route.meta.id
@@ -139,6 +159,36 @@ export default {
     },
     query() {
       this.$emit('queryBtn', this.qFilter())
+    },
+    submitUpload2() {
+      this.$refs.upload2.submit()
+    },
+    uploadError2(res) {
+      this.$message({
+        message: res.msg,
+        type: 'warning'
+      })
+      this.$emit('uploadList')
+    },
+    uploadSuccess2(res) {
+      if (res.flag) {
+        this.$message({
+          message: res.msg,
+          type: 'success'
+        })
+        this.$emit('uploadList')
+        this.$refs.upload2.clearFiles()
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'warning'
+        })
+      }
+    },
+    handleUpload2(file, fileList) {
+      if (file.status == 'ready') {
+        this.submitUpload2()
+      }
     },
     handleUpload(file, fileList) {
       if (file.status == 'ready') {

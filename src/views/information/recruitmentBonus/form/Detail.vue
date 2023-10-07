@@ -9,8 +9,8 @@
                 <el-date-picker
                   @change="changeFannual"
                   v-model="form.fannual"
-                  type="year"
-                  value-format="yyyy"
+                  type="month"
+                  value-format="yyyy-MM"
                   style="width: 100%"
                   placeholder="年度">
                 </el-date-picker>
@@ -391,7 +391,7 @@ export default {
         fcutoffdate: null,
         fisassistant: null,
         fjoindate: null,
-        fenglishname: null,
+        fbelongconsultant: null,
         fdesc: null,
       },
       form2: {},
@@ -645,7 +645,7 @@ export default {
           this.form.fcutoffdate = item.fcutoffdate
           this.form.fisassistant = item.fisassistant
           this.form.fjoindate = item.fjoindate
-          this.form.fenglishname = item.fenglishname
+          this.form.fbelongconsultant = item.fbelongconsultant
         }
       })
       this.fetchData2({ftype: 0,fposition: this.form.femp, fannual: this.form.fannual})
@@ -774,7 +774,7 @@ export default {
           params.foutmonthcost = 0
           countRecruitmentBonus(params).then(res => {
             if (res.flag) {
-              this.countData = res.data.records
+              this.countData = res.data
               let resData = res.data.tQuarterList
               for (var item in resData) {
                 if (resData[item].fitem == '0') {
@@ -908,8 +908,7 @@ export default {
         // 判断必填项
         if (valid) {
           let params = {}
-          console.log(this.list[4])
-          console.log(this.countData.tQuarterList)
+          console.log(this.countData)
           params.fid = this.countData.fid
           params.faccumulatebl = this.list[4].total
           let paramsObj={};

@@ -213,19 +213,22 @@ export default {
     },
     delRow() {
       let array = []
+      console.log(this.multipleSelection)
       if(this.multipleSelection.length>0){
         this.multipleSelection.forEach((item)=>{
           if(item.fid){
             array.push(item.fid)
           }else{
-            this.list.splice(item)
+            this.list.splice(this.list.indexOf(item), 1)
           }
         })
-        deletePaymentList(array).then(res => {
-          if(res.flag){
-            this.fetchData()
-          }
-        })
+        if(array.length>0){
+          deletePaymentList(array).then(res => {
+            if(res.flag){
+              this.fetchData()
+            }
+          })
+        }
       }else{
         this.$message({
           message: "请选择删除项",

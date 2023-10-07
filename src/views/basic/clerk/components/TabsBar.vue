@@ -99,14 +99,29 @@ export default {
       this.$refs.upload2.submit()
     },
     uploadError2(res) {
-      this.$message({
-        message: res.msg,
+      this.$confirm(res.msg, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         type: 'warning'
-      })
-      this.$emit('uploadList')
+      }).then(() => {
+        this.$emit('uploadList')
+      }).catch(() => {
+        this.$emit('uploadList')
+      });
     },
     uploadSuccess2(res) {
-      if (res.flag) {
+      this.$confirm(res.msg, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$emit('uploadList')
+        this.$refs.upload2.clearFiles()
+      }).catch(() => {
+        this.$emit('uploadList')
+        this.$refs.upload2.clearFiles()
+      });
+      /*if (res.flag) {
         this.$message({
           message: res.msg,
           type: 'success'
@@ -118,7 +133,7 @@ export default {
           message: res.msg,
           type: 'warning'
         })
-      }
+      }*/
     },
     handleUpload2(file, fileList) {
       if (file.status == 'ready') {

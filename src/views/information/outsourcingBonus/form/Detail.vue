@@ -39,7 +39,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="'Consultant Name'">
-                <el-input v-model="form.fenglishname"></el-input>
+                <el-input v-model="form.fbelongconsultant"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -671,7 +671,7 @@ export default {
         fcutoffdate: null,
         fisassistant: null,
         fjoindate: null,
-        fenglishname: null,
+        fbelongconsultant: null,
         fiscustomer: null,
         fdesc: null,
       },
@@ -1052,7 +1052,7 @@ export default {
           this.form.fcutoffdate = item.fcutoffdate
           this.form.fiscustomer = item.fiscustomer
           this.form.fjoindate = item.fjoindate
-          this.form.fenglishname = item.fenglishname
+          this.form.fbelongconsultant = item.fbelongconsultant
         }
       })
       this.fetchData4({ftype: 3, fposition: this.form.femp, fannual: this.form.fannual})

@@ -36,7 +36,25 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerInventory">支付清单</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-edit" >费用支付导入</el-button>
+        <el-upload
+          name="payment"
+          :on-success="uploadSuccess"
+          :on-error="uploadError"
+          accept="xlsx,xls"
+          ref="upload"
+          :headers="headers"
+          :show-file-list="false"
+          :action="fileUrl"
+          class="upload-demo"
+          multiple
+          :auto-upload="false"
+          :on-change="handleUpload"
+          :limit="1"
+        >
+          <el-button size="mini" type="primary" icon="el-icon-upload2">费用支付导入</el-button>
+          <el-button style="margin-left: 10px;display: none" size="mini" type="success" @click="submitUpload">上传到服务器
+          </el-button>
+        </el-upload>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" >明细数据导入</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
@@ -68,7 +86,7 @@ export default {
     ...mapGetters(['node', 'clickData', 'selections'])
   },
   mounted() {
-    /*this.fileUrl = `/baoli/inputData/inputProductMessage`*/
+    this.fileUrl = `/web/paymentList/input`
     /*this.fileUrl = `/baoli/inputData/input`
     let path = this.$route.meta.id
     getByUserAndPrId(path).then(res => {
@@ -77,6 +95,36 @@ export default {
     })*/
   },
   methods: {
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+    uploadError(res) {
+      this.$message({
+        message: res.msg,
+        type: 'warning'
+      })
+      this.$emit('uploadList')
+    },
+    uploadSuccess(res) {
+      if (res.flag) {
+        this.$message({
+          message: res.msg,
+          type: 'success'
+        })
+        this.$emit('uploadList')
+        this.$refs.upload.clearFiles()
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'warning'
+        })
+      }
+    },
+    handleUpload(file, fileList) {
+      if (file.status == 'ready') {
+        this.submitUpload()
+      }
+    },
     query() {
       this.$emit('queryBtn', this.qFilter())
     },
@@ -145,6 +193,8 @@ export default {
   }
 }
 </script>
-
 <style>
+  .upload-demo {
+    float: right;
+  }
 </style>
