@@ -220,6 +220,7 @@ export default {
         this.deptArray = [];
       }
     },
+
     getDutiesList() {
       const data = {
         pageNum: 1,

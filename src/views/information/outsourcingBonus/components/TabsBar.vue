@@ -34,6 +34,7 @@
         <!--@click="printer"-->
         <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-s-operation" @click="batchCalculation">批量计算</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerInventory">支付清单</el-button>
         <el-upload
@@ -109,20 +110,115 @@
         <el-button type="primary" @click="submitUpload('form')">上传</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      :visible.sync="visible2"
+      title="选择职员"
+      v-if="visible2"
+      :width="'50%'"
+      destroy-on-close
+      append-to-body
+    >
+      <el-form ref="postform" :size="'mini'">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item :label="'部门'">
+              <el-select size="mini"
+                         filterable
+                         remote
+                         :remote-method="remoteMethod2"
+                         :loading="loading"
+                         @change="changeDept"
+                         style="width: 100%"
+                         v-model="fdept" placeholder="请选择">
+                <el-option
+                  v-for="(item,index) in deptArray"
+                  :key="index"
+                  :label="item.fdeptname"
+                  :value="item.fdeptname">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item :label="'计算年度'">
+              <el-date-picker
+                v-model="fannual"
+                type="month"
+                style="width: 100%"
+                value-format="yyyy-MM"
+                placeholder="年度">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :span="20">
+          <el-col :span="24">
+            <el-table
+              class="list-main"
+              height="200px"
+              :data="list.records"
+              border
+              size="mini"
+              :highlight-current-row="true"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              <el-table-column
+                v-for="(t,i) in columns"
+                :key="i"
+                align="center"
+                :prop="t.name"
+                :label="t.text"
+                :width="t.width?t.width:''"
+              ></el-table-column>
+            </el-table>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" style="text-align:center">
+        <el-button type="primary" @click="saveData()" v-loading.fullscreen.lock="fullscreenLoading">计算</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>import {mapGetters} from 'vuex'
 import {getByUserAndPrId} from '@/api/system/index'
 import {getToken} from '@/utils/auth'
-
+import {getTuserList, getOrganizationsList} from '@/api/basic/index'
+import {BatchCount} from '@/api/information/index'
 export default {
   components: {},
   data() {
     return {
-      /*fileUrl1: '/web/toutsourceProject/input',
-      fileUrl2: '/web/toutsourcingCustomerService/input',
-      fileUrl3: '/web/toutsourcingRecruitmentFee/input',*/
+      loading: false,
+      fullscreenLoading2: false,
+      fdept: null,
+      list: [],
+      deptArray: [],
+      columns: [
+        {text: '工号', name: 'fnumber'},
+        {text: '姓名', name: 'fname'},
+        {text: '英文名', name: 'fenglishname'},
+        {text: '性别', name: 'fgender'},
+        {text: '联系电话', name: 'fphone'},
+        {text: '邮箱', name: ''},
+        {text: '职位', name: 'fduty'},
+        {text: '角色', name: 'ftype', width: '130'},
+        {text: '部门', name: 'fdept'},
+        {text: '最近调职日期', name: '', width: '130'},
+        {text: '入职日期', name: 'fjoindate', width: '130'},
+        {text: '过渡截止日期', name: 'fcutoffdate', width: '130'},
+        {text: '离职日期', name: 'fdeparturedate', width: '130'},
+      ],
+      username: '',
+      fannual: null,
+      multipleSelection: [],
       btnList: [],
       headers: {
         'authorization': getToken('ssrx')
@@ -132,6 +228,7 @@ export default {
       fileUrl2: '',
       fileUrl: '',
       fullscreenLoading: false,
+      visible2: null,
       visible: null,
       radio: '/web/toutsourceProject/input',
       search: {
@@ -144,6 +241,7 @@ export default {
     ...mapGetters(['node', 'clickData', 'selections'])
   },
   mounted() {
+    this.getDeptList();
     this.fileUrl2 = `/web/paymentList/input`
     /*this.fileUrl = `/baoli/inputData/inputProductMessage`*/
     /*this.fileUrl = `/baoli/inputData/input`
@@ -154,6 +252,85 @@ export default {
     })*/
   },
   methods: {
+    saveData() {
+      this.fullscreenLoading2 = true;
+      if (this.fannual == null) {
+        return this.$message({
+          message: '请选择年度月份',
+          type: 'warning'
+        })
+      }
+      if (this.multipleSelection == 0) {
+        return this.$message({
+          message: '请选择员工',
+          type: 'warning'
+        })
+      }
+      let params = []
+      this.multipleSelection.forEach((item)=>{
+        params.push({
+          fannual: this.fannual.split('-')[0],
+          femp: item.fname,
+          month: this.fannual.split('-')[1],
+          ftype: 3,
+        })
+      })
+      BatchCount(params).then(res => {
+        if (res.flag) {
+          this.fullscreenLoading2 = false
+          this.$emit('uploadList')
+          this.visible2 = false
+        }
+      })
+    },
+    changeDept(val) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      this.fetchData({fdept: val}, loading);
+    },
+    remoteMethod2(query) {
+      if (query !== '') {
+        this.loading = true;
+        this.getDeptList({fdeptname: query});
+      } else {
+        this.deptArray = [];
+      }
+    },
+    getDeptList() {
+      const data = {
+        pageNum: 1,
+        pageSize: 10
+      }
+      getOrganizationsList(data, {}).then(res => {
+        this.loading = false
+        this.deptArray = res.data.records
+      })
+    },
+    fetchFormat() {
+      this.fetchData({name: this.username})
+    },
+    fetchData(val,loading, data = {
+      pageNum: 1,
+      pageSize: 100
+    }) {
+      this.loading = true
+      getTuserList(data, val).then(res => {
+        this.loading = false
+        loading.close();
+        this.list = res.data
+      })
+    },
+    batchCalculation() {
+      this.visible2 = true
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+
     detailsImport() {
       this.visible = true
     },

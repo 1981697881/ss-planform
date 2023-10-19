@@ -192,6 +192,18 @@ export function countRecruitmentBonus(params) {
     data: params
   })
 }
+// 奖金管理-批量计算
+export function BatchCount(params) {
+  return request({
+    url: '/recruitmentBonus/BatchCount',
+    headers: {
+      'authorization': getToken('ssrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
+}
 // 招聘奖金管理-删除
 export function deleteRecruitmentBonus(params) {
   return request({
