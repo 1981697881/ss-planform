@@ -519,28 +519,30 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     this.getUsersArray()
     /*this.fetchData({ftype: 1})*/
     if (this.listInfo) {
       this.form = this.listInfo
-
+      this.form.femp = this.listInfo.fposition
+      await this.remoteMethod(this.form.femp);
+      await this.changeUser(this.form.femp)
     }
   },
   methods: {
-    remoteMethod(query) {
+    async remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
-        this.getUsersArray({fenglishname: query});
+        await this.getUsersArray({fenglishname: query});
       } else {
         this.userList = [];
       }
     },
-    getUsersArray(val = {}, data = {
+    async getUsersArray(val = {}, data = {
       pageNum: 1,
       pageSize: 10
     }) {
-      getTuserList(data, val).then(res => {
+      await getTuserList(data, val).then(res => {
         if (res.flag) {
           this.loading = false;
           this.userList = res.data.records
@@ -581,14 +583,14 @@ export default {
      /* this.fetchData({ftype: 1,femp: this.form.femp, fannual: val})*/
       /*}*/
     },
-    changeUser(val) {
+    async changeUser(val) {
       this.userList.forEach((item)=>{
         if(item.fenglishname == val){
           console.log(item)
           this.form.fcutoffdate = item.fcutoffdate
-          this.form.fisassistant = item.fisassistant
           this.form.fjoindate = item.fjoindate
           this.form.fbelongconsultant = item.fbelongconsultant
+          this.form.fisassistant = Number(item.fisassistant)
         }
       })
       /*if (this.listInfo) {*/
@@ -746,43 +748,45 @@ export default {
       getRecruitmentBonusList(data, val).then(res => {
         this.loading = false
         if(res.flag){
-          let resData = res.data.records[0].tQuarterList
-          for (var item in resData) {
-            if (resData[item].fitem == '1') {
-              this.list[0].qOne = resData[item]['q1']
-              this.list[0].qTwo = resData[item]['q2']
-              this.list[0].qThree = resData[item]['q3']
-              this.list[0].qFour = resData[item]['q4']
-              this.list[0]['total'] = res.data.records[0].faccumulateia
-            } else if (resData[item].fitem == '2') {
-              this.list[1].qOne = resData[item]['q1']
-              this.list[1].qTwo = resData[item]['q2']
-              this.list[1].qThree = resData[item]['q3']
-              this.list[1].qFour = resData[item]['q4']
-              this.list[1]['total'] = res.data.records[0].finvoicedgp
-            } else if (resData[item].fitem == '3') {
-              this.list[2].qOne = resData[item]['q1']
-              this.list[2].qTwo = resData[item]['q2']
-              this.list[2].qThree = resData[item]['q3']
-              this.list[2].qFour = resData[item]['q4']
-              this.list[2]['total'] = res.data.records[0].fcollectiongp
-            } /*else if (resData[item].fitem == '4') {
+          if(res.data.records.length > 0){
+            let resData = res.data.records[0].tQuarterList
+            for (var item in resData) {
+              if (resData[item].fitem == '1') {
+                this.list[0].qOne = resData[item]['q1']
+                this.list[0].qTwo = resData[item]['q2']
+                this.list[0].qThree = resData[item]['q3']
+                this.list[0].qFour = resData[item]['q4']
+                this.list[0]['total'] = res.data.records[0].faccumulateia
+              } else if (resData[item].fitem == '2') {
+                this.list[1].qOne = resData[item]['q1']
+                this.list[1].qTwo = resData[item]['q2']
+                this.list[1].qThree = resData[item]['q3']
+                this.list[1].qFour = resData[item]['q4']
+                this.list[1]['total'] = res.data.records[0].finvoicedgp
+              } else if (resData[item].fitem == '3') {
+                this.list[2].qOne = resData[item]['q1']
+                this.list[2].qTwo = resData[item]['q2']
+                this.list[2].qThree = resData[item]['q3']
+                this.list[2].qFour = resData[item]['q4']
+                this.list[2]['total'] = res.data.records[0].fcollectiongp
+              } /*else if (resData[item].fitem == '4') {
                   this.list[3].qOne = resData[item]['q1']
                   this.list[3].qTwo = resData[item]['q2']
                   this.list[3].qThree = resData[item]['q3']
                   this.list[3].qFour = resData[item]['q4']
                   this.list[3]['total'] = res.data.records[0].faccumulategp
                 }*/
+            }
+            this.list[3]['total'] = res.data.records[0].faccumulategp
+            this.list[4]['total'] = res.data.records[0].faccumulatedprovisionratio
+            this.list[5]['total'] = res.data.records[0].faccumulatedaccruedexpenses
+            this.list[6]['total'] = res.data.records[0].fwarrantycost
+            this.list[7]['total'] = res.data.records[0].fwarrantyfreezecost
+            this.list[8]['total'] = res.data.records[0].fwarrantypart
+            this.list[9]['total'] = res.data.records[0].fpaidfees
+            this.list[10]['total'] = res.data.records[0].fmonthcost
+            this.list[11]['total'] = res.data.records[0].faccumulatenocost
           }
-          this.list[3]['total'] = res.data.records[0].faccumulategp
-          this.list[4]['total'] = res.data.records[0].faccumulatedprovisionratio
-          this.list[5]['total'] = res.data.records[0].faccumulatedaccruedexpenses
-          this.list[6]['total'] = res.data.records[0].fwarrantycost
-          this.list[7]['total'] = res.data.records[0].fwarrantyfreezecost
-          this.list[8]['total'] = res.data.records[0].fwarrantypart
-          this.list[9]['total'] = res.data.records[0].fpaidfees
-          this.list[10]['total'] = res.data.records[0].fmonthcost
-          this.list[11]['total'] = res.data.records[0].faccumulatenocost
         }
       })
     },

@@ -34,7 +34,7 @@ export default {
       type: null,
       columns: [
         { text: '年度', name: 'fannual' },
-        { text: '职位', name: 'fposition' },
+        { text: '职员', name: 'fposition' },
         { text: '结清标记', name: 'fcompletesign' },
         { text: '基本工资', name: 'fbasicsalary' },
         { text: '基本工资成本', name: 'fbasicsalarycost',width: '130' },

@@ -163,6 +163,19 @@ export function getTuserList(params, query) {
     data: query
   })
 }
+// 员工管理-获取列表
+export function getTuserBatchList(params, query) {
+  const url = '/tuser/tuserBatchList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('ssrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: query
+  })
+}
 
 // 员工管理-新增
 export function addTuser(params) {

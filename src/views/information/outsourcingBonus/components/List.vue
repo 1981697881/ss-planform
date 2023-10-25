@@ -34,6 +34,7 @@ export default {
       fid: null,
       type: null,
       columns: [
+        { text: '职员', name: 'fposition' },
         { text: '结清标记', name: 'fcompletesign' },
         { text: '本年项目GP', name: 'ftyearprojectgp',width: '130' },
         { text: '上年年项目GP上年年目标', name: 'flyearprojectgp',width: '160' },

@@ -140,7 +140,7 @@
 <script>import { mapGetters } from 'vuex'
 import { getByUserAndPrId } from '@/api/system/index'
 import { getToken } from '@/utils/auth'
-import {getTuserList, getOrganizationsList} from '@/api/basic/index'
+import {getTuserBatchList, getOrganizationsList} from '@/api/basic/index'
 import {BatchCount} from '@/api/information/index'
 export default {
   components: {
@@ -197,7 +197,6 @@ export default {
   },
   methods: {
     saveData() {
-      this.fullscreenLoading = true;
       if (this.fannual == null) {
         return this.$message({
           message: '请选择年度月份',
@@ -210,13 +209,16 @@ export default {
           type: 'warning'
         })
       }
+      this.fullscreenLoading = true;
       let params = []
       this.multipleSelection.forEach((item)=>{
         params.push({
           fannual: this.fannual.split('-')[0],
-          femp: item.fname,
+          femp: item.fenglishname,
           month: this.fannual.split('-')[1],
           ftype: 2,
+          fmonthcost: 0,
+          foutmonthcost: 0
         })
       })
       BatchCount(params).then(res => {
@@ -262,7 +264,7 @@ export default {
       pageSize: 100
     }) {
       this.loading = true
-      getTuserList(data, val).then(res => {
+      getTuserBatchList(data, val).then(res => {
         this.loading = false
         loading.close();
         this.list = res.data

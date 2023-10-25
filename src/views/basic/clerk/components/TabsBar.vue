@@ -255,7 +255,7 @@ export default {
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.name != null && this.search.name != '' ? obj.name = this.search.name : null
+      this.search.name != null && this.search.name != '' ? obj.fenglishname = this.search.name : null
       return obj
     },
     handlerAdd(){
