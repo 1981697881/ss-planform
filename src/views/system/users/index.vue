@@ -1,7 +1,6 @@
 <template>
   <div class="app-list">
-    <Tree ref="tree" class="list-tree" />
-    <div class="list-container">
+    <div class="list-containerOther">
       <div>
         <tabs-bar ref="tabs" @showDialog="handlerDialog" @delList="delList" @delGroup="delGroup" @uploadAll="uploadAll" @queryBtn="query" @showGroupDialog="groupDialog"  />
       </div>

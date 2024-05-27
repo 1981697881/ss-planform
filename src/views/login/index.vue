@@ -129,7 +129,7 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then((res) => {
             console.log(res)
-            if (res.flag) {
+            if (res.success) {
               this.$router.push({path: this.redirect || '/'})
               this.loading = false
             } else {

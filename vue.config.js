@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'ss-planformv.1' // page title
+const name = defaultSettings.title || 'hali-planformv.1' // page title
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run
@@ -25,7 +25,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: process.env.NODE_ENV === 'production' ? '/ss-planform/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/hali-planform/' : '/',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
@@ -42,7 +42,7 @@ module.exports = {
       [process.env.VUE_APP_BASE_API]: {
         //target: `http://gzfzdev.com/`, // 修改后台接口地址
         //target: `http://test.gzfzdev.com:10020/`,
-        target: `http://192.168.31.167:10020/`,
+        target: `http://159.75.233.201:10011/`,
         //target: `http://sr.gzfzdev.com:50080/web`,
         changeOrigin: true, // 必须加上跨域
         ws: false,

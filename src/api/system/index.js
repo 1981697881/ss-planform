@@ -9,7 +9,7 @@ export function getUsersTree(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx')
+      'authorization': getToken('hlrx')
     },
     method: 'get'
   })
@@ -20,7 +20,7 @@ export function groupAdd(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -33,7 +33,7 @@ export function groupAlter(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -48,21 +48,22 @@ export function delGroup(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx')
+      'authorization': getToken('hlrx')
     },
     method: 'delete'
   })
 }
 // 用户权限管理-获取列表
 export function getUsersList(data) {
-  const url = '/Admin/user/list/' + data.pageNum + '/' + data.pageSize
+  const url = '/sysUser/getSysUserAll'
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
-    method: 'POST'
+    method: 'POST',
+    params: data
   })
 }
 // 用户权限管理-新增
@@ -71,7 +72,7 @@ export function addUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -84,7 +85,7 @@ export function alterUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -97,7 +98,7 @@ export function delUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -108,7 +109,7 @@ export function disableUsers(params) {
   return request({
    url: '/table/list',
     headers: {
-      'authorization': getToken('ssrx')
+      'authorization': getToken('hlrx')
     },
     method: 'get',
     params
@@ -119,7 +120,7 @@ export function enableUsers(params) {
   return request({
    url: '/table/list',
     headers: {
-      'authorization': getToken('ssrx')
+      'authorization': getToken('hlrx')
     },
     method: 'get',
     params
@@ -131,7 +132,7 @@ export function getUsersInfo(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -142,7 +143,7 @@ export function getByUserAndPrId(params) {
   return request({
    url: '/sys-menu/getByUserAndPrId/' + params,
     headers: {
-      'authorization': getToken('ssrx')
+      'authorization': getToken('hlrx')
     },
     method: 'get'
   })
@@ -152,7 +153,7 @@ export function getClerk(params) {
   return request({
    url: '/table/list',
     headers: {
-      'authorization': getToken('ssrx')
+      'authorization': getToken('hlrx')
     },
     method: 'get',
     params
@@ -163,7 +164,7 @@ export function getMenuList(params) {
   return request({
    url: '/sys-menu/getSysMenuTree',
     headers: {
-      'authorization': getToken('ssrx')
+      'authorization': getToken('hlrx')
     },
     method: 'get',
   })

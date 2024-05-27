@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
   // set page title
   document.title = getPageTitle(to.meta.title)
   // determine whether the user has logged in
-  const hasToken = getToken('ssrx')
+  const hasToken = getToken('hlrx')
   if (typeof(hasToken)!='undefined') {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page

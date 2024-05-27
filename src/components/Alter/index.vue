@@ -71,7 +71,7 @@
                     if (valid) {
                         this.loading = true
                         this.$store.dispatch('user/changePassword', this.form).then(res => {
-                            if(res.flag){
+                            if(res.success){
                               setTimeout(() =>{
                                 location.reload()
                               },1000);

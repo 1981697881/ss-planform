@@ -61,74 +61,11 @@ export const StaticRouterMap = [{
     icon: 'component'
   },
   children: [{
-    path: 'users',
-    component: () => import('@/views/system/users/index'),
-    name: 'Users',
-    meta: {
-      title: '用户管理'
-    }
-  }, {
     path: 'organizational',
-    component: () => import('@/views/basic/organizational/index'),
+    component: () => import('@/views/basic/warehouse/index'),
     name: 'Organizational',
     meta: {
-      title: '组织架构'
-    }
-  }, {
-    path: 'duties',
-    component: () => import('@/views/basic/duties/index'),
-    name: 'Duties',
-    meta: {
-      title: '职务体系'
-    }
-  }, {
-    path: 'clerk',
-    component: () => import('@/views/basic/clerk/index'),
-    name: 'Clerk',
-    meta: {
-      title: '职员管理'
-    }
-  }, /*{
-    path: 'team',
-    component: () => import('@/views/basic/team/index'),
-    name: 'Team',
-    meta: {
-      title: '团队管理'
-    }
-  },*/ {
-    path: 'essential',
-    component: () => import('@/views/basic/essential/index'),
-    name: 'Essential',
-    meta: {
-      title: '参数表'
-    }
-  }, {
-    path: 'dictionaries',
-    component: () => import('@/views/basic/dictionaries/index'),
-    name: 'Dictionaries',
-    meta: {
-      title: '字典表'
-    }
-  }, {
-    path: 'commissionRatio',
-    component: () => import('@/views/basic/commissionRatio/index'),
-    name: 'CommissionRatio',
-    meta: {
-      title: '提成比例设定'
-    }
-  }, {
-    path: 'contractTerms',
-    component: () => import('@/views/basic/contractTerms/index'),
-    name: 'ContractTerms',
-    meta: {
-      title: '合同条款'
-    }
-  }, {
-    path: 'bdRoll',
-    component: () => import('@/views/basic/bdRoll/index'),
-    name: 'BdRoll',
-    meta: {
-      title: 'BD名单导入'
+      title: '库位信息'
     }
   }
   ]
@@ -137,102 +74,53 @@ export const StaticRouterMap = [{
   component: Layout,
   name: 'Information',
   meta: {
-    title: '工资数据管理',
+    title: '条码管理',
     icon: 'component'
   },
-  children: [{
-    path: 'workTeam',
-    component: () => import('@/views/information/workTeam/index'),
-    name: 'WorkTeam',
+  children: [/*{
+    path: 'barcodeImport',
+    component: () => import('@/views/information/barcodeImport/index'),
+    name: 'BarcodeImport',
     meta: {
-      title: '团队管理'
-    }
-  }, {
-    path: 'outsourcedProjects',
-    component: () => import('@/views/information/outsourcedProjects/index'),
-    name: 'OutsourcedProjects',
-    meta: {
-      title: '外包项目管理'
-    }
-  }, /*{
-    path: 'opening',
-    component: () => import('@/views/information/opening/index'),
-    name: 'Opening',
-    meta: {
-      title: '期初数据导入'
+      title: '条码导入'
     }
   },*/ {
-    path: 'bonusPlan',
-    component: () => import('@/views/information/bonusPlan/index'),
-    name: 'BonusPlan',
+    path: 'barcodePrinting',
+    component: () => import('@/views/information/barcodePrinting/index'),
+    name: 'BarcodePrinting',
     meta: {
-      title: '外包奖金方案'
-    }
-  }, {
-    path: 'recruitmentBonus',
-    component: () => import('@/views/information/recruitmentBonus/index'),
-    name: 'RecruitmentBonus',
-    meta: {
-      title: '招聘奖金管理'
-    }
-  }, {
-    path: 'bdBonus',
-    component: () => import('@/views/information/bdBonus/index'),
-    name: 'BdBonus',
-    meta: {
-      title: 'BD奖金管理'
-    }
-  }, {
-    path: 'teamBonus',
-    component: () => import('@/views/information/teamBonus/index'),
-    name: 'TeamBonus',
-    meta: {
-      title: '团队奖金管理'
-    }
-  }, {
-    path: 'outsourcingBonus',
-    component: () => import('@/views/information/outsourcingBonus/index'),
-    name: 'OutsourcingBonus',
-    meta: {
-      title: '外包奖金管理'
+      title: '条码打印'
     }
   }
   ]
 }, {
-  path: '/reportForm',
+  path: '/system',
   component: Layout,
-  name: 'ReportForm',
+  name: 'System',
   meta: {
-    title: '工资报表',
+    title: '系统设置',
     icon: 'component'
   },
   children: [{
-    path: 'bonusSummary',
-    component: () => import('@/views/reportForm/bonusSummary/index'),
-    name: 'BonusSummary',
+    path: 'users',
+    component: () => import('@/views/system/users/index'),
+    name: 'Users',
     meta: {
-      title: '奖金汇总表'
+      title: '系统用户'
     }
   }, {
-    path: 'outsourcingBonusSummary',
-    component: () => import('@/views/reportForm/outsourcingBonusSummary/index'),
-    name: 'OutsourcingBonusSummary',
+    path: 'setOfBooks',
+    component: () => import('@/views/system/setOfBooks/index'),
+    name: 'SetOfBooks',
     meta: {
-      title: '外包奖金汇总表'
+      title: '账套管理'
     }
   }, {
-    path: 'incomeDetail',
-    component: () => import('@/views/reportForm/incomeDetail/index'),
-    name: 'IncomeDetail',
+    path: 'parameter',
+    component: () => import('@/views/system/parameter/index'),
+    name: 'Parameter',
     meta: {
-      title: '奖金明细表'
-    }
-  }, {
-    path: 'outsourcingBonusDetails',
-    component: () => import('@/views/reportForm/outsourcingBonusDetails/index'),
-    name: 'OutsourcingBonusDetails',
-    meta: {
-      title: '外包奖金明细表'
+      title: '系统参数设置'
     }
   }
   ]

@@ -213,7 +213,7 @@ export default {
     factchGroup() {
       this.loading = true
       getUsersTree().then(res => {
-        if (res.flag) {
+        if (res.success) {
           this.loading = false
           this.list = res.data
           if (this.listInfo) {
@@ -241,7 +241,7 @@ export default {
     },
     fetchData(val) {
       getUsersInfo(val).then(res => {
-        if (res.flag) {
+        if (res.success) {
           this.form = res.data
           let rows = this.list
           let group = res.data.gids

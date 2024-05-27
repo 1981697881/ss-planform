@@ -8,7 +8,7 @@ export function getRouter(userId) {
   }
   return request({
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
     },
    url: '/sys-menu/getByUser',
     method: 'get',
