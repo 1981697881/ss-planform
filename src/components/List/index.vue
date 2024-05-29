@@ -71,7 +71,7 @@
       <el-pagination
         @size-change="handleSize"
         @current-change="handleCurrent"
-        :current-page="list.current"
+        :current-page="list.pageNum"
         :page-sizes="[50, 100, 250, 500, 1000, 2500]"
         :page-size="list.size"
         :page-count="list.pages?list.pages:0"

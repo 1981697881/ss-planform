@@ -2,7 +2,28 @@ import request from '@/utils/request'
 import {
   getToken
 } from '@/utils/auth'
-
+// 用户菜单权限
+export function getSysAuth(params) {
+  return request({
+    url: 'sysUser/getSysAuth?userId='+params,
+    headers: {
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+  })
+}
+// 用户仓库权限
+export function getUserStockAuth(params) {
+  return request({
+    url: 'sysUser/getUserStockAuth?userId='+params,
+    headers: {
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+  })
+}
 // 用户权限管理-获取用户组
 export function getUsersTree(params) {
   var url = '/Admin/group/list/'

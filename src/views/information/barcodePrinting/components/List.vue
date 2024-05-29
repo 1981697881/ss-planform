@@ -87,7 +87,7 @@ export default {
     },
     uploadPr(val) {
       this.fetchData(val, {
-        pageNum: 1,
+        pageIndex: 1,
         pageSize: this.list.size || 50
       })
     },
@@ -99,7 +99,7 @@ export default {
       this.$store.dispatch('list/setClickData', obj.row)
     },
     fetchData(val, data = {
-      pageNum: this.list.current || 1,
+      pageIndex: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
       var params = Object.assign({}, data, val);

@@ -38,7 +38,7 @@ export function queryBillList(params, query) {
       'Content-Type': 'application/json'
     },
     method: 'POST',
-    params: params
+    data: params
   })
 }// 条码打印-获取物料
 export function getItemList(params, query) {
@@ -66,7 +66,7 @@ export function printBarcode(params) {
   })
 }// 条码打印-生成条码
 export function createBarcode(params) {
-  const url = '/basic/barcodePrint/createBarcode'
+  const url = '/basic/barcodePrint/createBarcodeBatch'
   return request({
     url: url,
     headers: {

@@ -2,7 +2,8 @@ import request from '@/utils/request' // 引入封装好的axios请求
 import {
   getToken
 } from '@/utils/auth' // get token from cookie
-// 查询订单列表
+
+// 用户列表
 export function usersList(data) {
   // 查询分页数据
   const url = '/Admin/user/list/' + data.pageNum + '/' + data.pageSize

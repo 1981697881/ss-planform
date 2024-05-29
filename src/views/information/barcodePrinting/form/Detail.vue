@@ -14,7 +14,7 @@
                 v-for="item in userList"
                 :key="item.id"
                 :label="item.ruleName"
-                :value="item.id">
+                :value="item.ruleType">
               </el-option>
             </el-select>
           </el-form-item>
@@ -140,7 +140,7 @@
 import {
   getToken
 } from '@/utils/auth'
-import {print1, print2, print3,} from '@/tools/doPrint'
+import {print1, print2, print3, print4} from '@/tools/doPrint'
 
 export default {
   props: {
@@ -192,7 +192,7 @@ export default {
       fileUrl: this.$store.state.user.url + '/web/expenseDetails/input',
       activeName: 'first',
       form: {
-        ruleId: 2,
+        ruleId: 11,
         FName: null,
         FNumber: null,
         FModel: null,
@@ -250,10 +250,11 @@ export default {
   async mounted() {
     this.aliasNumber = '项目名称'
     this.getUsersArray()
+
     /*this.fetchData({ftype: 1})*/
     if (this.listInfo) {
       this.form = {...this.listInfo}
-      this.getBarcodePrint(this.listInfo.id)
+      //this.getBarcodePrint(this.listInfo.id)
 
     }
   },
@@ -270,6 +271,7 @@ export default {
       });
     },
     calculate() {
+      console.log(this.form.ruleId)
       if (this.form.ruleId == 1 || this.form.ruleId == 5) {
         this.fetchData();
       } else if (this.form.ruleId == 11 || this.form.ruleId == 12 || this.form.ruleId == 13 || this.form.ruleId == 14) {
@@ -300,6 +302,7 @@ export default {
         this.isOrder = false;
         this.aliasName = '物料名称'
         this.aliasNumber = '物料编码'
+        this.list = []
       } else if (val == 11) {
         this.columns = [
           {text: '打印数量', name: 'printNum', sfkgg: true},
@@ -322,6 +325,7 @@ export default {
           {text: '标签编码', name: 'FLabel'}]
         this.aliasNumber = '项目名称'
         this.isOrder = true;
+        this.list = []
       } else if (val == 12 || val == 13 || val == 14) {
         this.columns = [
           {text: '打印数量', name: 'printNum', sfkgg: true},
@@ -346,6 +350,7 @@ export default {
           {text: '标签编码', name: 'FLabel'}]
         this.isOrder = true;
         this.aliasNumber = '项目名称'
+        this.list = []
       }
     },
     importData() {
@@ -354,6 +359,7 @@ export default {
     getBarcodePrint(val) {
       getBarcodePrintById(val).then(res => {
         if (res.success) {
+          this.list = res.data.details
         }
       })
     },
@@ -376,7 +382,7 @@ export default {
         if (res.success) {
           res.data.forEach((item) => {
             item.printNum = 1;
-            item.printNum = 1;
+            item.location = '';
           })
           this.list = res.data
         }
@@ -388,19 +394,29 @@ export default {
       pageSize: 50
     }) {
       this.loading = true
-      queryBillList({
-        Ftrantype: this.form.Ftrantype,
-        FBillNo: this.form.FName,
-        Type: 2,
-        FStartDate: this.value[0],
-        FEndDate: this.value[1]
-      }).then(res => {
+      if(this.form.Ftrantype == null){
+        return this.$message({
+          message: '选择单据类型',
+          type: 'error'
+        });
+      }
+      var params = {
+        tranType: this.form.Ftrantype,
+        billNo: this.form.FName,
+        type: 2,
+        pageNum: 1,
+        pageSize: 100,
+      }
+      this.value.length == 0? params.startDate = this.value[0] : null
+      this.value.length == 0? params.endDate = this.value[1] : null
+      queryBillList(params).then(res => {
         this.loading = false
         if (res.success) {
-          res.data.forEach((item) => {
-            item.printNum = 1;
+          res.data.list.forEach((item) => {
+            item.printNum = 1
+            item.barcode = ''
           })
-          this.list = res.data
+          this.list = res.data.list
         }
       })
     },
@@ -416,7 +432,13 @@ export default {
             });
           }
           var paramsData = {}
-          paramsData.ruleId = that.form.ruleId;
+          var ruleId;
+          this.userList.forEach((item) => {
+            if(this.form.ruleId == item.ruleType){
+              ruleId = item.id
+            }
+          })
+          paramsData.ruleId = ruleId;
           var params = []
           this.multipleSelection.forEach((item) => {
             var barcodePrintDetail = {};
@@ -466,24 +488,27 @@ export default {
           paramsData.details = params;
           printBarcode(paramsData).then(reso => {
             if (reso.success) {
-              if(reso.data instanceof Object){
-                that.$message({
-                  message: reso.data.msg,
-                  type: 'error'
-                });
-              }else{
-                if (that.form.ruleId == 14) {
-                  print3(reso.data)
+              if(reso.data.data instanceof Array){
+                if (that.form.ruleId == 5) {
+                  print4(reso.data.data)
+                  LODOP.PREVIEW()
+                } else if (that.form.ruleId == 14) {
+                  print3(reso.data.data)
                   LODOP.PREVIEW()
                 } else if (that.form.ruleId == 11) {
-                  print1(reso.data)
+                  print1(reso.data.data)
                   LODOP.PREVIEW()
                 } else if (that.form.ruleId == 13) {
-                  print2(reso.data)
+                  print2(reso.data.data)
                   LODOP.PREVIEW()
                 }
                 this.$emit('hideDialog', false)
                 this.$emit('uploadList')
+              }else{
+                that.$message({
+                  message: reso.data.msg,
+                  type: 'error'
+                });
               }
             }
           })
@@ -498,28 +523,47 @@ export default {
         // 判断必填项
         if (valid) {
           var params = []
-          if(this.list.length == 0){
+          if(this.multipleSelection.length == 0){
             return that.$message({
               message: '无数据',
               type: 'error'
             });
           }
-          this.list.forEach((item) => {
+          var ruleId;
+          this.userList.forEach((item) => {
+            if(this.form.ruleId == item.ruleType){
+              ruleId = item.id
+            }
+          })
+          this.multipleSelection.forEach((item) => {
             params.push({
-              ruleId: this.form.ruleId,
-              FNumber: item.FNumber
+              ruleId: ruleId,
+              number: item.FItemNumber || item.FNumber
             })
           })
           createBarcode(params).then(res => {
-            if (res.success) {
-              res.data.forEach((item, index) => {
+            var barcode = res.replace(',','').split(',')
+            if (barcode.length>0) {
+              console.log(barcode)
+              barcode.forEach((item, index) => {
+                console.log(that.multipleSelection)
+                console.log(index)
                 if (that.form.ruleId == 1 || that.form.ruleId == 5) {
-                  that.list[index]['location'] = res.data;
+                  that.multipleSelection[index]['location'] = item
                 } else if (this.form.ruleId == 11 ||that.form.ruleId == 12 ||that.form.ruleId == 13 ||that.form.ruleId == 14) {
-                  that.list[index]['barcode'] = res.data;
+
+                  that.multipleSelection[index]['barcode'] = item
                 }
               })
             }
+            that.multipleSelection.forEach((item) => {
+              that.list.forEach((listItem) => {
+                if(listItem.id == item.id){
+                  listItem.barcode = item.barcode
+                }
+              })
+            })
+            console.log(that.list)
           })
         } else {
           return false

@@ -108,7 +108,7 @@ export const StaticRouterMap = [{
     meta: {
       title: '系统用户'
     }
-  }, {
+  }/*, {
     path: 'setOfBooks',
     component: () => import('@/views/system/setOfBooks/index'),
     name: 'SetOfBooks',
@@ -122,7 +122,7 @@ export const StaticRouterMap = [{
     meta: {
       title: '系统参数设置'
     }
-  }
+  }*/
   ]
 }
   /* {

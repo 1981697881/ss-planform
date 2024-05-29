@@ -3,19 +3,23 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="80px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'uid'" style="display: none">
+          <el-form-item :label="'账号类型'">
+            <el-input v-model="form.uid"></el-input>
+          </el-form-item>
+        </el-col><el-col :span="12">
+          <el-form-item :label="'登录账号'">
             <el-input v-model="form.uid"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'用户编码'" prop="jobNum">
+          <el-form-item :label="'用户姓名'" prop="jobNum">
             <el-input v-model="form.jobNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'登录账号'" prop="username">
+          <el-form-item :label="'密码'" prop="username">
             <el-input v-model="form.username"></el-input>
           </el-form-item>
         </el-col>
@@ -29,7 +33,7 @@
            </el-form-item>
          </el-col>-->
         <el-col :span="24">
-          <el-form-item :label="'说明'">
+          <el-form-item :label="'状态'">
             <el-input v-model="form.description"></el-input>
           </el-form-item>
         </el-col>
@@ -45,7 +49,7 @@
         </el-col>
       </el-row>-->
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="所属用户组" name="first">
+        <el-tab-pane label="菜单权限" name="first">
           <el-row>
             <el-table :data="list" border height="250px" ref="multipleTable" @selection-change="handleSelectionChange"
                       stripe size="mini" :highlight-current-row="true">
@@ -62,9 +66,9 @@
             </el-table>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane label="用户权限" name="second">
+        <el-tab-pane label="仓库权限" name="second">
           <el-row  style="height: 250px;overflow: auto;border: 1px solid #EBEEF5;">
-            <el-tree
+            <!--<el-tree
               ref="tree1"
               :props="defaultProps"
               :default-expand-all="false"
@@ -74,7 +78,20 @@
               node-key="menuId"
               highlight-current
               :expand-on-click-node="false"
-            />
+            />-->
+            <el-table :data="list" border height="250px" ref="multipleTable" @selection-change="handleSelectionChange"
+            stripe size="mini" :highlight-current-row="true">
+            <el-table-column align="center" type="selection"></el-table-column>
+            <el-table-column
+              v-for="(t,i) in columns"
+              :key="i"
+              align="center"
+              :prop="t.name"
+              :label="t.text"
+              :width="t.width?t.width:(selfAdaption?'':'120px')"
+              v-if="t.default!=undefined?t.default:true"
+            ></el-table-column>
+            </el-table>
           </el-row>
         </el-tab-pane>
       </el-tabs>
@@ -84,7 +101,7 @@
     </div>
   </div>
 </template>
-<script>import { addUsers, alterUsers, getUsersTree, getUsersInfo, getMenuList } from '@/api/system/index'
+<script>import { addUsers, alterUsers, getUsersTree, getUsersInfo, getMenuList, getSysAuth, getUserStockAuth } from '@/api/system/index'
 import { getClerkList } from '@/api/basic/index'
 
 export default {
@@ -210,9 +227,10 @@ export default {
       })
 
     },
+
     factchGroup() {
       this.loading = true
-      getUsersTree().then(res => {
+      getSysAuth().then(res => {
         if (res.success) {
           this.loading = false
           this.list = res.data
@@ -225,22 +243,8 @@ export default {
 
       })
     },
-    fetchFormat() {
-      const data = {
-        pageNum: this.list.current || 1,
-        pageSize: this.list.size || 1500
-      }
-      getClerkList(data, { disable: false }).then(res => {
-        this.levelFormat = res.data.records
-      })
-    },
-    fetchMenu() {
-      getMenuList().then(res => {
-        this.data = res.data.treeVoList
-      })
-    },
     fetchData(val) {
-      getUsersInfo(val).then(res => {
+      getUserStockAuth(val).then(res => {
         if (res.success) {
           this.form = res.data
           let rows = this.list
@@ -259,7 +263,22 @@ export default {
           }
         }
       })
+    },
+    fetchFormat() {
+      const data = {
+        pageNum: this.list.current || 1,
+        pageSize: this.list.size || 1500
+      }
+      getClerkList(data, { disable: false }).then(res => {
+        this.levelFormat = res.data.records
+      })
+    },
+    fetchMenu() {
+      getMenuList().then(res => {
+        this.data = res.data.treeVoList
+      })
     }
+
   }
 }
 </script>

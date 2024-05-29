@@ -155,13 +155,24 @@ export default {
   },
   async mounted() {
     /*this.fetchData({ftype: 1})*/
+    this.getUsersArray();
     if (this.listInfo) {
       this.form = {...this.listInfo}
-
       this.getBarcodePrint(this.listInfo.id)
     }
   },
   methods: {
+    async getUsersArray(val = {}, data = {
+      pageNum: 1,
+      pageSize: 10
+    }) {
+      await getBarcodeRuleAll(data, val).then(res => {
+        if (res.success) {
+          this.loading = false;
+          this.userList = res.data
+        }
+      });
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
@@ -234,7 +245,13 @@ export default {
       getBarcodePrintById(val).then(res => {
         if (res.success) {
           this.form.ruleId = res.data.ruleId
-          this.changeUser(res.data.ruleId);
+          var ruleType
+          this.userList.forEach((item) => {
+            if(this.form.ruleId == item.id){
+              ruleType = item.ruleType
+            }
+          })
+          this.changeUser(ruleType)
           this.form.ruleName = res.data.ruleName;
           this.list = res.data.details
         }
