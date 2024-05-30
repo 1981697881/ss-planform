@@ -1,5 +1,5 @@
 import {getLodop} from '@/tools/LodopFuncs'
-var basePath = 'http://14.29.254.232:50008/api/barcode-planform/barcodeimg/'
+var basePath = 'http://14.29.254.232:50008/barcodeimg/'
 //  自有产品标签
 const PrintAccount = (data, printingQuantity, apiece, repeat) => {
   function getLength(val) {

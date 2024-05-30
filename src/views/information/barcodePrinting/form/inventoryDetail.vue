@@ -252,8 +252,10 @@ export default {
             }
           })
           this.changeUser(ruleType)
-          this.form.ruleName = res.data.ruleName;
-          this.list = res.data.details
+          this.$nextTick(()=>{
+            this.form.ruleName = res.data.ruleName
+            this.list = res.data.details
+          })
         }
       })
     },

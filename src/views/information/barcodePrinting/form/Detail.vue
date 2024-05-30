@@ -40,7 +40,6 @@
           <el-form-item :label="'单据类型'" prop="Ftrantype">
             <el-select
               size="mini"
-              @change="changeUser"
               style="width: 100%"
               v-model="form.Ftrantype"
               placeholder="请选择">
@@ -61,12 +60,12 @@
       </el-row>
       <el-row :gutter="20" v-else>
         <el-col :span="12">
-          <el-form-item :label="aliasName">
+          <el-form-item :label="aliasNumber">
             <el-input v-model="form.FNumber"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="aliasNumber">
+          <el-form-item :label="aliasName">
             <el-input v-model="form.FName"></el-input>
           </el-form-item>
         </el-col>
@@ -271,7 +270,7 @@ export default {
       });
     },
     calculate() {
-      console.log(this.form.ruleId)
+      this.list = []
       if (this.form.ruleId == 1 || this.form.ruleId == 5) {
         this.fetchData();
       } else if (this.form.ruleId == 11 || this.form.ruleId == 12 || this.form.ruleId == 13 || this.form.ruleId == 14) {
@@ -292,6 +291,8 @@ export default {
           {text: '规格型号', name: 'FModel'},
           {text: '计量单位', name: 'FUnitName'},
           {text: '单位编码', name: 'FUnitNumber'},
+          {text: '批号', name: 'FBatchNo', sfkgg: true},
+          {text: '数量', name: 'FAuxQty', sfkgg: true},
           {text: '默认仓库编码', name: 'FDefaultStockNumber'},
           {text: '默认仓库名称', name: 'FDefaultStockName'},
           {text: '库位', name: 'FStockPlace'},
@@ -315,8 +316,8 @@ export default {
           {text: '计量单位', name: 'FUnitName'},
           {text: '仓库编码', name: 'FDefaultStockNumber'},
           {text: '仓库名称', name: 'FDefaultStockName'},
-          {text: '批号', name: 'FBatchNo'},
-          {text: '数量', name: 'FAuxQty'},
+          {text: '批号', name: 'FBatchNo', sfkgg: true},
+          {text: '数量', name: 'FAuxQty', sfkgg: true},
           {text: '供应商批号', name: 'FSupBatchNo'},
           {text: '净重', name: 'FNetWeight'},
           {text: '供应商生产日期', name: 'FSupDate'},
@@ -340,8 +341,8 @@ export default {
           {text: '计量单位', name: 'FUnitName'},
           {text: '仓库编码', name: 'FDefaultStockNumber'},
           {text: '仓库名称', name: 'FDefaultStockName'},
-          {text: '批号', name: 'FBatchNo'},
-          {text: '数量', name: 'FAuxQty'},
+          {text: '批号', name: 'FBatchNo', sfkgg: true},
+          {text: '数量', name: 'FAuxQty', sfkgg: true},
           {text: '供应商批号', name: 'FSupBatchNo'},
           {text: '净重', name: 'FNetWeight'},
           {text: '供应商生产日期', name: 'FSupDate'},
@@ -371,13 +372,14 @@ export default {
       pageSize: 50
     }) {
       this.loading = true
-      getItemList({
-        FNumber: this.form.FNumber,
-        FName: this.form.FName,
-        FModel: this.form.FModel,
-        pageSize: '1',
-        pageIndex: '100'
-      }).then(res => {
+      var params = {
+        pageSize: '100',
+        pageIndex: '1'
+      }
+      this.form.FNumber != null && this.form.FNumber != '' ? params.number = this.form.FNumber : null
+      this.form.FName != null && this.form.FName != '' ? params.name = this.form.FName : null
+      this.form.FModel != null && this.form.FModel != '' ? params.model = this.form.FModel : null
+      getItemList(params).then(res => {
         this.loading = false
         if (res.success) {
           res.data.forEach((item) => {
@@ -447,18 +449,21 @@ export default {
               barcodePrintDetail.maker = item.fmaker;
               barcodePrintDetail.modelType = item.FModelType;
               barcodePrintDetail.location = item.location;
+              barcodePrintDetail.name = item.FName;
+              barcodePrintDetail.number = item.FNumber;
             } else if (that.form.ruleId == 11) {
               barcodePrintDetail.tranType = item.Ftrantype;
               barcodePrintDetail.billNo = item.FBillNo;
               barcodePrintDetail.entryId = item.FEntryID;
               barcodePrintDetail.date = item.FDate;
-              barcodePrintDetail.quantity = item.FAuxQty;
               barcodePrintDetail.supBatchNo = item.FSupBatchNo;
               barcodePrintDetail.netWeight = item.FNetWeight;
               barcodePrintDetail.supDate = item.FSupDate;
               barcodePrintDetail.deptName = item.FDeptName;
               barcodePrintDetail.planCommitDate = item.FPlanCommitDate;
               barcodePrintDetail.label = item.FLabel;
+              barcodePrintDetail.name = item.FItemName;
+              barcodePrintDetail.number = item.FItemNumber;
             } else if (that.form.ruleId == 12 || that.form.ruleId == 13 || that.form.ruleId == 14) {
               barcodePrintDetail.tranType = item.Ftrantype;
               barcodePrintDetail.billNo = item.FBillNo;
@@ -466,16 +471,17 @@ export default {
               barcodePrintDetail.date = item.FDate;
               barcodePrintDetail.custNumber = item.FCustNumber;
               barcodePrintDetail.custName = item.FCustName;
-              barcodePrintDetail.quantity = item.FAuxQty;
+
               barcodePrintDetail.supBatchNo = item.FSupBatchNo;
               barcodePrintDetail.netWeight = item.FNetWeight;
               barcodePrintDetail.supDate = item.FSupDate;
               barcodePrintDetail.deptName = item.FDeptName;
               barcodePrintDetail.planCommitDate = item.FPlanCommitDate;
               barcodePrintDetail.label = item.FLabel;
+              barcodePrintDetail.name = item.FItemName;
+              barcodePrintDetail.number = item.FItemNumber;
             }
-            barcodePrintDetail.number = item.FNumber;
-            barcodePrintDetail.name = item.FItemName;
+            barcodePrintDetail.quantity = item.FAuxQty;
             barcodePrintDetail.model = item.FModel;
             barcodePrintDetail.unitNumber = item.FUnitID;
             barcodePrintDetail.unitName = item.FUnitName;
@@ -498,7 +504,7 @@ export default {
                 } else if (that.form.ruleId == 11) {
                   print1(reso.data.data)
                   LODOP.PREVIEW()
-                } else if (that.form.ruleId == 13) {
+                } else if (that.form.ruleId == 12 || that.form.ruleId == 13) {
                   print2(reso.data.data)
                   LODOP.PREVIEW()
                 }
