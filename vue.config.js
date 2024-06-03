@@ -42,8 +42,8 @@ module.exports = {
       [process.env.VUE_APP_BASE_API]: {
         //target: `http://gzfzdev.com/`, // 修改后台接口地址
         //target: `http://test.gzfzdev.com:10020/`,
-        target: `http://14.29.254.232:50008/api`,
-        //target: `http://sr.gzfzdev.com:50080/web`,
+        //target: `http://14.29.254.232:50008/api`,
+        target: `http://159.75.233.201:10011`,
         changeOrigin: true, // 必须加上跨域
         ws: false,
         secure: false,

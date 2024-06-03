@@ -5,18 +5,26 @@ import {
 // 用户菜单权限
 export function getSysAuth(params) {
   return request({
-    url: 'sysUser/getSysAuth?userId='+params,
+    url: '/sysUser/getSysAuth?userId=' + params,
     headers: {
-      'authorization': getToken('hlrx'),
-      'Content-Type': 'application/json'
+      'authorization': getToken('hlrx')
     },
-    method: 'POST',
+    method: 'POST'
   })
 }
 // 用户仓库权限
 export function getUserStockAuth(params) {
   return request({
-    url: 'sysUser/getUserStockAuth?userId='+params,
+    url: '/sysUser/getUserStockAuth?userId=' + params,
+    headers: {
+      'authorization': getToken('hlrx')
+    },
+    method: 'POST'
+  })
+}// 用户仓库权限
+export function sysUserEdit(params) {
+  return request({
+    url: '/sysUser/sysUserEdit?id=' + params,
     headers: {
       'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
@@ -24,20 +32,9 @@ export function getUserStockAuth(params) {
     method: 'POST',
   })
 }
-// 用户权限管理-获取用户组
-export function getUsersTree(params) {
-  var url = '/Admin/group/list/'
-  return request({
-    url: url,
-    headers: {
-      'authorization': getToken('hlrx')
-    },
-    method: 'get'
-  })
-}
-// 用户管理-用户组新增
-export function groupAdd(params) {
-  const url = '/Admin/group/add'
+// 用户权限管理-新增
+export function addUsers(params) {
+  const url = '/sysUser/sysUserSave'
   return request({
     url: url,
     headers: {
@@ -48,9 +45,9 @@ export function groupAdd(params) {
     data: params
   })
 }
-// 用户管理-用户组修改
-export function groupAlter(params) {
-  const url = '/Admin/group/update'
+// 用户权限管理-保存菜单权限
+export function sysUserSave(params) {
+  const url = '/sysUser/sysAuthSave'
   return request({
     url: url,
     headers: {
@@ -58,20 +55,19 @@ export function groupAlter(params) {
       'Content-Type': 'application/json'
     },
     method: 'post',
-    data: {
-      goods: params
-    }
+    data: params
   })
-}
-// 用户管理-用户组删除
-export function delGroup(params) {
-  const url = '/Admin/group/delete/' + params
+}// 用户权限管理-保存仓库权限
+export function userStockSave(params) {
+  const url = '/sysUser/userStockSave'
   return request({
     url: url,
     headers: {
-      'authorization': getToken('hlrx')
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
     },
-    method: 'delete'
+    method: 'post',
+    data: params
   })
 }
 // 用户权限管理-获取列表
@@ -86,20 +82,20 @@ export function getUsersList(data) {
     method: 'POST',
     params: data
   })
-}
-// 用户权限管理-新增
-export function addUsers(params) {
-  const url = '/Admin/user/add/'
+}// 用户权限管理-获取职员列表
+export function getK3User(data) {
+  const url = '/sysUser/getK3User'
   return request({
     url: url,
     headers: {
       'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
-    method: 'post',
-    data: params
+    method: 'POST',
+    data: data
   })
 }
+
 // 用户权限管理-修改
 export function alterUsers(params) {
   const url = '/Admin/user/update/'
@@ -115,7 +111,7 @@ export function alterUsers(params) {
 }
 // 用户权限管理-删除
 export function delUsers(params) {
-  const url = '/Admin/user/delete/' + params
+  const url = '/sysUser/sysUserDel?id=' + params
   return request({
     url: url,
     headers: {

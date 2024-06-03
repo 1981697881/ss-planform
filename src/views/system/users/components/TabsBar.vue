@@ -45,7 +45,7 @@ export default {
     },
     handlerAlter() {
       if (this.clickData.id) {
-        this.$emit('showDialog', { id: this.clickData.id })
+        this.$emit('showDialog', this.clickData)
       } else {
         this.$message({
           message: '无选中行',

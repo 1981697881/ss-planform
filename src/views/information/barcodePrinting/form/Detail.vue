@@ -139,7 +139,7 @@
 import {
   getToken
 } from '@/utils/auth'
-import {print1, print2, print3, print4} from '@/tools/doPrint'
+import {print1, print2, print3, print4, print5} from '@/tools/doPrint'
 
 export default {
   props: {
@@ -271,9 +271,9 @@ export default {
     },
     calculate() {
       this.list = []
-      if (this.form.ruleId == 1 || this.form.ruleId == 5) {
+      if (this.form.ruleId == 1) {
         this.fetchData();
-      } else if (this.form.ruleId == 11 || this.form.ruleId == 12 || this.form.ruleId == 13 || this.form.ruleId == 14) {
+      } else if (this.form.ruleId == 11 || this.form.ruleId == 12 || this.form.ruleId == 13 || this.form.ruleId == 14 || this.form.ruleId == 5) {
         this.fetchData2();
       }
     },
@@ -282,7 +282,12 @@ export default {
     },
     async changeUser(val) {
       console.log(val)
-      if (val == 1 || val == 5) {
+      this.form.FName = null
+      this.form.FNumber = null
+      this.form.FModel = null
+      this.form.Ftrantype = null
+      this.value = []
+      if (val == 1) {
         this.columns = [
           {text: '打印数量', name: 'printNum', sfkgg: true},
           {text: '物料名称', name: 'FName'},
@@ -304,7 +309,8 @@ export default {
         this.aliasName = '物料名称'
         this.aliasNumber = '物料编码'
         this.list = []
-      } else if (val == 11) {
+
+      } else if (val == 11 || val == 5) {
         this.columns = [
           {text: '打印数量', name: 'printNum', sfkgg: true},
           {text: '单据编号', name: 'FBillNo'},
@@ -409,8 +415,9 @@ export default {
         pageNum: 1,
         pageSize: 100,
       }
-      this.value.length == 0? params.startDate = this.value[0] : null
-      this.value.length == 0? params.endDate = this.value[1] : null
+      console.log(this.value)
+      this.value.length == 0? null : params.startDate = this.value[0]
+      this.value.length == 0? null : params.endDate = this.value[1]
       queryBillList(params).then(res => {
         this.loading = false
         if (res.success) {
@@ -444,18 +451,18 @@ export default {
           var params = []
           this.multipleSelection.forEach((item) => {
             var barcodePrintDetail = {};
-            if (that.form.ruleId == 1 || that.form.ruleId == 5) {
+            if (that.form.ruleId == 1) {
               barcodePrintDetail.time = item.FMakeTime;
               barcodePrintDetail.maker = item.fmaker;
               barcodePrintDetail.modelType = item.FModelType;
               barcodePrintDetail.location = item.location;
               barcodePrintDetail.name = item.FName;
               barcodePrintDetail.number = item.FNumber;
-            } else if (that.form.ruleId == 11) {
+            } else if (that.form.ruleId == 11 || that.form.ruleId == 5) {
               barcodePrintDetail.tranType = item.Ftrantype;
               barcodePrintDetail.billNo = item.FBillNo;
               barcodePrintDetail.entryId = item.FEntryID;
-              barcodePrintDetail.date = item.FDate;
+              barcodePrintDetail.date = item.FDate || item.Fdate;
               barcodePrintDetail.supBatchNo = item.FSupBatchNo;
               barcodePrintDetail.netWeight = item.FNetWeight;
               barcodePrintDetail.supDate = item.FSupDate;
@@ -468,10 +475,9 @@ export default {
               barcodePrintDetail.tranType = item.Ftrantype;
               barcodePrintDetail.billNo = item.FBillNo;
               barcodePrintDetail.entryId = item.FEntryID;
-              barcodePrintDetail.date = item.FDate;
+              barcodePrintDetail.date = item.FDate || item.Fdate;
               barcodePrintDetail.custNumber = item.FCustNumber;
               barcodePrintDetail.custName = item.FCustName;
-
               barcodePrintDetail.supBatchNo = item.FSupBatchNo;
               barcodePrintDetail.netWeight = item.FNetWeight;
               barcodePrintDetail.supDate = item.FSupDate;
@@ -481,14 +487,14 @@ export default {
               barcodePrintDetail.name = item.FItemName;
               barcodePrintDetail.number = item.FItemNumber;
             }
-            barcodePrintDetail.quantity = item.FAuxQty;
+            barcodePrintDetail.quantity = item.FAuxQty || item.Fauxqty;
             barcodePrintDetail.model = item.FModel;
             barcodePrintDetail.unitNumber = item.FUnitID;
             barcodePrintDetail.unitName = item.FUnitName;
             barcodePrintDetail.defaultStockNumber = item.FDefaultStockNumber;
             barcodePrintDetail.defaultStockName = item.FDefaultStockName;
             barcodePrintDetail.batchNo = item.FBatchNo;
-            barcodePrintDetail.printNum = item.printNum
+            barcodePrintDetail.printNum = item.printNum;
             params.push(barcodePrintDetail);
           })
           paramsData.details = params;
@@ -496,7 +502,7 @@ export default {
             if (reso.success) {
               if(reso.data.data instanceof Array){
                 if (that.form.ruleId == 5) {
-                  print4(reso.data.data)
+                  print5(reso.data.data)
                   LODOP.PREVIEW()
                 } else if (that.form.ruleId == 14) {
                   print3(reso.data.data)

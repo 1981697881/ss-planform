@@ -1,5 +1,5 @@
 import {getLodop} from '@/tools/LodopFuncs'
-var basePath = 'http://14.29.254.232:50008/barcodeimg/'
+var basePath = 'http://159.75.233.201:10011/barcodeimg/'
 //  自有产品标签
 const PrintAccount = (data, printingQuantity, apiece, repeat) => {
   function getLength(val) {
@@ -252,11 +252,64 @@ const print4 = (data) => {
     //分页
     LODOP.NewPage();
   }
-};
+};const print5 = (array) => {
+  //序号
+  LODOP.PRINT_INITA(0, 0, 100, 150, "哈力标签6*10");
+  for (var a = 0; a < array.length; a++) {
+    LODOP.SET_PRINT_PAGESIZE(1, '100mm', '60mm', "");
+    LODOP.ADD_PRINT_LINE("1mm", "1mm", "1mm", "99mm", 0, 1);
+    // 最右竖线
+    LODOP.ADD_PRINT_LINE("1mm", "1mm", "59mm", "1mm", 0, 1);
+    // 最左竖线
+    LODOP.ADD_PRINT_LINE("1mm", "99mm", "59mm", "99mm", 0, 1);
+    // 最右竖线
+    LODOP.ADD_PRINT_LINE("59mm", "1mm", "59mm", "99mm", 0, 1);
+    // 最下横线
+
+    //第一行
+    LODOP.ADD_PRINT_LINE("12mm", "1mm", "12mm", "65mm", 0, 1);
+    //第二行
+    LODOP.ADD_PRINT_LINE("24mm", "1mm", "24mm", "65mm", 0, 1);
+    //第三行
+    LODOP.ADD_PRINT_LINE("36mm", "1mm", "36mm", "99mm", 0, 1);
+    //第四行
+    LODOP.ADD_PRINT_LINE("48mm", "1mm", "48mm", "99mm", 0, 1);
+
+    // 中间三竖线
+    LODOP.ADD_PRINT_LINE("1mm", "20mm", "59mm", "20mm", 0, 1);
+    LODOP.ADD_PRINT_LINE("1mm", "65mm", "36mm", "65mm", 0, 1);
+    LODOP.SET_PRINT_STYLE("FontSize", 13);
+    LODOP.ADD_PRINT_TEXT("3mm", "1mm", "20mm", "6mm", "编码：");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT("3mm", "20mm", "45mm", "6mm", (array[a].number == null ? '' : array[a].number));
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT("15mm", "1mm", "20mm", "6mm", "规格：");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT("15mm", "20mm", "45mm", "6mm", (array[a].model == null ? '' : array[a].model));
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT("27mm", "1mm", "20mm", "6mm", "数量：");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT("27mm", "20mm", "45mm", "6mm", (array[a].quantity == null ? '' : array[a].quantity));
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT("39mm", "1mm", "20mm", "6mm", "批号：");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT("39mm", "20mm", "45mm", "6mm", (array[a].batchNo == null ? '' : array[a].batchNo));
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT("51mm", "1mm", "20mm", "6mm", "日期：");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT("51mm", "20mm", "78mm", "6mm", (array[a].date == null ? '' : array[a].date));
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_BARCODE('7mm', '70mm', '30mm', '30mm', 'QRCode', array[a].uuid)
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+
+    LODOP.NewPage();
+  }
+}
 export {
   PrintAccount,
   print1,
   print2,
   print3,
   print4,
+  print5,
 }
