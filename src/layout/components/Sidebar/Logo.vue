@@ -3,11 +3,11 @@
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
         <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 v-else class="sidebar-title">服务平台 </h1>
+        <h1 v-else class="sidebar-title">条码系统 </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
         <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 class="sidebar-title">服务平台 </h1>
+        <h1 class="sidebar-title">条码系统 </h1>
       </router-link>
     </transition>
   </div>
@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: 'ss-planform', // （测试）
+      title: 'hali-planform', // （测试）
       logo: require('@/assets/logo/logo.png')
     }
   }

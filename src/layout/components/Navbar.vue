@@ -61,7 +61,7 @@ export default {
     return {
       visible: null,
       fid: null,
-      name: getToken('ssun')
+      name: getToken('hlun')
     };
   },
   methods: {

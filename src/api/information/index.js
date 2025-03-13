@@ -3,26 +3,109 @@ import {
   getToken
 } from '@/utils/auth'
 
-// 团队管理-获取列表
-export function getTteamList(params, query) {
-  const url = '/tteam/tteamList/' + params.pageNum + '/' + params.pageSize
+// 条码导入-获取列表
+export function getExcelBarcodeList(params, query) {
+  const url = '/excel/excelBarcodeList'
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
-    data: query
+    params: params
+  })
+}
+// 条码打印-获取列表
+export function getBarcodePrintAll(params, query) {
+  const url = '/basic/barcodePrint/getBarcodePrintAll'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    params: params
+  })
+}// 条码打印-查询单据
+export function queryBillList(params, query) {
+  const url = '/api/billList/queryBillList'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
+}// 条码打印-获取物料
+export function getItemList(params, query) {
+  const url = '/basic/barcodePrint/getItemList'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
+}// 条码打印-打印
+export function printBarcode(params) {
+  const url = '/basic/barcodePrint/printBarcode'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
+}// 条码打印-生成条码
+export function createBarcode(params) {
+  const url = '/basic/barcodePrint/createBarcodeBatch'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
+}// 条码打印-获取规则
+export function getBarcodeRuleAll(params, query) {
+  const url = '/barcodeRule/getBarcodeRuleAll'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    params: params
   })
 }
 
-// 团队管理-新增
+// 条码打印-查看
+export function getBarcodePrintById(params) {
+  return request({
+    url: 'basic/barcodePrint/getBarcodePrintById?id='+params,
+    headers: {
+      'authorization': getToken('hlrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+  })
+}// 团队管理-新增
 export function addTteam(params) {
   return request({
     url: '/tteam/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -34,7 +117,7 @@ export function deleteTteam(params) {
   return request({
     url: '/tteam/delete',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -47,7 +130,7 @@ export function getTprojectList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -60,7 +143,7 @@ export function addTproject(params) {
   return request({
     url: '/tproject/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -72,58 +155,20 @@ export function deleteTproject(params) {
   return request({
     url: '/tproject/delete',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
     data: params
   })
 }
-/*// 期初数据导入-获取列表
-export function getTteamList(params, query) {
-  const url = '/tteam/tteamList/' + params.pageNum + '/' + params.pageSize
-  return request({
-    url: url,
-    headers: {
-      'authorization': getToken('ssrx'),
-      'Content-Type': 'application/json'
-    },
-    method: 'POST',
-    data: query
-  })
-}
-
-// 期初数据导入-新增
-export function addTteam(params) {
-  return request({
-    url: '/tteam/add',
-    headers: {
-      'authorization': getToken('ssrx'),
-      'Content-Type': 'application/json'
-    },
-    method: 'POST',
-    data: params
-  })
-}
-// 期初数据导入-删除
-export function deleteTteam(params) {
-  return request({
-    url: '/tteam/delete',
-    headers: {
-      'authorization': getToken('ssrx'),
-      'Content-Type': 'application/json'
-    },
-    method: 'POST',
-    data: params
-  })
-}*/
 // 外包奖金方案-获取列表
 export function getTbonusList(params, query) {
   const url = '/tbonus/tbonusList/' + params.pageNum + '/' + params.pageSize
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -136,7 +181,7 @@ export function addTbonus(params) {
   return request({
     url: '/tbonus/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -148,7 +193,7 @@ export function deleteTbonus(params) {
   return request({
     url: '/tbonus/delete',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -161,7 +206,7 @@ export function getRecruitmentBonusList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -174,7 +219,7 @@ export function addRecruitmentBonus(params) {
   return request({
     url: '/recruitmentBonus/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -185,7 +230,7 @@ export function countRecruitmentBonus(params) {
   return request({
     url: '/recruitmentBonus/count',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -197,7 +242,7 @@ export function BatchCount(params) {
   return request({
     url: '/recruitmentBonus/BatchCount',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -209,7 +254,7 @@ export function deleteRecruitmentBonus(params) {
   return request({
     url: '/recruitmentBonus/delete',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -222,7 +267,7 @@ export function getTteamList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -235,7 +280,7 @@ export function addTteam(params) {
   return request({
     url: '/tteam/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -247,7 +292,7 @@ export function deleteTteam(params) {
   return request({
     url: '/tteam/delete',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -260,7 +305,7 @@ export function getTteamList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -273,7 +318,7 @@ export function addTteam(params) {
   return request({
     url: '/tteam/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -285,7 +330,7 @@ export function deleteTteam(params) {
   return request({
     url: '/tteam/delete',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -298,7 +343,7 @@ export function getTprojectOutsourcingBonusList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -311,7 +356,7 @@ export function addTprojectOutsourcingBonus(params) {
   return request({
     url: '/tprojectOutsourcingBonus/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -323,7 +368,7 @@ export function deleteTprojectOutsourcingBonus(params) {
   return request({
     url: '/tprojectOutsourcingBonus/delete',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -335,7 +380,7 @@ export function getToutsourcingCustomerServiceList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -348,7 +393,7 @@ export function addToutsourcingCustomerService(params) {
   return request({
     url: '/toutsourcingCustomerService/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -360,7 +405,7 @@ export function deleteToutsourcingCustomerService(params) {
   return request({
     url: '/toutsourcingCustomerService/deleteMany',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -372,7 +417,7 @@ export function getToutsourcingRecruitmentFeeList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -385,7 +430,7 @@ export function addToutsourcingRecruitmentFee(params) {
   return request({
     url: '/toutsourcingRecruitmentFee/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -397,7 +442,7 @@ export function deleteToutsourcingRecruitmentFee(params) {
   return request({
     url: '/toutsourcingRecruitmentFee/deleteMany',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -409,7 +454,7 @@ export function getToutsourceProjectList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -422,7 +467,7 @@ export function addToutsourceProject(params) {
   return request({
     url: '/toutsourceProject/batchInsert',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -434,7 +479,7 @@ export function deleteToutsourceProject(params) {
   return request({
     url: '/toutsourceProject/deleteMany',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -447,7 +492,7 @@ export function getPaymentList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -460,7 +505,7 @@ export function addPaymentList(params) {
   return request({
     url: '/paymentList/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -472,7 +517,7 @@ export function deletePaymentList(params) {
   return request({
     url: '/paymentList/delete',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -485,7 +530,7 @@ export function getSelectList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -498,7 +543,7 @@ export function addExpenseDetails(params) {
   return request({
     url: '/expenseDetails/add',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -510,7 +555,7 @@ export function deleteExpenseDetails(params) {
   return request({
     url: '/expenseDetails/delete',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -521,7 +566,7 @@ export function updateRecruitmentBonus(params) {
   return request({
     url: '/recruitmentBonus/update',
     headers: {
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',

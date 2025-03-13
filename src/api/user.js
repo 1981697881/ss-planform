@@ -4,10 +4,6 @@ import {
 } from '@/utils/auth' // get token from cookie
 export function login(data) {
   return request({
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': '*/*'
-    },
     url: '/user/login',
     method: 'post',
     data
@@ -28,7 +24,7 @@ export function getAuth(data) {
 
 export function getInfo(fid) {
   return request({
-   url: '/back/system/user/selectUserInfoById.do',
+    url: '/back/system/user/selectUserInfoById.do',
     method: 'post',
     params: { fid }
   })
@@ -45,7 +41,7 @@ export function changePassword(data) {
   return request({
     headers: {
       'Content-Type': 'application/json',
-      'authorization': getToken('ssrx'),
+      'authorization': getToken('hlrx'),
     },
    url: '/user/changePass',
     method: 'post',

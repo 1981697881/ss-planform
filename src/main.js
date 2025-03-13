@@ -48,19 +48,19 @@ new Vue({
   render: h => h(App),
    created(){
      const data = {
-      username: Cookies.get('ssun'),
+      username: Cookies.get('hlun'),
       password: Cookies.get('sspx')
      }
     if(data.username && data.password){
-     var rs = Cookies.get('ssrx')
-      if(Cookies.get('ssrx') == "undefined"){
+     var rs = Cookies.get('hlrx')
+      if(Cookies.get('hlrx') == "undefined"){
         this.$router.push(`/login?redirect=${this.$route.fullPath}`)
         store.dispatch('user/resetToken')
       }else{
         //刷新登录
       /*  login(data).then(res => {
-          console.log(res.flag)
-          if(!res.flag){
+          console.log(res.success)
+          if(!res.success){
             this.$router.push(`/login?redirect=${this.$route.fullPath}`)
             store.dispatch('user/resetToken')
           }

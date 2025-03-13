@@ -11,7 +11,7 @@ import {
 import querystring from 'querystring'
 // create an axios instance
 const service = axios.create({
-  baseURL: (process.env.NODE_ENV === 'production'?'http://sr.gzfzdev.com:50080':'') + process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: (process.env.NODE_ENV === 'production'?'http://159.75.233.201:10011':'') + process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 900000 // request timeout
 })
@@ -98,7 +98,7 @@ service.interceptors.response.use(
       return Promise.reject(new Error(res.msg || 'Error'))
     } else {
       if(res.msg!="登陆成功" && res.msg!=null) {
-        if(res.status == 20000){
+        if(res.code == 0){
           Message({
             message:res.msg,
             type:'success',
@@ -115,7 +115,7 @@ service.interceptors.response.use(
       store.dispatch('user/resetToken').then(() => {
 
       })
-      store.dispatch('user/addToken', response.headers.authorization).then(() => {
+      store.dispatch('user/addToken', response.headers.Cookie).then(() => {
 
       })
       if(typeof(response.headers['content-disposition']) !='undefined'){
