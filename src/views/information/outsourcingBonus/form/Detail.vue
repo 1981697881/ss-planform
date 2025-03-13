@@ -8,7 +8,7 @@
               <el-form-item :label="'当前年度'" prop="fannual">
                 <el-date-picker
                   v-model="form.fannual"
-                  type="year"
+                  type="month"
                   @change="changeFannual"
                   value-format="yyyy-MM"
                   style="width: 100%"
@@ -962,42 +962,45 @@ export default {
             if (res.flag) {
               let resData = res.data.tQuarterList
               for (var item in resData) {
+                this.list[item]['total'] = res.data.ftotal
                 if (resData[item].fitem == '4') {
                   this.list[8].qOne = resData[item]['q1']
                   this.list[8].qTwo = resData[item]['q2']
                   this.list[8].qThree = resData[item]['Q3']
                   this.list[8].qFour = resData[item]['q4']
+                  this.list[8]['total'] = resData[item].ftotal
                 } else if (resData[item].fitem == '5') {
                   this.list[16].qOne = resData[item]['q1']
                   this.list[16].qTwo = resData[item]['q2']
                   this.list[16].qThree = resData[item]['q3']
                   this.list[16].qFour = resData[item]['q4']
+                  this.list[16]['total'] = resData[item].ftotal
                 }
               }
-              this.list[0]['total'] = res.data.ftyearprojectgp
-              this.list[1]['total'] = res.data.flyearprojectgp
-              this.list[2]['total'] = res.data.fyeargoal
-              this.list[3]['total'] = res.data.friskfund
-              this.list[4]['total'] = res.data.fprojectmanagementbonus
-              this.list[5]['total'] = res.data.fincrementalprojectmanagementbonus
-              this.list[6]['total'] = res.data.fcompliancebonus
-              this.list[7]['total'] = res.data.fexcellencebonus
-              this.list[8]['total'] = res.data.fpaidexpenses
-              this.list[9]['total'] = res.data.fmonthcost
-              this.list[10]['total'] = res.data.faccumulatenocost
-              this.list[11]['total'] = res.data.fquarterlybonus
-              this.list[12]['total'] = res.data.fannualbonus
-              this.list[13]['total'] = res.data.fteambonus
-              this.list[14]['total'] = ''
-              this.list[15]['total'] = res.data.foutsourcedrecruitmentcosts
-              this.list[16]['total'] = res.data.fmanagementallowance
-              this.list[17]['total'] = res.data.foutpaidexpenses
-              this.list[18]['total'] = res.data.foutmonthcost
-              this.list[19]['total'] = res.data.foutsourcecommission
-              this.list[20]['total'] = res.data.ftotalsummary
-              this.list[21]['total'] = res.data.fpayablesummary
-              this.list[22]['total'] = res.data.fsentsummary
-              this.list[23]['total'] = res.data.fnotsentsummary
+              this.list[0]['calculation'] = res.data.ftyearprojectgp
+              this.list[1]['calculation'] = res.data.flyearprojectgp
+              this.list[2]['calculation'] = res.data.fyeargoal
+              this.list[3]['calculation'] = res.data.friskfund
+              this.list[4]['calculation'] = res.data.fprojectmanagementbonus
+              this.list[5]['calculation'] = res.data.fincrementalprojectmanagementbonus
+              this.list[6]['calculation'] = res.data.fcompliancebonus
+              this.list[7]['calculation'] = res.data.fexcellencebonus
+              this.list[8]['calculation'] = res.data.fpaidexpenses
+              this.list[9]['calculation'] = res.data.fmonthcost
+              this.list[10]['calculation'] = res.data.faccumulatenocost
+              this.list[11]['calculation'] = res.data.fquarterlybonus
+              this.list[12]['calculation'] = res.data.fannualbonus
+              this.list[13]['calculation'] = res.data.fteambonus
+              this.list[14]['calculation'] = ''
+              this.list[15]['calculation'] = res.data.foutsourcedrecruitmentcosts
+              this.list[16]['calculation'] = res.data.fmanagementallowance
+              this.list[17]['calculation'] = res.data.foutpaidexpenses
+              this.list[18]['calculation'] = res.data.foutmonthcost
+              this.list[19]['calculation'] = res.data.foutsourcecommission
+              this.list[20]['calculation'] = res.data.ftotalsummary
+              this.list[21]['calculation'] = res.data.fpayablesummary
+              this.list[22]['calculation'] = res.data.fsentsummary
+              this.list[23]['calculation'] = res.data.fnotsentsummary
             }
           })
         }
@@ -1145,36 +1148,38 @@ export default {
                 this.list[8].qTwo = resData[item]['q2']
                 this.list[8].qThree = resData[item]['q3']
                 this.list[8].qFour = resData[item]['q4']
+                this.list[8]['total'] = resData[item].ftotal
               } else if (resData[item].fitem == '5') {
                 this.list[16].qOne = resData[item]['q1']
                 this.list[16].qTwo = resData[item]['q2']
                 this.list[16].qThree = resData[item]['q3']
                 this.list[16].qFour = resData[item]['q4']
+                this.list[16]['total'] = resData[item].ftotal
               }
             }
-            this.list[0]['total'] = res.data.records[0].ftyearprojectgp
-            this.list[1]['total'] = res.data.records[0].flyearprojectgp
-            this.list[2]['total'] = res.data.records[0].fyeargoal
-            this.list[3]['total'] = res.data.records[0].friskfund
-            this.list[4]['total'] = res.data.records[0].fprojectmanagementbonus
-            this.list[5]['total'] = res.data.records[0].fincrementalprojectmanagementbonus
-            this.list[6]['total'] = res.data.records[0].fcompliancebonus
-            this.list[7]['total'] = res.data.records[0].fexcellencebonus
-            this.list[8]['total'] = res.data.records[0].fpaidexpenses
-            this.list[9]['total'] = res.data.records[0].fmonthcost
-            this.list[10]['total'] = res.data.records[0].faccumulatenocost
-            this.list[11]['total'] = ''
-            this.list[12]['total'] = ''
-            this.list[13]['total'] = ''
-            this.list[14]['total'] = res.data.records[0].foutsourcedrecruitmentcosts
-            this.list[15]['total'] = res.data.records[0].fmanagementallowance
-            this.list[16]['total'] = res.data.records[0].foutpaidexpenses
-            this.list[17]['total'] = res.data.records[0].foutmonthcost
-            this.list[18]['total'] = res.data.records[0].foutsourcecommission
-            this.list[19]['total'] = res.data.records[0].ftotalsummary
-            this.list[20]['total'] = res.data.records[0].fpayablesummary
-            this.list[21]['total'] = res.data.records[0].fsentsummary
-            this.list[22]['total'] = res.data.records[0].fnotsentsummary
+            this.list[0]['calculation'] = res.data.records[0].ftyearprojectgp
+            this.list[1]['calculation'] = res.data.records[0].flyearprojectgp
+            this.list[2]['calculation'] = res.data.records[0].fyeargoal
+            this.list[3]['calculation'] = res.data.records[0].friskfund
+            this.list[4]['calculation'] = res.data.records[0].fprojectmanagementbonus
+            this.list[5]['calculation'] = res.data.records[0].fincrementalprojectmanagementbonus
+            this.list[6]['calculation'] = res.data.records[0].fcompliancebonus
+            this.list[7]['calculation'] = res.data.records[0].fexcellencebonus
+            this.list[8]['calculation'] = res.data.records[0].fpaidexpenses
+            this.list[9]['calculation'] = res.data.records[0].fmonthcost
+            this.list[10]['calculation'] = res.data.records[0].faccumulatenocost
+            this.list[11]['calculation'] = ''
+            this.list[12]['calculation'] = ''
+            this.list[13]['calculation'] = ''
+            this.list[14]['calculation'] = res.data.records[0].foutsourcedrecruitmentcosts
+            this.list[15]['calculation'] = res.data.records[0].fmanagementallowance
+            this.list[16]['calculation'] = res.data.records[0].foutpaidexpenses
+            this.list[17]['calculation'] = res.data.records[0].foutmonthcost
+            this.list[18]['calculation'] = res.data.records[0].foutsourcecommission
+            this.list[19]['calculation'] = res.data.records[0].ftotalsummary
+            this.list[20]['calculation'] = res.data.records[0].fpayablesummary
+            this.list[21]['calculation'] = res.data.records[0].fsentsummary
+            this.list[22]['calculation'] = res.data.records[0].fnotsentsummary
           }
         }
       })

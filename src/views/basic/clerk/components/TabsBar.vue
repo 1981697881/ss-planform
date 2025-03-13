@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :span="4">
           <el-form-item :label="''">
-            <el-input v-model="search.name" placeholder="名称"/>
+            <el-input v-model="search.fname" placeholder="名称"/>
           </el-form-item>
         </el-col>
         <el-col :span="2">
@@ -81,7 +81,7 @@ export default {
       fileUrl: '',
       fileUrl2: '',
       search: {
-        name: null
+        fname: null
       }
     };
   },
@@ -249,13 +249,13 @@ export default {
       this.$emit('queryBtn', this.qFilter())
     },
     upload() {
-      this.search.name = ''
+      this.search.fname = ''
       this.$emit('uploadList')
     },
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.name != null && this.search.name != '' ? obj.fenglishname = this.search.name : null
+      this.search.fname != null && this.search.fname != '' ? obj.fname = this.search.fname : null
       return obj
     },
     handlerAdd(){

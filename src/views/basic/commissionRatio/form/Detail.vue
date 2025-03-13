@@ -289,6 +289,9 @@ export default {
     this.getOrganizationsArray()
     if (this.listInfo) {
       this.form = this.listInfo
+      if(this.form.tProgrammeProportionList==null){
+        this.form.tProgrammeProportionList = []
+      }
      /* this.form.tProgrammeProportionList = JSON.parse(this.form.tProgrammeProportionList)*/
       this.form.fapplicabledepartment = this.form.fapplicabledepartment.split(',')
       this.form.fapplicablepositions = this.form.fapplicablepositions.split(',')
@@ -417,8 +420,8 @@ export default {
         if (valid) {
           let params = {...this.form}
           /*params.tProgrammeProportionList = JSON.stringify(params.tProgrammeProportionList)*/
-          params.fapplicabledepartment = params.fapplicablepersonnel.join(',')
-          params.fapplicablepositions = params.fapplicablepersonnel.join(',')
+          params.fapplicabledepartment = params.fapplicabledepartment.join(',')
+          params.fapplicablepositions = params.fapplicablepositions.join(',')
           params.fapplicablepersonnel = params.fapplicablepersonnel.join(',')
           params.tProgrammeProportionList.forEach((item) => {
             delete item.fid

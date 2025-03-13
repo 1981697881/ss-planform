@@ -4,8 +4,9 @@
       <el-col :span="2">
         <el-form-item :label="''">
           <el-date-picker
-            v-model="search.name"
+            v-model="search.fannual"
             type="year"
+            value-format="yyyy"
             placeholder="年度">
           </el-date-picker>
         </el-form-item>
@@ -15,13 +16,14 @@
           <el-date-picker
             v-model="search.name"
             type="month"
+            value-format="yyyy-MM"
             placeholder="月份">
           </el-date-picker>
         </el-form-item>
       </el-col>
       <el-col :span="4">
         <el-form-item :label="''">
-          <el-input v-model="search.name" placeholder="负责人"/>
+          <el-input v-model="search.fposition" placeholder="负责人"/>
         </el-form-item>
       </el-col>
       <el-col :span="2">
@@ -205,6 +207,8 @@ export default {
       fannual: null,
       multipleSelection: [],
       search: {
+        fannual: '',
+        fposition: '',
         name: '',
         type: 1
       }
@@ -374,7 +378,8 @@ export default {
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.cinemaName != null && this.search.cinemaName != '' ? obj.cinemaName = this.search.cinemaName : null
+      this.search.fposition != null && this.search.fposition != '' ? obj.fposition = this.search.fposition : null
+      this.search.fannual != null && this.search.fannual != '' ? obj.fannual = this.search.fannual : null
       obj.ftype = 0
       return obj
     },
@@ -385,6 +390,8 @@ export default {
       this.$emit('showDialog')
     },
     upload() {
+      this.search.fposition = ''
+      this.search.fannual = ''
       this.$emit('uploadList')
     },
     del() {

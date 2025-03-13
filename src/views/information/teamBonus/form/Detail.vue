@@ -119,9 +119,10 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item :label="''">
-               <!-- <el-button @click="importData">导入</el-button>
+               <!-- <el-button @click="importData">导入</el-button> -->
                 <el-button @click="setRow">增加</el-button>
-                <el-button @click="delRow">删除</el-button>-->
+                <el-button @click="delRow">删除</el-button>
+                <el-button @click="saveRow">保存</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -643,6 +644,19 @@ export default {
         });
       }
     },
+    saveRow() {
+      if (this.list2.length > 0) {
+        addExpenseDetails(this.list2).then(res => {
+          this.$emit('hideDialog', false)
+          this.$emit('uploadList')
+        })
+      } else {
+        this.$message({
+          message: "无数据",
+          type: 'error'
+        });
+      }
+    },
     calculate(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
@@ -661,38 +675,42 @@ export default {
                   this.list[0].qTwo = resData[item]['q2']
                   this.list[0].qThree = resData[item]['q3']
                   this.list[0].qFour = resData[item]['q4']
-                  this.list[0]['total'] = res.data.fbasicsalarycost
+                  this.list[0]['calculation'] = res.data.fbasicsalarycost
+                  this.list[0]['total'] = resData[item].ftotal
                 } else if (resData[item].fitem == '1') {
                   this.list[1].qOne = resData[item]['q1']
                   this.list[1].qTwo = resData[item]['q2']
                   this.list[1].qThree = resData[item]['q3']
                   this.list[1].qFour = resData[item]['q4']
-                  this.list[1]['total'] = res.data.faccumulateia
+                  this.list[1]['calculation'] = res.data.faccumulateia
+                  this.list[1]['total'] = resData[item].ftotal
                 } else if (resData[item].fitem == '2') {
                   this.list[2].qOne = resData[item]['q1']
                   this.list[2].qTwo = resData[item]['q2']
                   this.list[2].qThree = resData[item]['q3']
                   this.list[2].qFour = resData[item]['q4']
-                  this.list[2]['total'] = res.data.finvoicedgp
+                  this.list[2]['calculation'] = res.data.finvoicedgp
+                  this.list[2]['total'] = resData[item].ftotal
                 } else if (resData[item].fitem == '3') {
                   this.list[3].qOne = resData[item]['q1']
                   this.list[3].qTwo = resData[item]['q2']
                   this.list[3].qThree = resData[item]['q3']
                   this.list[3].qFour = resData[item]['q4']
-                  this.list[3]['total'] = res.data.fcollectiongp
+                  this.list[3]['calculation'] = res.data.fcollectiongp
+                  this.list[3]['total'] = resData[item].ftotal
                 }
               }
-              this.list[4]['total'] = res.data.faccumulatebl
-              this.list[5]['total'] = res.data.fassistantcostsgp
-              this.list[6]['total'] = res.data.faccumulategp
-              this.list[7]['total'] = res.data.faccumulatedprovisionratio
-              this.list[8]['total'] = res.data.faccumulatedaccruedexpenses
-              this.list[9]['total'] = res.data.fwarrantycost
-              this.list[10]['total'] = res.data.fwarrantyfreezecost
-              this.list[11]['total'] = res.data.fwarrantypart
-              this.list[12]['total'] = res.data.fpaidfees
-              this.list[13]['total'] = res.data.fmonthcost
-              this.list[14]['total'] = res.data.faccumulatenocost
+              this.list[4]['calculation'] = res.data.faccumulatebl
+              this.list[5]['calculation'] = res.data.fassistantcostsgp
+              this.list[6]['calculation'] = res.data.faccumulategp
+              this.list[7]['calculation'] = res.data.faccumulatedprovisionratio
+              this.list[8]['calculation'] = res.data.faccumulatedaccruedexpenses
+              this.list[9]['calculation'] = res.data.fwarrantycost
+              this.list[10]['calculation'] = res.data.fwarrantyfreezecost
+              this.list[11]['calculation'] = res.data.fwarrantypart
+              this.list[12]['calculation'] = res.data.fpaidfees
+              this.list[13]['calculation'] = res.data.fmonthcost
+              this.list[14]['calculation'] = res.data.faccumulatenocost
             }
           })
         }
@@ -740,38 +758,42 @@ export default {
                 this.list[0].qTwo = resData[item]['q2']
                 this.list[0].qThree = resData[item]['q3']
                 this.list[0].qFour = resData[item]['q4']
-                this.list[0]['total'] = res.data.records[0].fbasicsalarycost
+                this.list[0]['calculation'] = res.data.records[0].fbasicsalarycost
+                this.list[0]['total'] = resData[item].ftotal
               } else if (resData[item].fitem == '1') {
                 this.list[1].qOne = resData[item]['q1']
                 this.list[1].qTwo = resData[item]['q2']
                 this.list[1].qThree = resData[item]['q3']
                 this.list[1].qFour = resData[item]['q4']
-                this.list[1]['total'] = res.data.records[0].faccumulateia
+                this.list[1]['calculation'] = res.data.records[0].faccumulateia
+                this.list[1]['total'] = resData[item].ftotal
               } else if (resData[item].fitem == '2') {
                 this.list[2].qOne = resData[item]['q1']
                 this.list[2].qTwo = resData[item]['q2']
                 this.list[2].qThree = resData[item]['q3']
                 this.list[2].qFour = resData[item]['q4']
-                this.list[2]['total'] = res.data.records[0].finvoicedgp
+                this.list[2]['calculation'] = res.data.records[0].finvoicedgp
+                this.list[2]['total'] = resData[item].ftotal
               } else if (resData[item].fitem == '3') {
                 this.list[3].qOne = resData[item]['q1']
                 this.list[3].qTwo = resData[item]['q2']
                 this.list[3].qThree = resData[item]['q3']
                 this.list[3].qFour = resData[item]['q4']
-                this.list[3]['total'] = res.data.records[0].fcollectiongp
+                this.list[3]['calculation'] = res.data.records[0].fcollectiongp
+                this.list[3]['total'] = resData[item].ftotal
               }
             }
-            this.list[4]['total'] = res.data.records[0].faccumulatebl
-            this.list[5]['total'] = res.data.records[0].fassistantcostsgp
-            this.list[6]['total'] = res.data.records[0].faccumulategp
-            this.list[7]['total'] = res.data.records[0].faccumulatedprovisionratio
-            this.list[8]['total'] = res.data.records[0].faccumulatedaccruedexpenses
-            this.list[9]['total'] = res.data.records[0].fwarrantycost
-            this.list[10]['total'] = res.data.records[0].fwarrantyfreezecost
-            this.list[11]['total'] = res.data.records[0].fwarrantypart
-            this.list[12]['total'] = res.data.records[0].fpaidfees
-            this.list[13]['total'] = res.data.records[0].fmonthcost
-            this.list[14]['total'] = res.data.records[0].faccumulatenocost
+            this.list[4]['calculation'] = res.data.records[0].faccumulatebl
+            this.list[5]['calculation'] = res.data.records[0].fassistantcostsgp
+            this.list[6]['calculation'] = res.data.records[0].faccumulategp
+            this.list[7]['calculation'] = res.data.records[0].faccumulatedprovisionratio
+            this.list[8]['calculation'] = res.data.records[0].faccumulatedaccruedexpenses
+            this.list[9]['calculation'] = res.data.records[0].fwarrantycost
+            this.list[10]['calculation'] = res.data.records[0].fwarrantyfreezecost
+            this.list[11]['calculation'] = res.data.records[0].fwarrantypart
+            this.list[12]['calculation'] = res.data.records[0].fpaidfees
+            this.list[13]['calculation'] = res.data.records[0].fmonthcost
+            this.list[14]['calculation'] = res.data.records[0].faccumulatenocost
           }
         }
       })

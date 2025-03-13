@@ -487,5 +487,6 @@ export default {
 <style>
   .upload-demo {
     text-align: center;
+    float: right;
   }
 </style>

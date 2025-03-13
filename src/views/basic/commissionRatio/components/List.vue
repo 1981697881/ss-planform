@@ -36,7 +36,7 @@ export default {
       columns: [
         { text: '提成方案名称', name: 'fcommissionplanname' },
         { text: '日期', name: 'fdate' },
-        { text: '适用计算表', name: 'fcalculateamount' },
+        { text: '适用计算表', name: 'fbonustype' },
         { text: '提成方式', name: 'fcommissionmethod' },
         { text: '固定提成方式', name: 'fregularcommissionmethod' },
         { text: '固定提成值', name: 'fregularcommissionvalue' },
