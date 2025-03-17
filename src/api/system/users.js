@@ -2,14 +2,13 @@ import request from '@/utils/request' // 引入封装好的axios请求
 import {
   getToken
 } from '@/utils/auth' // get token from cookie
-
-// 用户列表
+// 查询订单列表
 export function usersList(data) {
   // 查询分页数据
   const url = '/Admin/user/list/' + data.pageNum + '/' + data.pageSize
   return request({
     headers: {
-      'authorization': getToken('hlrx')
+      'authorization': getToken('ssrx')
     },
     url: url,
     method: 'get'
@@ -21,7 +20,7 @@ export function getRoles(data) {
   const url = '/Admin/role/list'
   return request({
     headers: {
-      'authorization': getToken('hlrx')
+      'authorization': getToken('ssrx')
     },
     url: url,
     method: 'get'
@@ -32,7 +31,7 @@ export function saveUsers(data) {
   const url = '/Admin/user/add'
   return request({
     headers: {
-      'authorization': getToken('hlrx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -45,7 +44,7 @@ export function getUsers(data) {
   const url = '/Admin/user/getById/' + data
   return request({
     headers: {
-      'authorization': getToken('hlrx')
+      'authorization': getToken('ssrx')
     },
     url: url,
     method: 'get'
@@ -56,7 +55,7 @@ export function updateUsers(data) {
   const url = '/Admin/user/update'
   return request({
     headers: {
-      'authorization': getToken('hlrx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -69,7 +68,7 @@ export function resetPWD(data) {
   const url = '/Admin/user/reset'
   return request({
     headers: {
-      'authorization': getToken('hlrx'),
+      'authorization': getToken('ssrx'),
       'Content-Type': 'application/json'
     },
     url: url,

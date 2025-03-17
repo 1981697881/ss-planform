@@ -10,7 +10,7 @@
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
     <panel-group @handleSetLineChartData="handleSetLineChartData" />-->
-   <!-- <el-row :gutter="32">
+    <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
           <zy-list ref="zyList" />
@@ -32,7 +32,7 @@
           <zy-list ref="zyList" />
         </div>
       </el-col>
-    </el-row>-->
+    </el-row>
 
     <!--<el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 8}" :xl="{span: 8}" style="margin-bottom:30px;">
@@ -186,7 +186,7 @@ export default {
           { project: '发货量（支）' },
         ]
         mainReport(val).then(res => {
-          if (res.success) {
+          if (res.flag) {
             const data = res.data
             let results = []
             for (let i = 0; i <= Number(interval); i++) {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="list.list"
+      :data="list.records"
       border
       :stripe="timeColor? false : true"
       size="mini"
@@ -71,7 +71,7 @@
       <el-pagination
         @size-change="handleSize"
         @current-change="handleCurrent"
-        :current-page="list.pageNum"
+        :current-page="list.current"
         :page-sizes="[50, 100, 250, 500, 1000, 2500]"
         :page-size="list.size"
         :page-count="list.pages?list.pages:0"
@@ -168,30 +168,22 @@
     sortChange(row) {
       return this.$emit('sortChange', {row});
     },
-    checkAuthority(row, column) {
+    checkType(row, column) {
       let stau = ''
-      if (row.type == 2) {
-        stau = 'PDA'
-      } else if (row.type == 1) {
-        stau = '后台权限'
-      }
-      return stau
-    },checkUserType(row, column) {
-      let stau = ''
-      if (row.type == 1) {
-        stau = '后台管理员'
-      } else if (row.type == 2) {
-        stau = 'PDA操作员'
-      }else if (row.type == 3) {
-        stau = '后台操作员'
-      }
-      return stau
-    }, checkStatus(row, column) {
-      let stau = ''
-      if (row.status == 1) {
-        stau = '启用'
-      } else if (row.status == 0) {
-        stau = '禁用'
+      if (row.status == 0) {
+        stau = '待寄回'
+      } else if (row.status == 1) {
+        stau = '待检修'
+      } else if (row.status == 2) {
+        stau = '待确认'
+      } else if (row.status == 3) {
+        stau = '待维修'
+      } else if (row.status == 4) {
+        stau = '待发货'
+      } else if (row.status == 5) {
+        stau = '待收货'
+      } else if (row.status == 6) {
+        stau = '完成'
       }
       return stau
     },
@@ -228,6 +220,14 @@
         stau = '内部员工'
       } else if (row.internalOrNot == 1) {
         stau = '非内部员工'
+      }
+      return stau
+    }, checkStatus(row, column) {
+      let stau = ''
+      if (row.status == 0) {
+        stau = '启用'
+      } else if (row.status == 1) {
+        stau = '禁用'
       }
       return stau
     },

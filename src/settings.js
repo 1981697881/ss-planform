@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'hali-planformv.1',
+  title: 'ss-planformv.1',
 
   /**
    * @type {boolean} true | false

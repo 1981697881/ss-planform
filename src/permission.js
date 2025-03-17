@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
   // set page title
   document.title = getPageTitle(to.meta.title)
   // determine whether the user has logged in
-  const hasToken = getToken('hlrx')
+  const hasToken = getToken('ssrx')
   if (typeof(hasToken)!='undefined') {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
@@ -40,6 +40,8 @@ router.beforeEach(async (to, from, next) => {
         next()
       } else {
         try {
+          // get user info
+         /* await store.dispatch('user/getPermissions')*/
           next()
         } catch (error) {
           // remove token and go to login page to re-login
@@ -53,8 +55,11 @@ router.beforeEach(async (to, from, next) => {
         // hasMenu为false,一定没有获取动态路由,就跳转到获取动态路由的方法
         gotoRouter(to, next)
       }
+     /*   */
     }
   } else {
+   /* hasMenu = false*/
+    /* has no token*/
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()

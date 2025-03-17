@@ -14,8 +14,9 @@
   </div>
 </template>
 
-<script>import {mapGetters} from 'vuex'
-import {getUsersList, delUsers} from '@/api/system/index';
+<script>
+import { mapGetters } from 'vuex'
+import { getUsersList, delUsers} from "@/api/system/index";
 import List from '@/components/List'
 
 export default {
@@ -32,52 +33,53 @@ export default {
       list: {},
       fid: null,
       type: null,
-      checkDate: null,
+        checkDate:null,
       columns: [
-        { text: '用户名', name: 'username' },
-        { text: '账号类型', name: 'type', formatt: 'checkUserType' },
-        { text: '账号', name: 'account' },
-        { text: '创建人', name: 'createName' },
-        { text: '创建日期', name: 'createDate' },
-        { text: '状态', name: 'status', formatt: 'checkStatus' },
-        { text: '权限', name: 'type', formatt: 'checkAuthority' }
+        { text: "uid", name: "uid", default: false},
+        { text: "用户编码", name: "jobNum" },
+        { text: "登录账号", name: "username" },
+        { text: "对应职员", name: "empName" },
+          { text: "状态", name: "status" },
+        { text: "说明", name: "description" },
+
       ]
     };
   },
 
   methods: {
-    // 监听每页显示几条
-    handleSize(val) {
-      this.list.size = val
-      this.fetchData()
-    },
-    //监听当前页
-    handleCurrent(val) {
-      this.list.current = val
-      this.fetchData()
-    },
+    handlerForm() {},
+      //监听每页显示几条
+      handleSize(val) {
+          this.list.size = val
+          this.fetchData()
+      },
+      //监听当前页
+      handleCurrent(val) {
+          this.list.current = val
+          this.fetchData()
+      },
     // 弹窗拖拽
     handleDrag() {
       this.$refs.select.blur()
     },
     Delivery(val) {
       delUsers(val).then(res => {
-        if (res.success) {
-          this.$store.dispatch('list/setClickData', '');
+        if(res.flag){
+          this.$store.dispatch("list/setClickData", '');
           this.fetchData()
         }
       })
     },
     dblclick(obj) {
-      this.$emit('showDialog', obj.row)
+        this.$emit('showDialog', obj.row)
     },
-    getClickRow() {
-      return this.checkDate
-    },
-    // 监听单击某一行
-    rowClick(obj) {
-      this.$store.dispatch('list/setClickData', obj.row);
-    },
+      getClickRow(){
+        return this.checkDate
+      },
+      //监听单击某一行
+      rowClick(obj) {
+          this.$store.dispatch("list/setClickData", obj.row);
+      },
     uploadPr(val) {
       this.fetchData(val, {
         pageNum: 1,
@@ -93,7 +95,7 @@ export default {
       this.loading = true;
       getUsersList(data).then(res => {
         this.loading = false;
-        this.list = {list: res.data};
+        this.list = res.data;
       });
     }
   }
@@ -101,7 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .list-main {
-    height: calc(100vh - 250px);
-  }
+.list-main {
+  height: calc(100vh - 250px);
+}
 </style>

@@ -3,7 +3,7 @@ import { getToken, setToken, removeToken, setUserName, setPassword, setPer} from
 import { resetRouter } from '@/router'
 
 const state = {
-  token: getToken('hlrx'),
+  token: getToken('ssrx'),
   name: '',
   url: 'http://sr.gzfzdev.com:50080',
   avatar: '',
@@ -37,7 +37,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ account: username.trim(), password: password }).then(response => {
+      login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         /* commit('SET_TOKEN', data.fid)
          setToken(data.fid)*/
@@ -57,7 +57,7 @@ const actions = {
       changePassword(info).then(response => {
         commit('SET_TOKEN', '')
         //removeToken('plper')
-        removeToken('hlrx')
+        removeToken('ssrx')
         removeToken('dkps')
         removeToken('dkun')
         resetRouter()
@@ -125,7 +125,7 @@ const actions = {
       commit('SET_TOKEN', '')
       commit('SET_PER', '')
       //removeToken('plper')
-      removeToken('hlrx')
+      removeToken('ssrx')
       removeToken('dkps')
       removeToken('dkun')
       resetRouter()
@@ -146,7 +146,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
-      removeToken('hlrx')
+      removeToken('ssrx')
       /*  removeToken('dkps')
         removeToken('dkun')*/
       removeToken()

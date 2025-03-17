@@ -56,7 +56,7 @@ const handlers = {
         // 图片上传
         var xhr = new XMLHttpRequest();
         xhr.open(uploadConfig.methods, uploadConfig.action, true);
-        xhr.setRequestHeader('authorization',getToken('hlrx'));
+        xhr.setRequestHeader('authorization',getToken('ssrx'));
         // 上传数据成功，会触发
         xhr.onload = function (e) {
           if (xhr.status === 200) {

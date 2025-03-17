@@ -38,6 +38,7 @@ if (process.env.NODE_ENV === 'production') {
   mockXHR()
 } */
 // set ElementUI lang to EN
+ElementUI.Dialog.props.closeOnClickModal.default = false
 Vue.use(ElementUI, { zhLocale })
 Vue.use(Print);
 Vue.config.productionTip = false
@@ -48,19 +49,19 @@ new Vue({
   render: h => h(App),
    created(){
      const data = {
-      username: Cookies.get('hlun'),
+      username: Cookies.get('ssun'),
       password: Cookies.get('sspx')
      }
     if(data.username && data.password){
-     var rs = Cookies.get('hlrx')
-      if(Cookies.get('hlrx') == "undefined"){
+     var rs = Cookies.get('ssrx')
+      if(Cookies.get('ssrx') == "undefined"){
         this.$router.push(`/login?redirect=${this.$route.fullPath}`)
         store.dispatch('user/resetToken')
       }else{
         //刷新登录
       /*  login(data).then(res => {
-          console.log(res.success)
-          if(!res.success){
+          console.log(res.flag)
+          if(!res.flag){
             this.$router.push(`/login?redirect=${this.$route.fullPath}`)
             store.dispatch('user/resetToken')
           }

@@ -67,7 +67,7 @@
       },
       Delivery(val) {
         delGroup(val).then(res => {
-          if(res.success){
+          if(res.flag){
             this.$store.dispatch("list/setClickData", '');
             this.fetchData()
           }

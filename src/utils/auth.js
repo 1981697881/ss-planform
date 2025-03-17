@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'hlrx'
+const TokenKey = 'ssrx'
 
 export function getToken(TokenKey) {
   return Cookies.get(TokenKey)
@@ -24,7 +24,7 @@ export function removeToken(TokenKey) {
 }
 
 export function setUserName(username){
-  return Cookies.set('hlun',username)
+  return Cookies.set('ssun',username)
 }
 export function setPassword(password){
   return Cookies.set('sspx',password)
