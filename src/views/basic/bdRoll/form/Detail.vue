@@ -8,7 +8,7 @@
               size="mini"
               filterable
               remote
-              :remote-method="remoteMethod"
+              :remote-method="remoteMethod2"
               :loading="loading"
               @change="changeCons"
               style="width: 100%" v-model="form.fcontractnumber" placeholder="请选择">

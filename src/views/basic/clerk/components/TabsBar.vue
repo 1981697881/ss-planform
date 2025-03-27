@@ -7,6 +7,11 @@
             <el-input v-model="search.fname" placeholder="名称"/>
           </el-form-item>
         </el-col>
+        <el-col :span="4">
+          <el-form-item :label="''">
+            <el-input v-model="search.fenglishname" placeholder="英文名称"/>
+          </el-form-item>
+        </el-col>
         <el-col :span="2">
           <el-button :size="'mini'" type="primary" icon="el-icon-search" @click="query">查询</el-button>
         </el-col>
@@ -81,7 +86,8 @@ export default {
       fileUrl: '',
       fileUrl2: '',
       search: {
-        fname: null
+        fname: null,
+        fenglishname: null
       }
     };
   },
@@ -250,12 +256,14 @@ export default {
     },
     upload() {
       this.search.fname = ''
+      this.search.fenglishname = ''
       this.$emit('uploadList')
     },
     // 查询条件过滤
     qFilter() {
       let obj = {}
       this.search.fname != null && this.search.fname != '' ? obj.fname = this.search.fname : null
+      this.search.fenglishname != null && this.search.fenglishname != '' ? obj.fenglishname = this.search.fenglishname : null
       return obj
     },
     handlerAdd(){
