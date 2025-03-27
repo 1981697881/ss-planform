@@ -158,7 +158,7 @@
 <script>import { mapGetters } from 'vuex'
 import { getByUserAndPrId } from '@/api/system/index'
 import { getToken } from '@/utils/auth'
-import {getTuserBatchList, getOrganizationsList} from '@/api/basic/index'
+import {getTuserList, getOrganizationsList} from '@/api/basic/index'
 import {BatchCount} from '@/api/information/index'
 export default {
   components: {
@@ -284,7 +284,7 @@ export default {
       pageSize: 100
     }) {
       this.loading = true
-      getTuserBatchList(data, val).then(res => {
+      getTuserList(data, val).then(res => {
         this.loading = false
         loading.close();
         this.list = res.data
