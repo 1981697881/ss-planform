@@ -7,11 +7,6 @@
             <el-input v-model="search.fname" placeholder="名称"/>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item :label="''">
-            <el-input v-model="search.fenglishname" placeholder="英文名称"/>
-          </el-form-item>
-        </el-col>
         <el-col :span="2">
           <el-button :size="'mini'" type="primary" icon="el-icon-search" @click="query">查询</el-button>
         </el-col>

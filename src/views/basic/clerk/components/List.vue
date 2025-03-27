@@ -32,9 +32,10 @@ export default {
       columns: [
         { text: '工号', name: 'fnumber' },
         { text: '姓名', name: 'fname' },
+        { text: '英文名称', name: 'fenglishname' },
         { text: '性别', name: 'fgender' },
         { text: '联系电话', name: 'fphone' },
-        { text: '邮箱', name: '' },
+        { text: '邮箱', name: 'femail' },
         { text: '职位', name: 'fduty' },
         { text: '角色', name: 'ftype', width: '130' },
         { text: '部门', name: 'fdept' },
