@@ -575,8 +575,8 @@ export default {
         }
       })
       /*if (this.listInfo) {*/
-      this.fetchData2({ftype: 2,fposition: this.form.femp, fannual: this.form.fannual})
-      this.fetchData({ftype: 2, femp: this.form.femp, fannual: this.form.fannual})
+      this.fetchData2({ftype: 2,fposition: this.form.femp, fannual: this.form.fannual.slice(0, 4)})
+      this.fetchData({ftype: 2, femp: this.form.femp, fannual: this.form.fannual.slice(0, 4)})
       /*}*/
     },
     importData() {

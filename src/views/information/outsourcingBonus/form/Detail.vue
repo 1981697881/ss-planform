@@ -1061,10 +1061,10 @@ export default {
           this.form.fbelongconsultant = item.fbelongconsultant
         }
       })
-      this.fetchData4({ftype: 3, fposition: this.form.femp, fannual: this.form.fannual})
-      this.fetchData({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
-      this.fetchData2({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
-      this.fetchData3({ftype: 3, femp: this.form.femp, fannual: this.form.fannual})
+      this.fetchData4({ftype: 3, fposition: this.form.femp, fannual: this.form.fannual.slice(0, 4)})
+      this.fetchData({ftype: 3, femp: this.form.femp, fannual: this.form.fannual.slice(0, 4)})
+      this.fetchData2({ftype: 3, femp: this.form.femp, fannual: this.form.fannual.slice(0, 4)})
+      this.fetchData3({ftype: 3, femp: this.form.femp, fannual: this.form.fannual.slice(0, 4)})
       /*}*/
     },
     importData1() {
