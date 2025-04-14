@@ -22,7 +22,7 @@
               <el-option
                 v-for="(item,index) in userList"
                 :key="index"
-                :label="item.fenglishname"
+                :label="item.fenglishname +'-'+item.fname"
                 :value="item.fenglishname">
               </el-option>
             </el-select>

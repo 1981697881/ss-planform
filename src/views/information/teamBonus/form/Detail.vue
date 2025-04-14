@@ -31,7 +31,7 @@
                   <el-option
                     v-for="item in userList"
                     :key="item.fid"
-                    :label="item.fenglishname"
+                    :label="item.fenglishname +'-'+item.fname"
                     :value="item.fenglishname">
                   </el-option>
                 </el-select>
@@ -205,7 +205,7 @@
                       <el-option
                         v-for="item in userList"
                         :key="item.fid"
-                        :label="item.fenglishname"
+                        :label="item.fenglishname +'-'+item.fname"
                         :value="item.fenglishname">
                       </el-option>
                     </el-select>
@@ -230,7 +230,7 @@
                       <el-option
                         v-for="item in userList"
                         :key="item.fid"
-                        :label="item.fenglishname"
+                        :label="item.fenglishname +'-'+item.fname"
                         :value="item.fenglishname">
                       </el-option>
                     </el-select>
@@ -498,7 +498,8 @@ export default {
     if (this.listInfo) {
       this.form = this.listInfo
       this.form.femp = this.listInfo.fposition
-      await this.remoteMethod(this.form.femp);
+      this.form.fannual = this.form.fannual+'-01'
+      await this.remoteMethod(this.form.femp)
       await this.changeUser(this.form.femp)
       /*this.fetchData({ftype: 2})*/
     }

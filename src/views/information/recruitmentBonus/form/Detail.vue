@@ -31,7 +31,7 @@
                   <el-option
                     v-for="(item, index) in userList"
                     :key="index"
-                    :label="item.fenglishname"
+                    :label="item.fenglishname +'-'+item.fname"
                     :value="item.fenglishname">
                   </el-option>
                 </el-select>
@@ -110,7 +110,7 @@
                 :label="t.text"
               >
                 <template slot-scope="scope">
-                  <el-input size="mini" v-if="scope.$index == 4 && i>0 && i!=7" v-model="scope.row[t.name]" clearable/>
+                  <el-input size="mini" v-if="t.name =='remark' || (scope.$index == 4 && i>0 && i!=7)" v-model="scope.row[t.name]" clearable/>
                   <span v-else>{{scope.row[t.name]}}</span>
                 </template>
               </el-table-column>
@@ -403,7 +403,8 @@ export default {
         {text: 'Q3', name: 'qThree', sfkgg: true},
         {text: 'Q4', name: 'qFour', sfkgg: true},
         {text: 'total', name: 'total', sfkgg: true},
-        {text: '填写说明', name: 'remark', sfkgg: true},
+        {text: '备注', name: 'remark', sfkgg: true},
+        {text: '填写说明', name: 'content', sfkgg: true},
       ],
       list: [{
         title: '基本工资成本',
@@ -413,7 +414,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '职员信息中的基本工资'
+        remark: '',
+        content: '职员信息中的基本工资'
       }, {
         title: '累计Invoiced Amount',
         calculation: '',
@@ -422,7 +424,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '取费用明细已回款的开票总额'
+        remark: '',
+        content: '取费用明细已回款的开票总额'
       }, {
         title: '累计Invoiced GP',
         calculation: '',
@@ -431,7 +434,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '取费用明细已回款的GP数'
+        remark: '',
+        content: '取费用明细已回款的GP数'
       }, {
         title: '累计回款GP',
         calculation: '',
@@ -440,7 +444,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '同上，取费用明细已回款的GP数'
+        remark: '',
+        content: '同上，取费用明细已回款的GP数'
       }, {
         title: '累计Base Line',
         calculation: '',
@@ -449,7 +454,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '计算。与基本工资相关联，基本月工资*月数*Basa Line倍数。Baseline倍数在职员信息中设定。计算后可修改'
+        remark: '',
+        content: '计算。与基本工资相关联，基本月工资*月数*Basa Line倍数。Baseline倍数在职员信息中设定。计算后可修改'
       }, {
         title: '助理成本折算GP',
         calculation: '',
@@ -458,7 +464,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '计算。助理成本数，会有多个助理，需要维护助理信息，不计成本日数。'
+        remark: '',
+        content: '计算。助理成本数，会有多个助理，需要维护助理信息，不计成本日数。'
       }, {
         title: '累计计提GP',
         calculation: '',
@@ -467,7 +474,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '公式'
+        remark: '',
+        content: '公式'
       }, {
         title: '累计计提比例',
         calculation: '',
@@ -476,7 +484,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '计算：累计回款GP/(过去月份累计+当前月薪*剩余月份）,计完后可修改。'
+        remark: '',
+        content: '计算：累计回款GP/(过去月份累计+当前月薪*剩余月份）,计完后可修改。'
       }, {
         title: '累计可提费用',
         calculation: '',
@@ -485,7 +494,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '公式'
+        remark: '',
+        content: '公式'
       }, {
         title: '担保期内费用',
         calculation: '',
@@ -494,7 +504,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '取费用明细汇总'
+        remark: '',
+        content: '取费用明细汇总'
       }, {
         title: '担保冻结费用',
         calculation: '',
@@ -503,7 +514,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: ''
+        remark: '',
+        content: ''
       }, {
         title: '过担保期可计提部分',
         calculation: '',
@@ -512,7 +524,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '公式'
+        remark: '',
+        content: '公式'
       }, {
         title: '已支付费用',
         calculation: '',
@@ -521,7 +534,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '自动累计'
+        remark: '',
+        content: '自动累计'
       }, {
         title: '本月应计发费用',
         calculation: '',
@@ -530,7 +544,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '填写'
+        remark: '',
+        content: '填写'
       }, {
         title: '累计未计发费用',
         calculation: '',
@@ -539,7 +554,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '公式'
+        remark: '',
+        content: '公式'
       }],
       columns2: [
         {text: '开票日期', name: 'finvoicingdate', width: '150'},
@@ -593,7 +609,8 @@ export default {
     if (this.listInfo) {
       this.form = this.listInfo
       this.form.femp = this.listInfo.fposition
-      await this.remoteMethod(this.form.femp);
+      this.form.fannual = this.form.fannual+'-01'
+      await this.remoteMethod(this.form.femp)
       await this.changeUser(this.form.femp)
     }
   },
@@ -658,7 +675,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '职员信息中的基本工资'
+        remark: '',
+        content: '职员信息中的基本工资'
       }, {
         title: '累计Invoiced Amount',
         calculation: '',
@@ -667,7 +685,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '取费用明细已回款的开票总额'
+        remark: '',
+        content: '取费用明细已回款的开票总额'
       }, {
         title: '累计Invoiced GP',
         calculation: '',
@@ -676,7 +695,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '取费用明细已回款的GP数'
+        remark: '',
+        content: '取费用明细已回款的GP数'
       }, {
         title: '累计回款GP',
         calculation: '',
@@ -685,7 +705,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '同上，取费用明细已回款的GP数'
+        remark: '',
+        content: '同上，取费用明细已回款的GP数'
       }, {
         title: '累计Base Line',
         calculation: '',
@@ -694,7 +715,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '计算。与基本工资相关联，基本月工资*月数*Basa Line倍数。Baseline倍数在职员信息中设定。计算后可修改'
+        remark: '',
+        content: '计算。与基本工资相关联，基本月工资*月数*Basa Line倍数。Baseline倍数在职员信息中设定。计算后可修改'
       }, {
         title: '助理成本折算GP',
         calculation: '',
@@ -703,7 +725,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '计算。助理成本数，会有多个助理，需要维护助理信息，不计成本日数。'
+        remark: '',
+        content: '计算。助理成本数，会有多个助理，需要维护助理信息，不计成本日数。'
       }, {
         title: '累计计提GP',
         calculation: '',
@@ -712,7 +735,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '公式'
+        remark: '',
+        content: '公式'
       }, {
         title: '累计计提比例',
         calculation: '',
@@ -721,7 +745,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '计算：累计回款GP/(过去月份累计+当前月薪*剩余月份）,计完后可修改。'
+        remark: '',
+        content: '计算：累计回款GP/(过去月份累计+当前月薪*剩余月份）,计完后可修改。'
       }, {
         title: '累计可提费用',
         calculation: '',
@@ -730,7 +755,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '公式'
+        remark: '',
+        content: '公式'
       }, {
         title: '担保期内费用',
         calculation: '',
@@ -739,7 +765,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '取费用明细汇总'
+        remark: '',
+        content: '取费用明细汇总'
       }, {
         title: '担保冻结费用',
         calculation: '',
@@ -748,7 +775,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: ''
+        remark: '',
+        content: ''
       }, {
         title: '过担保期可计提部分',
         calculation: '',
@@ -757,7 +785,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '公式'
+        remark: '',
+        content: '公式'
       }, {
         title: '已支付费用',
         calculation: '',
@@ -766,7 +795,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '自动累计'
+        remark: '',
+        content: '自动累计'
       }, {
         title: '本月应计发费用',
         calculation: '',
@@ -775,7 +805,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '填写'
+        remark: '',
+        content: '填写'
       }, {
         title: '累计未计发费用',
         calculation: '',
@@ -784,7 +815,8 @@ export default {
         qThree: '',
         qFour: '',
         total: '',
-        remark: '公式'
+        remark: '',
+        content: '公式'
       }];
       this.list2 = [];
       this.fetchData2({ftype: 0,fposition: this.form.femp, fannual: this.form.fannual})
@@ -913,7 +945,12 @@ export default {
             if (res.flag) {
               this.countData = res.data
               let resData = res.data.tQuarterList
+              var number = 0
               for (var item in resData) {
+                this.list[number].fcountid = resData[item]['fcountid']
+                this.list[number].fid = resData[item]['fid']
+                this.list[number].fitem = resData[item]['fitem']
+                this.list[number].remark = resData[item]['remark']
                 if (resData[item].fitem == '0') {
                   this.list[0].qOne = resData[item]['q1']
                   this.list[0].qTwo = resData[item]['q2']
@@ -949,6 +986,7 @@ export default {
                   this.list[4].qFour = resData[item]['q4']
                   this.list[4]['total'] = resData[item].ftotal
                 }
+                number++
               }
               this.list[4]['calculation'] = res.data.faccumulatebl
               this.list[5]['calculation'] = res.data.fassistantcostsgp
@@ -987,7 +1025,12 @@ export default {
           if(res.data.records.length > 0){
             this.countData = res.data.records[0]
             let resData = res.data.records[0].tQuarterList
+            var number = 0;
             for (var item in resData) {
+              this.list[number].fcountid = resData[item]['fcountid']
+              this.list[number].fid = resData[item]['fid']
+              this.list[number].fitem = resData[item]['fitem']
+              this.list[number].remark = resData[item]['remark']
               if (resData[item].fitem == '0') {
                 this.list[0].qOne = resData[item]['q1']
                 this.list[0].qTwo = resData[item]['q2']
@@ -1023,6 +1066,7 @@ export default {
                 this.list[4].qFour = resData[item]['q4']
                 this.list[4]['total'] = resData[item].ftotal
               }
+              number++;
             }
             this.list[4]['calculation'] = res.data.records[0].faccumulatebl
             this.list[5]['calculation'] = res.data.records[0].fassistantcostsgp
@@ -1060,18 +1104,36 @@ export default {
           console.log(this.countData)
           params.fid = this.countData.fid
           params.faccumulatebl = this.list[4].total
+          params.tQuarterList = []
           let paramsObj={};
-          this.countData.tQuarterList.forEach((item)=>{
+          console.log( this.list)
+          this.list.forEach((item)=>{
             if(item.fitem == '6'){
-              paramsObj = {...item}
+              console.log(item)
+              paramsObj = {
+                fcountid: item.fcountid,
+                fid: item.fid,
+                fitem: item.fitem,
+                ftotal: item.total,
+                remark: item.remark,
+                q1: item.qOne,
+                q2: item.qTwo,
+                q3: item.qThree,
+                q4: item.qFour,
+              }
+              params.tQuarterList.push(paramsObj)
+            }else if(item.remark != ''){
+              paramsObj = {
+                fcountid: item.fcountid,
+                fid: item.fid,
+                fitem: item.fitem,
+                remark: item.remark,
+              }
+              params.tQuarterList.push(paramsObj);
             }
           })
           console.log(paramsObj);
-          paramsObj.q1 = this.list[4].qOne
-          paramsObj.q2 = this.list[4].qTwo
-          paramsObj.q3 = this.list[4].qThree
-          paramsObj.q4 = this.list[4].qFour
-          params.tQuarterList = [paramsObj]
+
           updateRecruitmentBonus(params).then(res => {
             //this.$emit('hideDialog', false)
             this.$emit('uploadList')
