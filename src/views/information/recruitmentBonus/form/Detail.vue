@@ -110,7 +110,7 @@
                 :label="t.text"
               >
                 <template slot-scope="scope">
-                  <el-input size="mini" v-if="t.name =='remark' || (scope.$index == 4 && i>0 && i!=7)" v-model="scope.row[t.name]" clearable/>
+                  <el-input size="mini" v-if="(t.name =='remark' && scope.$index < 5) || (scope.$index == 4 && i>0 && i!=8)" v-model="scope.row[t.name]" clearable/>
                   <span v-else>{{scope.row[t.name]}}</span>
                 </template>
               </el-table-column>
@@ -947,10 +947,6 @@ export default {
               let resData = res.data.tQuarterList
               var number = 0
               for (var item in resData) {
-                this.list[number].fcountid = resData[item]['fcountid']
-                this.list[number].fid = resData[item]['fid']
-                this.list[number].fitem = resData[item]['fitem']
-                this.list[number].remark = resData[item]['remark']
                 if (resData[item].fitem == '0') {
                   this.list[0].qOne = resData[item]['q1']
                   this.list[0].qTwo = resData[item]['q2']
@@ -958,6 +954,10 @@ export default {
                   this.list[0].qFour = resData[item]['q4']
                   this.list[0]['calculation'] = res.data.fbasicsalarycost
                   this.list[0]['total'] = resData[item].ftotal
+                  this.list[0].fcountid = resData[item]['fcountid']
+                  this.list[0].fid = resData[item]['fid']
+                  this.list[0].fitem = resData[item]['fitem']
+                  this.list[0].remark = resData[item]['remark']
                 } else if (resData[item].fitem == '1') {
                   this.list[1].qOne = resData[item]['q1']
                   this.list[1].qTwo = resData[item]['q2']
@@ -965,6 +965,10 @@ export default {
                   this.list[1].qFour = resData[item]['q4']
                   this.list[1]['calculation'] = res.data.faccumulateia
                   this.list[1]['total'] = resData[item].ftotal
+                  this.list[1].fcountid = resData[item]['fcountid']
+                  this.list[1].fid = resData[item]['fid']
+                  this.list[1].fitem = resData[item]['fitem']
+                  this.list[1].remark = resData[item]['remark']
                 } else if (resData[item].fitem == '2') {
                   this.list[2].qOne = resData[item]['q1']
                   this.list[2].qTwo = resData[item]['q2']
@@ -972,6 +976,10 @@ export default {
                   this.list[2].qFour = resData[item]['q4']
                   this.list[2]['calculation'] = res.data.finvoicedgp
                   this.list[2]['total'] = resData[item].ftotal
+                  this.list[2].fcountid = resData[item]['fcountid']
+                  this.list[2].fid = resData[item]['fid']
+                  this.list[2].fitem = resData[item]['fitem']
+                  this.list[2].remark = resData[item]['remark']
                 } else if (resData[item].fitem == '3') {
                   this.list[3].qOne = resData[item]['q1']
                   this.list[3].qTwo = resData[item]['q2']
@@ -979,12 +987,20 @@ export default {
                   this.list[3].qFour = resData[item]['q4']
                   this.list[3]['calculation'] = res.data.fcollectiongp
                   this.list[3]['total'] = resData[item].ftotal
+                  this.list[3].fcountid = resData[item]['fcountid']
+                  this.list[3].fid = resData[item]['fid']
+                  this.list[3].fitem = resData[item]['fitem']
+                  this.list[3].remark = resData[item]['remark']
                 } else if (resData[item].fitem == '6') {
                   this.list[4].qOne = resData[item]['q1']
                   this.list[4].qTwo = resData[item]['q2']
                   this.list[4].qThree = resData[item]['q3']
                   this.list[4].qFour = resData[item]['q4']
                   this.list[4]['total'] = resData[item].ftotal
+                  this.list[4].fcountid = resData[item]['fcountid']
+                  this.list[4].fid = resData[item]['fid']
+                  this.list[4].fitem = resData[item]['fitem']
+                  this.list[4].remark = resData[item]['remark']
                 }
                 number++
               }
@@ -1027,10 +1043,7 @@ export default {
             let resData = res.data.records[0].tQuarterList
             var number = 0;
             for (var item in resData) {
-              this.list[number].fcountid = resData[item]['fcountid']
-              this.list[number].fid = resData[item]['fid']
-              this.list[number].fitem = resData[item]['fitem']
-              this.list[number].remark = resData[item]['remark']
+
               if (resData[item].fitem == '0') {
                 this.list[0].qOne = resData[item]['q1']
                 this.list[0].qTwo = resData[item]['q2']
@@ -1038,6 +1051,10 @@ export default {
                 this.list[0].qFour = resData[item]['q4']
                 this.list[0]['calculation'] = res.data.records[0].fbasicsalarycost
                 this.list[0]['total'] = resData[item].ftotal
+                this.list[0].fcountid = resData[item]['fcountid']
+                this.list[0].fid = resData[item]['fid']
+                this.list[0].fitem = resData[item]['fitem']
+                this.list[0].remark = resData[item]['remark']
               } else if (resData[item].fitem == '1') {
                 this.list[1].qOne = resData[item]['q1']
                 this.list[1].qTwo = resData[item]['q2']
@@ -1045,6 +1062,10 @@ export default {
                 this.list[1].qFour = resData[item]['q4']
                 this.list[1]['calculation'] = res.data.records[0].faccumulateia
                 this.list[1]['total'] = resData[item].ftotal
+                this.list[1].fcountid = resData[item]['fcountid']
+                this.list[1].fid = resData[item]['fid']
+                this.list[1].fitem = resData[item]['fitem']
+                this.list[1].remark = resData[item]['remark']
               } else if (resData[item].fitem == '2') {
                 this.list[2].qOne = resData[item]['q1']
                 this.list[2].qTwo = resData[item]['q2']
@@ -1052,6 +1073,10 @@ export default {
                 this.list[2].qFour = resData[item]['q4']
                 this.list[2]['calculation'] = res.data.records[0].finvoicedgp
                 this.list[2]['total'] = resData[item].ftotal
+                this.list[2].fcountid = resData[item]['fcountid']
+                this.list[2].fid = resData[item]['fid']
+                this.list[2].fitem = resData[item]['fitem']
+                this.list[2].remark = resData[item]['remark']
               } else if (resData[item].fitem == '3') {
                 this.list[3].qOne = resData[item]['q1']
                 this.list[3].qTwo = resData[item]['q2']
@@ -1059,12 +1084,20 @@ export default {
                 this.list[3].qFour = resData[item]['q4']
                 this.list[3]['calculation'] = res.data.records[0].fcollectiongp
                 this.list[3]['total'] = resData[item].ftotal
+                this.list[3].fcountid = resData[item]['fcountid']
+                this.list[3].fid = resData[item]['fid']
+                this.list[3].fitem = resData[item]['fitem']
+                this.list[3].remark = resData[item]['remark']
               } else if (resData[item].fitem == '6') {
                 this.list[4].qOne = resData[item]['q1']
                 this.list[4].qTwo = resData[item]['q2']
                 this.list[4].qThree = resData[item]['q3']
                 this.list[4].qFour = resData[item]['q4']
                 this.list[4]['total'] = resData[item].ftotal
+                this.list[4].fcountid = resData[item]['fcountid']
+                this.list[4].fid = resData[item]['fid']
+                this.list[4].fitem = resData[item]['fitem']
+                this.list[4].remark = resData[item]['remark']
               }
               number++;
             }
