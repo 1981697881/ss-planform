@@ -246,12 +246,12 @@ export default {
         this.deptArray = [];
       }
     },
-    getDeptList() {
+    getDeptList(val = {}) {
       const data = {
         pageNum: 1,
         pageSize: 10
       }
-      getOrganizationsList(data, {}).then(res => {
+      getOrganizationsList(data, val).then(res => {
         this.loading = false
         this.deptArray = res.data.records
       })
